@@ -6,13 +6,13 @@ import {
   ColumnHeightOutlined,
   FormOutlined,
 } from '@ant-design/icons';
-import { Image, Switch } from 'antd';
+import { Image, Switch, message } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useEffectOnce } from 'usehooks-ts';
 
-export default function UserPage() {
-  const [userList, setUserList] = useState<IUser[]>([]);
+export default function IndustryWorkPage() {
+  const [workList, setWorkList] = useState<IUser[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useAppDispatch();
@@ -24,24 +24,21 @@ export default function UserPage() {
     setCurrentPage(e);
   };
 
-  const fetchUserList = useCallback(
-    async (searchData?: string) => {
-      await instanceAxios
-        .get(`users/`, {
-          params: {
-            ...(valueFilter && { search: valueFilter }),
-            page_size: currentPage,
-          },
-        })
-        .then((res) => {
-          setUserList(res.data.data.results);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    [currentPage, valueFilter]
-  );
+  const fetchUserList = useCallback(async () => {
+    await instanceAxios
+      .get(`job/career/`, {
+        params: {
+          ...(valueFilter && { search: valueFilter }),
+          page_size: currentPage,
+        },
+      })
+      .then((res) => {
+        setWorkList(res.data.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [currentPage, valueFilter]);
   useEffect(() => {
     fetchUserList();
   }, [fetchUserList]);
@@ -73,12 +70,6 @@ export default function UserPage() {
     {
       title: 'Tên đăng nhập',
       dataIndex: 'username',
-      // render: (value, record, index) => (
-      //   <div className="flex flex-col font-medium">
-      //     <p>Banner - Banner dưới tiêu đề</p>
-      //     <p className="text-[#9ea9b4]">Vị trí - Banner dưới tiêu đề</p>
-      //   </div>
-      // ),
     },
     {
       title: 'Email',
@@ -98,33 +89,26 @@ export default function UserPage() {
       render: (value, record, index) =>
         !record.is_staff && !record.is_staff ? 'ADMIN' : 'MEMBER',
     },
-    // {
-    //   render: (value, record, index) => (
-    //     <div className="flex gap-x-5 text-[20px] text-[#aea9c6]">
-    //       <FormOutlined />
-    //       <CloseOutlined />
-    //     </div>
-    //   ),
-    // },
   ];
 
-  // const dataList: ITableDataType[] = [];
-  // for (let i = 0; i < 46; i++) {
-  //   dataList.push({
-  //     key: i,
-  //     name: `Edward King ${i}`,
-  //     email: `London, Park Lane no. ${i}`,
-  //     address: `London, Park Lane no. ${i}`,
-  //   });
-  // }
   return (
     <CMSCategory
       label="Người dùng"
       onChangPage={onChangPage}
       dataTotal={100}
-      createAble={false}
       onSearch={onSearch}
-      data={userList}
+      data={workList}
+      createAble={true}
+      create={{
+        url: 'job/career/',
+        body: { asdas: 'asdd' },
+        onSucces(res) {
+          alert('OK');
+        },
+        onFailed(err) {
+          message.error(err.response.data.detail);
+        },
+      }}
       columns={columns}
     />
   );

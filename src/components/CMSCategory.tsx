@@ -30,14 +30,15 @@ interface Props {
   data: AnyObject[];
   columns: ColumnsType<AnyObject>;
   onFilter?: (e?: string) => void;
+  onSearch?: (e?: string) => void;
   onChangPage?: (e: number) => void;
   dataTotal: number;
   create?: {
     url: string;
     body: Object;
-    onSucces: (res?: AxiosResponse) => void;
-    onFailed: (err?: any) => void;
-    onFinally: () => void;
+    onSucces?: (res?: AxiosResponse) => void;
+    onFailed?: (err?: any) => void;
+    onFinally?: () => void;
   };
 }
 
@@ -57,10 +58,11 @@ export default function CMSCategory(props: Props) {
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [valueFilter, setValueFilter] = useState('');
   const [form] = useForm();
-  const onFinish = async () => {
+  const onFinish = async (e: string) => {
     await instanceAxios
       .post(props.create?.url || '', {
-        data: props.create?.body ? props.create?.body : {},
+        data: e,
+        // props.create?.body ? props.create?.body : {},
       })
       .then((res) => props.create?.onSucces?.(res))
       .catch((err) => props.create?.onFailed?.(err))
@@ -105,7 +107,7 @@ export default function CMSCategory(props: Props) {
           <Input
             onChange={(e) => {
               setValueFilter(e.target.value);
-              props.onFilter?.(e.target.value);
+              props.onSearch?.(e.target.value);
             }}
             placeholder="Tìm kiếm theo tên"
             addonAfter={

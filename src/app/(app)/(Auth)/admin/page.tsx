@@ -28,6 +28,7 @@ import SliderPage from '@/components/CMS/ToolsPage/SliderPage';
 import SEOoptimization from '@/components/CMS/ToolsPage/SEOoptimization';
 import CMSCategory from '@/components/CMSCategory';
 import UserPage from '@/components/CMS/PostManagerPage/Product/User/UserPage';
+import IndustryWorkPage from '@/components/CMS/PostManagerPage/Product/Work/IndustryWorkPage';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -280,6 +281,7 @@ const pageList = [
   { key: '21', children: <div>RSS Feeds</div> },
   { key: 'admin', children: <AdminInforPage /> },
   { key: 'USER_SUB_USER', children: <UserPage /> },
+  { key: 'JOB_SUB_INDUSTRY_DOES', children: <IndustryWorkPage /> },
 ];
 
 export default function AdminPage() {

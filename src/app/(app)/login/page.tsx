@@ -7,7 +7,7 @@ import { FacebookFilled } from '@ant-design/icons';
 import { Button, Form, Image, Input } from 'antd';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function LoginPage() {
   const route = useRouter();
@@ -25,6 +25,7 @@ export default function LoginPage() {
         console.log(err);
       });
   };
+
   return (
     <div className="w-full h-[900px] bg-cover bg-no-repeat bg-[url('https://static.chotot.com/storage/marketplace/login-background.webp')]">
       <div className="w-1/3 m-auto p-[50px] rounded-lg shadow-xl mt-[100px] ">
