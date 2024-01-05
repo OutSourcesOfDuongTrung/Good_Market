@@ -25,6 +25,9 @@ import {
 import { Avatar, Button, Layout, Menu, MenuProps, theme } from 'antd';
 import { useState } from 'react';
 import SliderPage from '@/components/CMS/ToolsPage/SliderPage';
+import SEOoptimization from '@/components/CMS/ToolsPage/SEOoptimization';
+import CMSCategory from '@/components/CMSCategory';
+import UserPage from '@/components/CMS/PostManagerPage/Product/User/UserPage';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -272,10 +275,11 @@ const pageList = [
   { key: 'Tools_Page_Menu_Slide', children: <MenuSlidePage /> },
   { key: 'Tools_Page_Banner', children: <BannerManagerPage /> },
   { key: 'Tools_Page_Slider', children: <SliderPage /> },
-  { key: '19', children: <div>Tối ưu SEO</div> },
+  { key: 'Tools_Page_SEO_Optimal', children: <SEOoptimization /> },
   { key: '20', children: <div>Feeds</div> },
   { key: '21', children: <div>RSS Feeds</div> },
   { key: 'admin', children: <AdminInforPage /> },
+  { key: 'USER_SUB_USER', children: <UserPage /> },
 ];
 
 export default function AdminPage() {

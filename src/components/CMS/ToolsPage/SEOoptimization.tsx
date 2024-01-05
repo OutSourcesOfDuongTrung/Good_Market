@@ -32,10 +32,19 @@ export default function SEOoptimization() {
   return (
     <div className="w-full">
       <div>{labelManager('Tối ưu hóa SEO')}</div>
-      <div className="w-full flex">
+      <div className="w-full flex bg-white p-[20px]">
         <div className="w-1/5 flex flex-col">
           {tabList.map((item, index) => (
-            <div key={index}>{item.tabName}</div>
+            <button
+              onClick={() => setCurrentTab(index)}
+              className={`text-center py-[10px] ${
+                currentTab === index &&
+                'border-b-2 border-[#5d5386] text-[#e86f96]'
+              }`}
+              key={index}
+            >
+              {item.tabName}
+            </button>
           ))}
         </div>
         <div className="w-4/5"></div>
