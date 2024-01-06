@@ -29,6 +29,26 @@ import SEOoptimization from '@/components/CMS/ToolsPage/SEOoptimization';
 import CMSCategory from '@/components/CMSCategory';
 import UserPage from '@/components/CMS/PostManagerPage/Product/User/UserPage';
 import IndustryWorkPage from '@/components/CMS/PostManagerPage/Product/Work/IndustryWorkPage';
+import WorkTypePage from '@/components/CMS/PostManagerPage/Product/Work/WorkTypePage';
+import PayFormsPage from '@/components/CMS/PostManagerPage/Product/Work/PayFormsPage';
+import ExperienceWorkPage from '@/components/CMS/PostManagerPage/Product/Work/ExperienceWorkPage';
+import PostWorkPage from '@/components/CMS/PostManagerPage/Product/Work/PostWorkPage';
+import CategoryGoodHousePage from '@/components/CMS/PostManagerPage/Product/GoodHouse/CategoryGoodHousePage';
+import InteriorConditionGoodHousePage from '@/components/CMS/PostManagerPage/Product/GoodHouse/InteriorConditionGoodHousePage';
+import PostGoodHousePage from '@/components/CMS/PostManagerPage/Product/GoodHouse/PostGoodHousePage';
+import SellerInformationPage from '@/components/CMS/PostManagerPage/Product/GoodHouse/SellerInformationPage';
+import GuaranteeMachineryPage from '@/components/CMS/PostManagerPage/Product/Machinery/GuaranteeMachineryPage';
+import PostMachineryPage from '@/components/CMS/PostManagerPage/Product/Machinery/PostMachineryPage';
+import SellerInformationMachineryMachineryPage from '@/components/CMS/PostManagerPage/Product/Machinery/SellerInformationMachineryPage';
+import UsageStatusMachineryPage from '@/components/CMS/PostManagerPage/Product/Machinery/UsageStatusMachineryPage';
+import CategoryRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/CategoryRefrigeratorPage';
+import GuaranteeRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/GuaranteeRefrigeratorPage';
+import PostRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/PostRefrigeratorPage';
+import UsageStatusRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/UsageStatusRefrigeratorPage';
+import VolumeRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/VolumeRefrigeratorPage';
+import WashingVolumePage from '@/components/CMS/PostManagerPage/Product/Refrigerator/WashingVolumePage';
+import WattageRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/WattageRefrigeratorPage';
+import SellerInformationRefrigerator from '@/components/CMS/PostManagerPage/Product/Refrigerator/SellerInformationRefrigeratorPage';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -117,7 +137,13 @@ const items: MenuItem[] = [
         <TeamOutlined />,
         [
           getItem('Tình trạng', 'Specialized_Sub_CONDITION', <TeamOutlined />),
+          getItem(
+            'Thông tin người bán',
+            'Specialized_Sub_Seller_Infor',
+            <TeamOutlined />
+          ),
           getItem('Bảo hành', 'Specialized_Sub_Guarantee', <TeamOutlined />),
+          getItem('Bảo hành', 'Specialized_Sub_Post', <TeamOutlined />),
         ]
       ),
       getItem('A6 - Taxi', 'Taxi_Sub', <TeamOutlined />, [
@@ -282,6 +308,47 @@ const pageList = [
   { key: 'admin', children: <AdminInforPage /> },
   { key: 'USER_SUB_USER', children: <UserPage /> },
   { key: 'JOB_SUB_INDUSTRY_DOES', children: <IndustryWorkPage /> },
+  { key: 'JOB_SUB_WORK_TYPE', children: <WorkTypePage /> },
+  { key: 'JOB_SUB_PAY_FORMS', children: <PayFormsPage /> },
+  { key: 'JOB_SUB_EXPERIENCE', children: <ExperienceWorkPage /> },
+  { key: 'JOB_SUB_POST', children: <PostWorkPage /> },
+  { key: 'GOOD_HOUSE_SUB_CATEGORY', children: <CategoryGoodHousePage /> },
+  {
+    key: 'GOOD_HOUSE_SUB_INTERIOR_CONDITION',
+    children: <InteriorConditionGoodHousePage />,
+  },
+  { key: 'GOOD_HOUSE_SUB_Post', children: <PostGoodHousePage /> },
+  {
+    key: 'GOOD_HOUSE_SUB_Seller_Information',
+    children: <SellerInformationPage />,
+  },
+  { key: 'Fridge_Sub_Guarantee', children: <GuaranteeMachineryPage /> },
+  { key: 'JOB_SUB_POST', children: <PostMachineryPage /> },
+  {
+    key: 'JOB_SUB_POST',
+    children: <SellerInformationMachineryMachineryPage />,
+  },
+  { key: 'Fridge_Sub_CONDITION', children: <UsageStatusMachineryPage /> },
+
+  { key: 'Fridge_Sub_CATEGORY', children: <CategoryRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Guarantee', children: <GuaranteeRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Manage_posts', children: <PostRefrigeratorPage /> },
+  { key: 'JOB_SUB_POST', children: <SellerInformationRefrigerator /> },
+  { key: 'JOB_SUB_POST', children: <UsageStatusRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Volume', children: <VolumeRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Washing_volume', children: <WashingVolumePage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
 ];
 
 export default function AdminPage() {
@@ -296,6 +363,7 @@ export default function AdminPage() {
       <Sider
         theme="light"
         width={350}
+        className="max-h-[900px] overflow-auto"
         trigger={null}
         collapsible
         collapsed={collapsed}
@@ -313,7 +381,7 @@ export default function AdminPage() {
         <Menu
           defaultSelectedKeys={['1']}
           onSelect={(e) => {
-            window.scrollTo(0, 0);
+            // window.scrollTo(0, 0);
             setCurrentPage(e.key);
           }}
           selectedKeys={[currentPage]}
@@ -358,7 +426,7 @@ export default function AdminPage() {
           }}
         >
           <div className="py-[10px] px-[20px]">
-            {pageList.find((item) => item.key === currentPage)?.children}
+            {pageList.findLast((item) => item.key === currentPage)?.children}
           </div>
         </Content>
       </Layout>

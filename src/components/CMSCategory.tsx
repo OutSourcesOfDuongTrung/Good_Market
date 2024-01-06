@@ -35,9 +35,10 @@ interface Props {
   dataTotal: number;
   create?: {
     url: string;
-    body: Object;
-    onSucces?: (res?: AxiosResponse) => void;
-    onFailed?: (err?: any) => void;
+    body?: Object;
+    inputName: string[];
+    onSucces?: (res: AxiosResponse) => void;
+    onFailed?: (err: any) => void;
     onFinally?: () => void;
   };
 }
@@ -58,13 +59,17 @@ export default function CMSCategory(props: Props) {
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [valueFilter, setValueFilter] = useState('');
   const [form] = useForm();
-  const onFinish = async (e: string) => {
+  const onFinish = async (e: any) => {
     await instanceAxios
       .post(props.create?.url || '', {
-        data: e,
-        // props.create?.body ? props.create?.body : {},
+        ...e,
+        ...(props.create?.body && props.create?.body),
       })
-      .then((res) => props.create?.onSucces?.(res))
+      .then((res) => {
+        form.resetFields();
+        setOpenModalCreate(false);
+        props.create?.onSucces?.(res);
+      })
       .catch((err) => props.create?.onFailed?.(err))
       .catch(() => props.create?.onFinally?.());
   };
@@ -129,36 +134,29 @@ export default function CMSCategory(props: Props) {
           }}
         />
       </div>
-      <ConfigProvider
-        theme={{
-          token: {
-            colorBgMask: '',
+
+      <Modal
+        styles={{
+          mask: {
+            backdropFilter: 'blur(5px)',
           },
         }}
+        centered
+        title={<p className="text-center">Label</p>}
+        open={openModalCreate}
+        onCancel={() => setOpenModalCreate(false)}
+        onOk={() => form.submit()}
       >
-        <Modal
-          styles={{
-            mask: {
-              backdropFilter: 'blur(5px)',
-            },
-          }}
-          centered
-          title={<p className="text-center">Label</p>}
-          open={openModalCreate}
-          onCancel={() => setOpenModalCreate(false)}
-          onOk={() => form.submit()}
-        >
-          <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
-            <Form.Item
-              label={'Tên nghành nghề'}
-              name="name"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-          </Form>
-        </Modal>
-      </ConfigProvider>
+        <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
+          <Form.Item
+            label={'Tên nghành nghề'}
+            name={props.create?.inputName?.[0]}
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

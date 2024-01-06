@@ -13,8 +13,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { useEffectOnce } from 'usehooks-ts';
 
-export default function IndustryWorkPage() {
-  const [workList, setWorkList] = useState<IJob[]>([]);
+export default function PostWorkPage() {
+  const [postList, setPostList] = useState<IJob[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
@@ -26,12 +26,12 @@ export default function IndustryWorkPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/career/${currentID}/`, e)
+      .patch(`job/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
         message.success('Đã cập nhật');
-        mutate('fetchWorkList');
+        mutate('fetchPostList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
@@ -47,19 +47,19 @@ export default function IndustryWorkPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/career/${id}/`)
+      .delete(`job/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
-        mutate('fetchWorkList');
+        mutate('fetchPostList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
       });
   };
 
-  const fetchWorkList = useCallback(async () => {
+  const fetchPostList = useCallback(async () => {
     await instanceAxios
-      .get(`job/career/`, {
+      .get(`job/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -67,17 +67,17 @@ export default function IndustryWorkPage() {
       })
       .then((res) => {
         setDataTotal(res.data.data.count || [...res.data.data].length);
-        setWorkList(res.data.data || []);
+        setPostList(res.data.data || []);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [currentPage, valueFilter]);
-  useSWR('fetchWorkList', fetchWorkList);
+  useSWR('fetchPostList', fetchPostList);
 
   useEffect(() => {
-    fetchWorkList();
-  }, [fetchWorkList]);
+    fetchPostList();
+  }, [fetchPostList]);
   // useEffect(() => {
   //   fetchUserList(valueFilter);
   // }, [fetchUserList, valueFilter]);
@@ -126,14 +126,14 @@ export default function IndustryWorkPage() {
         onChangPage={onChangPage}
         dataTotal={dataTotal}
         onSearch={onSearch}
-        data={workList}
+        data={postList}
         createAble={true}
         create={{
-          url: 'job/career/',
+          url: 'job/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {
-            mutate('fetchWorkList');
+            mutate('fetchPostList');
             message.success(res.data.message);
           },
           onFailed(err) {

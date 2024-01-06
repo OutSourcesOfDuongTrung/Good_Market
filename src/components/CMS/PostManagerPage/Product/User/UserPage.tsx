@@ -15,6 +15,7 @@ export default function UserPage() {
   const [userList, setUserList] = useState<IUser[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
+  const [dataTotal, setDataTotal] = useState(0);
   const dispatch = useAppDispatch();
 
   const onSearch = (e?: string) => {
@@ -34,6 +35,7 @@ export default function UserPage() {
           },
         })
         .then((res) => {
+          setDataTotal(res.data.data.count || [...res.data.data].length);
           setUserList(res.data.data.results);
         })
         .catch((err) => {
@@ -121,7 +123,7 @@ export default function UserPage() {
     <CMSCategory
       label="Người dùng"
       onChangPage={onChangPage}
-      dataTotal={100}
+      dataTotal={dataTotal}
       createAble={false}
       onSearch={onSearch}
       data={userList}

@@ -13,8 +13,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { useEffectOnce } from 'usehooks-ts';
 
-export default function IndustryWorkPage() {
-  const [workList, setWorkList] = useState<IJob[]>([]);
+export default function SellerInformationMachineryMachineryPage() {
+  const [dataList, setDataList] = useState<IJob[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
@@ -26,12 +26,12 @@ export default function IndustryWorkPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/career/${currentID}/`, e)
+      .patch(`machinery-equipment/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
         message.success('Đã cập nhật');
-        mutate('fetchWorkList');
+        mutate('fetchSellerInformationMachineryList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
@@ -47,19 +47,19 @@ export default function IndustryWorkPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/career/${id}/`)
+      .delete(`machinery-equipment/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
-        mutate('fetchWorkList');
+        mutate('fetchSellerInformationMachineryList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
       });
   };
 
-  const fetchWorkList = useCallback(async () => {
+  const fetchSellerInformationMachineryList = useCallback(async () => {
     await instanceAxios
-      .get(`job/career/`, {
+      .get(`machinery-equipment/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -67,17 +67,20 @@ export default function IndustryWorkPage() {
       })
       .then((res) => {
         setDataTotal(res.data.data.count || [...res.data.data].length);
-        setWorkList(res.data.data || []);
+        setDataList(res.data.data || []);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [currentPage, valueFilter]);
-  useSWR('fetchWorkList', fetchWorkList);
+  useSWR(
+    'fetchSellerInformationMachineryList',
+    fetchSellerInformationMachineryList
+  );
 
   useEffect(() => {
-    fetchWorkList();
-  }, [fetchWorkList]);
+    fetchSellerInformationMachineryList();
+  }, [fetchSellerInformationMachineryList]);
   // useEffect(() => {
   //   fetchUserList(valueFilter);
   // }, [fetchUserList, valueFilter]);
@@ -126,14 +129,14 @@ export default function IndustryWorkPage() {
         onChangPage={onChangPage}
         dataTotal={dataTotal}
         onSearch={onSearch}
-        data={workList}
+        data={dataList}
         createAble={true}
         create={{
-          url: 'job/career/',
+          url: 'machinery-equipment/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {
-            mutate('fetchWorkList');
+            mutate('fetchSellerInformationMachineryList');
             message.success(res.data.message);
           },
           onFailed(err) {

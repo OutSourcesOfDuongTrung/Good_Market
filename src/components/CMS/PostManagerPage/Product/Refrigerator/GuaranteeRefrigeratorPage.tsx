@@ -13,8 +13,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { useEffectOnce } from 'usehooks-ts';
 
-export default function IndustryWorkPage() {
-  const [workList, setWorkList] = useState<IJob[]>([]);
+export default function GuaranteeRefrigeratorPage() {
+  const [dataList, setDataList] = useState<IJob[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
@@ -26,12 +26,15 @@ export default function IndustryWorkPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/career/${currentID}/`, e)
+      .patch(
+        `refrigerator-airconditioner-washingmachine/guarantee/${currentID}/`,
+        e
+      )
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
         message.success('Đã cập nhật');
-        mutate('fetchWorkList');
+        mutate('fetchGuaranteeRefrigeratorList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
@@ -47,19 +50,19 @@ export default function IndustryWorkPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/career/${id}/`)
+      .delete(`refrigerator-airconditioner-washingmachine/guarantee/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
-        mutate('fetchWorkList');
+        mutate('fetchGuaranteeRefrigeratorList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
       });
   };
 
-  const fetchWorkList = useCallback(async () => {
+  const fetchGuaranteeRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`job/career/`, {
+      .get(`refrigerator-airconditioner-washingmachine/guarantee/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -67,17 +70,17 @@ export default function IndustryWorkPage() {
       })
       .then((res) => {
         setDataTotal(res.data.data.count || [...res.data.data].length);
-        setWorkList(res.data.data || []);
+        setDataList(res.data.data || []);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [currentPage, valueFilter]);
-  useSWR('fetchWorkList', fetchWorkList);
+  useSWR('fetchGuaranteeRefrigeratorList', fetchGuaranteeRefrigeratorList);
 
   useEffect(() => {
-    fetchWorkList();
-  }, [fetchWorkList]);
+    fetchGuaranteeRefrigeratorList();
+  }, [fetchGuaranteeRefrigeratorList]);
   // useEffect(() => {
   //   fetchUserList(valueFilter);
   // }, [fetchUserList, valueFilter]);
@@ -126,14 +129,14 @@ export default function IndustryWorkPage() {
         onChangPage={onChangPage}
         dataTotal={dataTotal}
         onSearch={onSearch}
-        data={workList}
+        data={dataList}
         createAble={true}
         create={{
-          url: 'job/career/',
+          url: 'refrigerator-airconditioner-washingmachine/guarantee/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {
-            mutate('fetchWorkList');
+            mutate('fetchGuaranteeRefrigeratorList');
             message.success(res.data.message);
           },
           onFailed(err) {
