@@ -38,8 +38,8 @@ export default function CategoryGoodHousePage() {
       });
   };
 
-  const onSearch = (e?: string) => {
-    if (e) setValueFilter(e);
+  const onSearch = (e: string) => {
+    setValueFilter(e);
   };
   const onChangPage = (e: number) => {
     setCurrentPage(e);
@@ -92,7 +92,7 @@ export default function CategoryGoodHousePage() {
       render: (value, record, index) => record.id,
     },
     {
-      title: 'Tên ngành nghề',
+      title: 'Tên danh mục',
       dataIndex: 'Name',
     },
     {
@@ -149,17 +149,13 @@ export default function CategoryGoodHousePage() {
           },
         }}
         centered
-        title={<p className="text-center">Label</p>}
+        title={<p className="text-center">Chỉnh sửa</p>}
         open={openModalCreate}
         onCancel={() => setOpenModalCreate(false)}
         onOk={() => form.submit()}
       >
         <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
-          <Form.Item
-            label={'Tên nghành nghề'}
-            name={'Name'}
-            rules={[{ required: true }]}
-          >
+          <Form.Item label={'Tên'} name={'Name'} rules={[{ required: true }]}>
             <Input defaultValue={currentValue} />
           </Form.Item>
         </Form>

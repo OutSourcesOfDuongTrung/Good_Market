@@ -18,8 +18,8 @@ export default function UserPage() {
   const [dataTotal, setDataTotal] = useState(0);
   const dispatch = useAppDispatch();
 
-  const onSearch = (e?: string) => {
-    if (e) setValueFilter(e);
+  const onSearch = (e: string) => {
+    setValueFilter(e);
   };
   const onChangPage = (e: number) => {
     setCurrentPage(e);

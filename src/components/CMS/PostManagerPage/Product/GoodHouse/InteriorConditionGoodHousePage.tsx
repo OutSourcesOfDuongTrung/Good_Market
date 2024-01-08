@@ -26,7 +26,7 @@ export default function InteriorConditionGoodHousePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/experience/${currentID}/`, e)
+      .patch(`good-house/interior-condition/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -38,8 +38,8 @@ export default function InteriorConditionGoodHousePage() {
       });
   };
 
-  const onSearch = (e?: string) => {
-    if (e) setValueFilter(e);
+  const onSearch = (e: string) => {
+    setValueFilter(e);
   };
   const onChangPage = (e: number) => {
     setCurrentPage(e);
@@ -47,7 +47,7 @@ export default function InteriorConditionGoodHousePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/experience/${id}/`)
+      .delete(`good-house/interior-condition/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchInteriorConditionGoodHouseList');
@@ -59,7 +59,7 @@ export default function InteriorConditionGoodHousePage() {
 
   const fetchInteriorConditionGoodHouseList = useCallback(async () => {
     await instanceAxios
-      .get(`job/experience/`, {
+      .get(`good-house/interior-condition/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -95,7 +95,7 @@ export default function InteriorConditionGoodHousePage() {
       render: (value, record, index) => record.id,
     },
     {
-      title: 'Tên ngành nghề',
+      title: 'Tên kinh nghiệm',
       dataIndex: 'Name',
     },
     {
@@ -132,7 +132,7 @@ export default function InteriorConditionGoodHousePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'job/experience/',
+          url: 'good-house/interior-condition/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

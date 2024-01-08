@@ -49,6 +49,44 @@ import VolumeRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Ref
 import WashingVolumePage from '@/components/CMS/PostManagerPage/Product/Refrigerator/WashingVolumePage';
 import WattageRefrigeratorPage from '@/components/CMS/PostManagerPage/Product/Refrigerator/WattageRefrigeratorPage';
 import SellerInformationRefrigerator from '@/components/CMS/PostManagerPage/Product/Refrigerator/SellerInformationRefrigeratorPage';
+import PostTaxiPage from '@/components/CMS/PostManagerPage/Product/Taxi/PostTaxiPage';
+import PosterTaxiPage from '@/components/CMS/PostManagerPage/Product/Taxi/PosterTaxiPage';
+import PosterInformationTaxiPage from '@/components/CMS/PostManagerPage/Product/Taxi/PosterInformationTaxiPage';
+import GenderWorkPage from '@/components/CMS/PostManagerPage/Product/Work/GenderWorkPage';
+import GeographicalAreaAddressPage from '@/components/CMS/PostManagerPage/Product/GeographicalArea/GeographicalAreaAddressPage';
+import GeographicalAreaPage from '@/components/CMS/PostManagerPage/Product/GeographicalArea/GeographicalAreaPage';
+import CapacitiesElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/CapacitiesElectronicDevicePage';
+import CategoryElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/CategoryElectronicDevicePage';
+import UsageStatusElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/UsageStatusElectronicDevicePage';
+import ColorElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/ColorElectronicDevicePage';
+import RamElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/RamElectronicDevicePage';
+import SellerInformationElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/SellerInformationElectronicDevicePage';
+import PostElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/PostElectronicDevicePage';
+import ScreenSizeElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/ScreenSizeElectronicDevicePage';
+import HardDriveElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/HardDriveElectronicDevicePage';
+import GuaranteeElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/GuaranteeElectronicDevicePage';
+import MicroprocessorElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/MicroprocessorElectronicDevicePage';
+import MonitorCardElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/MonitorCardElectronicDevicePage';
+import CompaniesElectronicDevicePage from '@/components/CMS/PostManagerPage/Product/ElectronicDevice/CompaniesElectronicDevicePage';
+import UsageStatusSeatVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/UsageStatusSeatVehiclePage';
+import CapacitiesVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/CapacitiesVehiclePage';
+import SellerInfoVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/SellerInfoVehiclePage';
+import NumberSeatVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/NumberSeatVehiclePage';
+import GuaranteeVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/GuaranteeVehiclePage';
+import FuelsVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/FuelsVehiclePage';
+import GearBoxesVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/GearBoxesVehiclePage';
+import FactoryYearVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/FactoryYearVehiclePage';
+import CompanyVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/CompanyVehiclePage';
+import PostVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/PostVehiclePage';
+import CategoryVehiclePage from '@/components/CMS/PostManagerPage/Product/Vehicle/CategoryVehiclePage';
+import CategoryBonsaiFurniturePage from '@/components/CMS/PostManagerPage/Product/BonsaiFurniture/CategoryBonsaiFurniturePage';
+import GuaranteeBonsaiFurniturePage from '@/components/CMS/PostManagerPage/Product/BonsaiFurniture/GuaranteeBonsaiFurniturePage';
+import UsageStatusBonsaiFurniturePage from '@/components/CMS/PostManagerPage/Product/BonsaiFurniture/UsageStatusBonsaiFurniturePage';
+import SellerInformationBonsaiFurniturePage from '@/components/CMS/PostManagerPage/Product/BonsaiFurniture/SellerInformationBonsaiFurniturePage';
+import PostBonsaiFurniturePage from '@/components/CMS/PostManagerPage/Product/BonsaiFurniture/PostBonsaiFurniturePage';
+import CategoryVietShopPage from '@/components/CMS/PostManagerPage/Product/VietShop/CategoryVietShopPage';
+import PostVietShopPage from '@/components/CMS/PostManagerPage/Product/VietShop/PostVietShopPage';
+import SellerietShopPage from '@/components/CMS/PostManagerPage/Product/VietShop/SellerietShopPage';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -68,6 +106,58 @@ function getItem(
   } as MenuItem;
 }
 
+const Bonsai_Furniture_Sub_List = [
+  {
+    key: 'Bonsai_Furniture_Sub_Category',
+    icon: <DesktopOutlined />,
+    label: 'Danh mục',
+    component: <CategoryBonsaiFurniturePage />,
+  },
+  {
+    key: 'Bonsai_Furniture_Sub_Condition',
+    icon: <DesktopOutlined />,
+    label: 'Tình trạng',
+    component: <UsageStatusBonsaiFurniturePage />,
+  },
+  {
+    key: 'Bonsai_Furniture_Sub_Warranty',
+    icon: <DesktopOutlined />,
+    label: 'Bảo hành',
+    component: <GuaranteeBonsaiFurniturePage />,
+  },
+  {
+    key: 'Bonsai_Furniture_Sub_SellerInfo',
+    icon: <DesktopOutlined />,
+    label: 'Thông tin người bán',
+    component: <SellerInformationBonsaiFurniturePage />,
+  },
+  {
+    key: 'Bonsai_Furniture_Sub_Post',
+    icon: <DesktopOutlined />,
+    label: 'Bài đăng',
+    component: <PostBonsaiFurniturePage />,
+  },
+];
+const VietShopList = [
+  {
+    key: 'VietShop_Category',
+    icon: <DesktopOutlined />,
+    label: 'Danh mục',
+    component: <CategoryVietShopPage />,
+  },
+  {
+    key: 'VietShop_Category_Seller',
+    icon: <DesktopOutlined />,
+    label: 'Người bán',
+    component: <SellerietShopPage />,
+  },
+  {
+    key: 'VietShop_Post',
+    icon: <DesktopOutlined />,
+    label: 'Bài đăng',
+    component: <PostVietShopPage />,
+  },
+];
 const items: MenuItem[] = [
   getItem('Tổng quan', 'OVERVIEW', <PieChartOutlined />),
   getItem('Doanh thu', 'REVENUE', <DesktopOutlined />),
@@ -75,6 +165,9 @@ const items: MenuItem[] = [
   getItem('Giao dịch nạp thẻ', 'RECHARGE_TRANSACTIONS', <DesktopOutlined />),
   getItem('Vòng quay may mắn', 'ROTATION_LUCK', <DesktopOutlined />),
   getItem('Quản lý tin đăng', 'POST_MANAGER_SUB', <UserOutlined />, [
+    // ...test.map((item, index) =>
+    //   getItem('Danh sách', 'POST_MANAGER_SUB_LIST', <TeamOutlined />)
+    // ),
     getItem('Danh sách', 'POST_MANAGER_SUB_LIST', <TeamOutlined />),
     getItem('Danh mục', 'POST_MANAGER_SUB_CATEGORY', <TeamOutlined />),
     getItem('Thuộc tính', 'POST_MANAGER_SUB_PROPERTIES', <TeamOutlined />),
@@ -85,13 +178,18 @@ const items: MenuItem[] = [
     ),
     getItem('Khiếu nại', 'POST_MANAGER_SUB_COMPLAIN', <TeamOutlined />),
     getItem('Sản phẩm', 'PRODUCT_SUB', <TeamOutlined />, [
-      getItem('A1 - Người dùng', 'USER_SUB', <TeamOutlined />, [
+      getItem('A0 - Người dùng', 'USER_SUB', <TeamOutlined />, [
         getItem('Người dùng', 'USER_SUB_USER', <TeamOutlined />),
+      ]),
+      getItem('A1 - Khu vực địa lý', 'Geographical_Area', <TeamOutlined />, [
+        getItem('Khu vực', 'Geographical_Area_Area', <TeamOutlined />),
+        getItem('Địa chỉ', 'Geographical_Area_Address', <TeamOutlined />),
       ]),
       getItem('A2 - Việc làm', 'JOB_SUB', <TeamOutlined />, [
         getItem('Nghành làm', 'JOB_SUB_INDUSTRY_DOES', <TeamOutlined />),
         getItem('Loại công việc', 'JOB_SUB_WORK_TYPE', <TeamOutlined />),
         getItem('Hình thức trả lương', 'JOB_SUB_PAY_FORMS', <TeamOutlined />),
+        getItem('Giới tính', 'JOB_SUB_GENDER', <TeamOutlined />),
         getItem('Kinh nghiệm', 'JOB_SUB_EXPERIENCE', <TeamOutlined />),
         getItem('Bài đăng', 'JOB_SUB_POST', <TeamOutlined />),
       ]),
@@ -117,6 +215,7 @@ const items: MenuItem[] = [
           getItem('Danh mục', 'Fridge_Sub_CATEGORY', <TeamOutlined />),
           getItem('Tình trạng', 'Fridge_Sub_CONDITION', <TeamOutlined />),
           getItem('Bảo hành', 'Fridge_Sub_Guarantee', <TeamOutlined />),
+          getItem('Người bán', 'Fridge_Sub_Manage_Seller', <TeamOutlined />),
           getItem('Thể tích', 'Fridge_Sub_Volume', <TeamOutlined />),
           getItem('Công suất', 'Fridge_Sub_Wattage', <TeamOutlined />),
           getItem(
@@ -143,11 +242,18 @@ const items: MenuItem[] = [
             <TeamOutlined />
           ),
           getItem('Bảo hành', 'Specialized_Sub_Guarantee', <TeamOutlined />),
-          getItem('Bảo hành', 'Specialized_Sub_Post', <TeamOutlined />),
+          getItem('Bài đăng', 'Specialized_Sub_Post', <TeamOutlined />),
         ]
       ),
       getItem('A6 - Taxi', 'Taxi_Sub', <TeamOutlined />, [
         getItem('Tình trạng', 'Taxi_Sub_CONDITION', <TeamOutlined />),
+        getItem(
+          'Thông tin người đăng',
+          'PosterInformationTaxiPage',
+          <TeamOutlined />
+        ),
+        getItem('Loại tin đăng', 'PostTaxiPage', <TeamOutlined />),
+        getItem('Bài đăng', 'PosterTaxiPage', <TeamOutlined />),
       ]),
       getItem('B1 - Xe cộ', 'Vehicle_Sub', <TeamOutlined />, [
         getItem('Danh mục', 'Vehicle_Sub_Category', <TeamOutlined />),
@@ -233,38 +339,42 @@ const items: MenuItem[] = [
         'Bonsai_Furniture_Sub',
         <TeamOutlined />,
         [
-          getItem(
-            'Danh mục',
-            'Bonsai_Furniture_Sub_Category',
-            <TeamOutlined />
+          ...Bonsai_Furniture_Sub_List.map((item) =>
+            getItem(item.label, item.key, item.icon)
           ),
-          getItem(
-            'Tình trạng',
-            'Bonsai_Furniture_Sub_Condition',
-            <TeamOutlined />
-          ),
-          getItem(
-            'Bảo hành',
-            'Bonsai_Furniture_Sub_Warranty',
-            <TeamOutlined />
-          ),
-          getItem(
-            'Thông tin người bán',
-            'Bonsai_Furniture_Sub_SellerInfo',
-            <TeamOutlined />
-          ),
-          getItem('Sản phẩm', 'Bonsai_Furniture_Sub_Product', <TeamOutlined />),
+          // getItem(
+          //   'Danh mục',
+          //   'Bonsai_Furniture_Sub_Category',
+          //   <TeamOutlined />
+          // ),
+          // getItem(
+          //   'Tình trạng',
+          //   'Bonsai_Furniture_Sub_Condition',
+          //   <TeamOutlined />
+          // ),
+          // getItem(
+          //   'Bảo hành',
+          //   'Bonsai_Furniture_Sub_Warranty',
+          //   <TeamOutlined />
+          // ),
+          // getItem(
+          //   'Thông tin người bán',
+          //   'Bonsai_Furniture_Sub_SellerInfo',
+          //   <TeamOutlined />
+          // ),
+          // getItem('Sản phẩm', 'Bonsai_Furniture_Sub_Product', <TeamOutlined />),
         ]
       ),
       getItem('B5 - Cửa hàng Việt', 'Viet_Shop_Sub', <TeamOutlined />, [
-        getItem('Danh mục', 'Viet_Shop_Sub_Category', <TeamOutlined />),
-        getItem('Bảo hành', 'Viet_Shop_Sub_Warranty', <TeamOutlined />),
-        getItem(
-          'Thông tin người bán',
-          'Viet_Shop_Sub_SellerInfo',
-          <TeamOutlined />
-        ),
-        getItem('Sản phẩm', 'Viet_Shop_Sub_Product', <TeamOutlined />),
+        ...VietShopList.map((item) => getItem(item.label, item.key, item.icon)),
+        // getItem('Danh mục', 'Viet_Shop_Sub_Category', <TeamOutlined />),
+        // getItem('Bảo hành', 'Viet_Shop_Sub_Warranty', <TeamOutlined />),
+        // getItem(
+        //   'Thông tin người bán',
+        //   'Viet_Shop_Sub_SellerInfo',
+        //   <TeamOutlined />
+        // ),
+        // getItem('Sản phẩm', 'Viet_Shop_Sub_Product', <TeamOutlined />),
       ]),
     ]),
   ]),
@@ -306,49 +416,166 @@ const pageList = [
   { key: '20', children: <div>Feeds</div> },
   { key: '21', children: <div>RSS Feeds</div> },
   { key: 'admin', children: <AdminInforPage /> },
+
   { key: 'USER_SUB_USER', children: <UserPage /> },
+  // Cong viec
   { key: 'JOB_SUB_INDUSTRY_DOES', children: <IndustryWorkPage /> },
   { key: 'JOB_SUB_WORK_TYPE', children: <WorkTypePage /> },
   { key: 'JOB_SUB_PAY_FORMS', children: <PayFormsPage /> },
   { key: 'JOB_SUB_EXPERIENCE', children: <ExperienceWorkPage /> },
   { key: 'JOB_SUB_POST', children: <PostWorkPage /> },
+  { key: 'JOB_SUB_GENDER', children: <GenderWorkPage /> },
+
+  // Geographical_Area
+  { key: 'Geographical_Area_Area', children: <GeographicalAreaPage /> },
+  {
+    key: 'Geographical_Area_Address',
+    children: <GeographicalAreaAddressPage />,
+  },
+
+  // Good House
   { key: 'GOOD_HOUSE_SUB_CATEGORY', children: <CategoryGoodHousePage /> },
   {
     key: 'GOOD_HOUSE_SUB_INTERIOR_CONDITION',
     children: <InteriorConditionGoodHousePage />,
   },
-  { key: 'GOOD_HOUSE_SUB_Post', children: <PostGoodHousePage /> },
   {
     key: 'GOOD_HOUSE_SUB_Seller_Information',
     children: <SellerInformationPage />,
   },
-  { key: 'Fridge_Sub_Guarantee', children: <GuaranteeMachineryPage /> },
-  { key: 'JOB_SUB_POST', children: <PostMachineryPage /> },
   {
-    key: 'JOB_SUB_POST',
-    children: <SellerInformationMachineryMachineryPage />,
+    key: 'GOOD_HOUSE_SUB_Post',
+    children: <PostGoodHousePage />,
   },
-  { key: 'Fridge_Sub_CONDITION', children: <UsageStatusMachineryPage /> },
 
+  // Tu lanh
+  { key: 'Fridge_Sub_CONDITION', children: <UsageStatusMachineryPage /> },
   { key: 'Fridge_Sub_CATEGORY', children: <CategoryRefrigeratorPage /> },
   { key: 'Fridge_Sub_Guarantee', children: <GuaranteeRefrigeratorPage /> },
   { key: 'Fridge_Sub_Manage_posts', children: <PostRefrigeratorPage /> },
-  { key: 'JOB_SUB_POST', children: <SellerInformationRefrigerator /> },
-  { key: 'JOB_SUB_POST', children: <UsageStatusRefrigeratorPage /> },
+  {
+    key: 'Fridge_Sub_Manage_Seller',
+    children: <SellerInformationRefrigerator />,
+  },
+  // { key: 'JOB_SUB_POST', children: <UsageStatusRefrigeratorPage /> },
   { key: 'Fridge_Sub_Volume', children: <VolumeRefrigeratorPage /> },
   { key: 'Fridge_Sub_Washing_volume', children: <WashingVolumePage /> },
   { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
-  { key: 'Fridge_Sub_Wattage', children: <WattageRefrigeratorPage /> },
+  // Máy móc
+  { key: 'Specialized_Sub_CONDITION', children: <UsageStatusMachineryPage /> },
+  {
+    key: 'Specialized_Sub_Seller_Infor',
+    children: <SellerInformationMachineryMachineryPage />,
+  },
+  { key: 'Specialized_Sub_Guarantee', children: <GuaranteeMachineryPage /> },
+  { key: 'Specialized_Sub_Post', children: <PostMachineryPage /> },
+  // Taxi
+  { key: 'PosterInformationTaxiPage', children: <PosterInformationTaxiPage /> },
+  { key: 'PosterTaxiPage', children: <PosterTaxiPage /> },
+  { key: 'PostTaxiPage', children: <PostTaxiPage /> },
+  // do dien tu
+  {
+    key: 'Electronice_Device_Sub_Category',
+    children: <CategoryElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Condition',
+    children: <UsageStatusElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Brand',
+    children: <CompaniesElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Color',
+    children: <ColorElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Capacity',
+    children: <CapacitiesElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Warranty',
+    children: <GuaranteeElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Processor',
+    children: <MicroprocessorElectronicDevicePage />,
+  },
+  { key: 'Electronice_Device_Sub_Ram', children: <RamElectronicDevicePage /> },
+  {
+    key: 'Electronice_Device_Sub_HardDrive',
+    children: <HardDriveElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_GraphicsCard',
+    children: <MonitorCardElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_ScreenSize',
+    children: <ScreenSizeElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_SellerInfo',
+    children: <SellerInformationElectronicDevicePage />,
+  },
+  {
+    key: 'Electronice_Device_Sub_Product',
+    children: <PostElectronicDevicePage />,
+  },
+  //xe co
+  {
+    key: 'Vehicle_Sub_Category',
+    children: <CategoryVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_Brand',
+    children: <CompanyVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_ManufacturingYear',
+    children: <FactoryYearVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_Transmission',
+    children: <GearBoxesVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_FuelType',
+    children: <FuelsVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_Warranty',
+    children: <GuaranteeVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_SeatingCapacity',
+    children: <NumberSeatVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_Condition',
+    children: <UsageStatusSeatVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_SellerInfo',
+    children: <SellerInfoVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_Capacity',
+    children: <CapacitiesVehiclePage />,
+  },
+  {
+    key: 'Vehicle_Sub_Product',
+    children: <PostVehiclePage />,
+  },
+  ...Bonsai_Furniture_Sub_List.map((item) => ({
+    key: item.key,
+    children: item.component,
+  })),
+  ...VietShopList.map((item) => ({
+    key: item.key,
+    children: item.component,
+  })),
 ];
 
 export default function AdminPage() {
@@ -426,7 +653,7 @@ export default function AdminPage() {
           }}
         >
           <div className="py-[10px] px-[20px]">
-            {pageList.findLast((item) => item.key === currentPage)?.children}
+            {pageList.find((item) => item.key === currentPage)?.children}
           </div>
         </Content>
       </Layout>

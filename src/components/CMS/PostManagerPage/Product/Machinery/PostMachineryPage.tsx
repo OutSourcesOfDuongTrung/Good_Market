@@ -14,7 +14,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useEffectOnce } from 'usehooks-ts';
 
 export default function PostMachineryPage() {
-  const [dataList, setDataList] = useState<IJob[]>([]);
+  const [dataList, setDataList] = useState<IMachinePost[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
@@ -38,8 +38,8 @@ export default function PostMachineryPage() {
       });
   };
 
-  const onSearch = (e?: string) => {
-    if (e) setValueFilter(e);
+  const onSearch = (e: string) => {
+    setValueFilter(e);
   };
   const onChangPage = (e: number) => {
     setCurrentPage(e);
@@ -66,8 +66,12 @@ export default function PostMachineryPage() {
         },
       })
       .then((res) => {
-        setDataTotal(res.data.data.count || [...res.data.data].length);
-        setDataList(res.data.data || []);
+        if (res.data && res.data.data && res.data.data.results) {
+          setDataTotal(res.data.data.count || res.data.data.results.length);
+          setDataList(res.data.data.results || []);
+        } else {
+          console.error('Không có dữ liệu hoặc cấu trúc dữ liệu không đúng.');
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -81,10 +85,10 @@ export default function PostMachineryPage() {
   // useEffect(() => {
   //   fetchUserList(valueFilter);
   // }, [fetchUserList, valueFilter]);
-  const columns: ColumnsType<IJob> = [
+  const columns: ColumnsType<IMachinePost> = [
     {
-      title: '#',
-      render: (value, record, index) => <ColumnHeightOutlined />,
+      title: 'STT',
+      render: (value, record, index) => index + 1,
     },
     {
       title: 'ID',
@@ -92,22 +96,36 @@ export default function PostMachineryPage() {
       render: (value, record, index) => record.id,
     },
     {
-      title: 'Tên ngành nghề',
+      title: 'Ảnh',
       dataIndex: 'Name',
+      render: (value, record, index) => (
+        <Image
+          className="rounded"
+          alt=""
+          src={record.images_A4[0].Image || ''}
+          width={100}
+          height={60}
+        />
+      ),
     },
+    {
+      title: 'Tiêu đề',
+      dataIndex: 'Name',
+      render: (value, record, index) => record.Title,
+    },
+    {
+      title: 'User',
+      dataIndex: 'Name',
+      render: (value, record, index) => record.User.username,
+    },
+
     {
       title: 'Hành động',
       width: 150,
-      className: 'flex item-center justify-center',
+      // className: 'flex item-center justify-center',
       render: (value, record, index) => (
         <div className="flex gap-x-5 text-[20px] text-[#aea9c6]">
-          <FormOutlined
-            onClick={() => {
-              setcurrentValue(record.Name || '');
-              setCurrentID(record.id || 0);
-              setOpenModalCreate(true);
-            }}
-          />
+          <Switch />
           <Popconfirm
             title={'Xác nhận xóa'}
             onConfirm={() => fetchDelete(record.id || 0)}
@@ -118,7 +136,6 @@ export default function PostMachineryPage() {
       ),
     },
   ];
-
   return (
     <div>
       <CMSCategory

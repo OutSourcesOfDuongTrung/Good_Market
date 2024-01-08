@@ -38,8 +38,8 @@ export default function PosterInformationTaxiPage() {
       });
   };
 
-  const onSearch = (e?: string) => {
-    if (e) setValueFilter(e);
+  const onSearch = (e: string) => {
+    setValueFilter(e);
   };
   const onChangPage = (e: number) => {
     setCurrentPage(e);
@@ -66,8 +66,8 @@ export default function PosterInformationTaxiPage() {
         },
       })
       .then((res) => {
-        setDataTotal(res.data.data.count || [...res.data.data].length);
-        setDataList(res.data.data || []);
+        setDataTotal(res.data.length);
+        setDataList(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -126,7 +126,7 @@ export default function PosterInformationTaxiPage() {
         onChangPage={onChangPage}
         dataTotal={dataTotal}
         onSearch={onSearch}
-        data={dataList}
+        data={dataList.map((item, index) => ({ key: index, ...item }))}
         createAble={true}
         create={{
           url: 'taxi/poster-information/',
@@ -134,7 +134,7 @@ export default function PosterInformationTaxiPage() {
           // body: { asdas: 'asdd' },
           onSucces(res) {
             mutate('fetchPosterInformationTaxiList');
-            message.success(res.data.message);
+            message.success('Đã tạo sản phẩm');
           },
           onFailed(err) {
             message.error(err.response.data.detail);

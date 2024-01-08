@@ -38,8 +38,8 @@ export default function SellerInformationPage() {
       });
   };
 
-  const onSearch = (e?: string) => {
-    if (e) setValueFilter(e);
+  const onSearch = (e: string) => {
+    setValueFilter(e);
   };
   const onChangPage = (e: number) => {
     setCurrentPage(e);
@@ -92,7 +92,7 @@ export default function SellerInformationPage() {
       render: (value, record, index) => record.id,
     },
     {
-      title: 'Tên ngành nghề',
+      title: 'Tên người bán',
       dataIndex: 'Name',
     },
     {
@@ -156,7 +156,7 @@ export default function SellerInformationPage() {
       >
         <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
           <Form.Item
-            label={'Tên nghành nghề'}
+            label={'Thông tin người bán'}
             name={'Name'}
             rules={[{ required: true }]}
           >

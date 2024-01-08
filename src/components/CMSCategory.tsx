@@ -1,4 +1,5 @@
 import instanceAxios from '@/api/instanceAxios';
+import { fetchUserDataList } from '@/api/userRequest';
 import labelManager from '@/services/labelManager';
 import {
   CaretDownOutlined,
@@ -21,25 +22,29 @@ import { AnyObject } from 'antd/es/_util/type';
 import { useForm } from 'antd/es/form/Form';
 import { ColumnsType } from 'antd/es/table';
 import { AxiosResponse } from 'axios';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { useSWRConfig } from 'swr';
 
 interface Props {
   // table: ReactNode;
   label?: string;
   createAble: boolean;
   data: AnyObject[];
-  columns: ColumnsType<AnyObject>;
+  columns: ColumnsType<any>;
+  // refeshWhenNotValue: string;
   onFilter?: (e?: string) => void;
-  onSearch?: (e?: string) => void;
+  onSearch?: (e: string) => void;
   onChangPage?: (e: number) => void;
   dataTotal: number;
   create?: {
-    url: string;
+    url?: string;
     body?: Object;
-    inputName: string[];
+    inputName?: string[];
     onSucces?: (res: AxiosResponse) => void;
     onFailed?: (err: any) => void;
     onFinally?: () => void;
+    childrenModal?: ReactNode;
+    onOKModal?: () => void;
   };
 }
 
@@ -59,6 +64,7 @@ export default function CMSCategory(props: Props) {
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [valueFilter, setValueFilter] = useState('');
   const [form] = useForm();
+  const { mutate } = useSWRConfig();
   const onFinish = async (e: any) => {
     await instanceAxios
       .post(props.create?.url || '', {
@@ -142,20 +148,25 @@ export default function CMSCategory(props: Props) {
           },
         }}
         centered
-        title={<p className="text-center">Label</p>}
+        title={<p className="text-center">Tạo mới</p>}
         open={openModalCreate}
         onCancel={() => setOpenModalCreate(false)}
-        onOk={() => form.submit()}
+        onOk={() => {
+          props.create?.onOKModal?.();
+          form.submit();
+        }}
       >
-        <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
-          <Form.Item
-            label={'Tên nghành nghề'}
-            name={props.create?.inputName?.[0]}
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
+        {props.create?.childrenModal || (
+          <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
+            <Form.Item
+              label={'Tên'}
+              name={props.create?.inputName?.[0]}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+          </Form>
+        )}
       </Modal>
     </div>
   );
