@@ -87,6 +87,11 @@ import PostBonsaiFurniturePage from '@/components/CMS/PostManagerPage/Product/Bo
 import CategoryVietShopPage from '@/components/CMS/PostManagerPage/Product/VietShop/CategoryVietShopPage';
 import PostVietShopPage from '@/components/CMS/PostManagerPage/Product/VietShop/PostVietShopPage';
 import SellerietShopPage from '@/components/CMS/PostManagerPage/Product/VietShop/SellerietShopPage';
+import CategoryProductServicePage from '@/components/CMS/PostManagerPage/Product/ProductService/CategoryProductServicePage';
+import GuaranteeProductServicePage from '@/components/CMS/PostManagerPage/Product/ProductService/GuaranteeProductServicePage';
+import PostProductServicePage from '@/components/CMS/PostManagerPage/Product/ProductService/PostProductServicePage';
+import UsageStatusProductServicePage from '@/components/CMS/PostManagerPage/Product/ProductService/UsageStatusProductServicePage';
+import SellerInformationServicePage from '@/components/CMS/PostManagerPage/Product/ProductService/SellerInformationServicePage';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -158,6 +163,40 @@ const VietShopList = [
     component: <PostVietShopPage />,
   },
 ];
+
+const serviceList = [
+  {
+    key: 'Sevice_category',
+    icon: <DesktopOutlined />,
+    label: 'Danh muc',
+    component: <CategoryProductServicePage />,
+  },
+  {
+    key: 'Sevice_guaran',
+    icon: <DesktopOutlined />,
+    label: 'Bảo hành',
+    component: <GuaranteeProductServicePage />,
+  },
+  {
+    key: 'Sevice_uasangStatus',
+    icon: <DesktopOutlined />,
+    label: 'Tình trạng sử dụng',
+    component: <UsageStatusProductServicePage />,
+  },
+  {
+    key: 'Sevice_serler',
+    icon: <DesktopOutlined />,
+    label: 'Thông tin người bán',
+    component: <SellerInformationServicePage />,
+  },
+  {
+    key: 'Sevice_post',
+    icon: <DesktopOutlined />,
+    label: 'Bài đăng',
+    component: <PostProductServicePage />,
+  },
+];
+
 const items: MenuItem[] = [
   getItem('Tổng quan', 'OVERVIEW', <PieChartOutlined />),
   getItem('Doanh thu', 'REVENUE', <DesktopOutlined />),
@@ -324,15 +363,7 @@ const items: MenuItem[] = [
         getItem('Sản phẩm', 'Electronice_Device_Sub_Product', <TeamOutlined />),
       ]),
       getItem('B3 - Dịch vụ', 'Services_Sub', <TeamOutlined />, [
-        getItem('Danh mục', 'Services_Sub_Category', <TeamOutlined />),
-        getItem('Tình trạng', 'Services_Sub_Condition', <TeamOutlined />),
-        getItem('Bảo hành', 'Services_Sub_Warranty', <TeamOutlined />),
-        getItem(
-          'Thông tin người bán',
-          'Services_Sub_SellerInfo',
-          <TeamOutlined />
-        ),
-        getItem('Sản phẩm', 'Services_Sub_Product', <TeamOutlined />),
+        ...serviceList.map((item) => getItem(item.label, item.key, item.icon)),
       ]),
       getItem(
         'B4 - Nội thất cây cảnh',
@@ -342,39 +373,10 @@ const items: MenuItem[] = [
           ...Bonsai_Furniture_Sub_List.map((item) =>
             getItem(item.label, item.key, item.icon)
           ),
-          // getItem(
-          //   'Danh mục',
-          //   'Bonsai_Furniture_Sub_Category',
-          //   <TeamOutlined />
-          // ),
-          // getItem(
-          //   'Tình trạng',
-          //   'Bonsai_Furniture_Sub_Condition',
-          //   <TeamOutlined />
-          // ),
-          // getItem(
-          //   'Bảo hành',
-          //   'Bonsai_Furniture_Sub_Warranty',
-          //   <TeamOutlined />
-          // ),
-          // getItem(
-          //   'Thông tin người bán',
-          //   'Bonsai_Furniture_Sub_SellerInfo',
-          //   <TeamOutlined />
-          // ),
-          // getItem('Sản phẩm', 'Bonsai_Furniture_Sub_Product', <TeamOutlined />),
         ]
       ),
       getItem('B5 - Cửa hàng Việt', 'Viet_Shop_Sub', <TeamOutlined />, [
         ...VietShopList.map((item) => getItem(item.label, item.key, item.icon)),
-        // getItem('Danh mục', 'Viet_Shop_Sub_Category', <TeamOutlined />),
-        // getItem('Bảo hành', 'Viet_Shop_Sub_Warranty', <TeamOutlined />),
-        // getItem(
-        //   'Thông tin người bán',
-        //   'Viet_Shop_Sub_SellerInfo',
-        //   <TeamOutlined />
-        // ),
-        // getItem('Sản phẩm', 'Viet_Shop_Sub_Product', <TeamOutlined />),
       ]),
     ]),
   ]),
@@ -573,6 +575,10 @@ const pageList = [
     children: item.component,
   })),
   ...VietShopList.map((item) => ({
+    key: item.key,
+    children: item.component,
+  })),
+  ...serviceList.map((item) => ({
     key: item.key,
     children: item.component,
   })),

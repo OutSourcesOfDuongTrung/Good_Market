@@ -14,7 +14,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useEffectOnce } from 'usehooks-ts';
 
 export default function PostBonsaiFurniturePage() {
-  const [categoryList, setCategoryList] = useState<IJob[]>([]);
+  const [dataList, setDataList] = useState<IHomeAppliance[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
@@ -50,14 +50,14 @@ export default function PostBonsaiFurniturePage() {
       .delete(`home-appliance/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
-        mutate('fetchPostBonsaiFurnitureList');
+        mutate('fetchPostElectronicDeviceList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
       });
   };
 
-  const fetchPostBonsaiFurnitureList = useCallback(async () => {
+  const fetchPostElectronicDeviceList = useCallback(async () => {
     await instanceAxios
       .get(`home-appliance/items/`, {
         params: {
@@ -66,22 +66,29 @@ export default function PostBonsaiFurniturePage() {
         },
       })
       .then((res) => {
-        setDataTotal(res.data.data.count || [...res.data.data].length);
-        setCategoryList(res.data.data || []);
+        if (res.data && res.data.data && res.data.data.results) {
+          setDataTotal(res.data.data.count || res.data.data.results.length);
+          setDataList(res.data.data.results || []);
+        } else {
+          console.error('Không có dữ liệu hoặc cấu trúc dữ liệu không đúng.');
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }, [currentPage, valueFilter]);
-  useSWR('fetchPostBonsaiFurnitureList', fetchPostBonsaiFurnitureList);
+  useSWR('fetchPostElectronicDeviceList', fetchPostElectronicDeviceList);
 
   useEffect(() => {
-    fetchPostBonsaiFurnitureList();
-  }, [fetchPostBonsaiFurnitureList, valueFilter]);
-  const columns: ColumnsType<IJob> = [
+    fetchPostElectronicDeviceList();
+  }, [fetchPostElectronicDeviceList]);
+  // useEffect(() => {
+  //   fetchUserList(valueFilter);
+  // }, [fetchUserList, valueFilter]);
+  const columns: ColumnsType<IElectroDevice> = [
     {
-      title: '#',
-      render: (value, record, index) => <ColumnHeightOutlined />,
+      title: 'STT',
+      render: (value, record, index) => index + 1,
     },
     {
       title: 'ID',
@@ -89,22 +96,36 @@ export default function PostBonsaiFurniturePage() {
       render: (value, record, index) => record.id,
     },
     {
-      title: 'Tên danh mục',
+      title: 'Ảnh',
       dataIndex: 'Name',
+      render: (value, record, index) => (
+        <Image
+          className="rounded"
+          alt=""
+          src={record.images_A3[0].Image || ''}
+          width={100}
+          height={60}
+        />
+      ),
     },
+    {
+      title: 'Tiêu đề',
+      dataIndex: 'Name',
+      render: (value, record, index) => record.Title,
+    },
+    {
+      title: 'User',
+      dataIndex: 'Name',
+      render: (value, record, index) => record.User.username,
+    },
+
     {
       title: 'Hành động',
       width: 150,
-      className: 'flex item-center justify-center',
+      // className: 'flex item-center justify-center',
       render: (value, record, index) => (
         <div className="flex gap-x-5 text-[20px] text-[#aea9c6]">
-          <FormOutlined
-            onClick={() => {
-              setcurrentValue(record.Name || '');
-              setCurrentID(record.id || 0);
-              setOpenModalCreate(true);
-            }}
-          />
+          <Switch />
           <Popconfirm
             title={'Xác nhận xóa'}
             onConfirm={() => fetchDelete(record.id || 0)}
@@ -123,14 +144,14 @@ export default function PostBonsaiFurniturePage() {
         onChangPage={onChangPage}
         dataTotal={dataTotal}
         onSearch={onSearch}
-        data={categoryList}
+        data={dataList}
         createAble={true}
         create={{
           url: 'home-appliance/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {
-            mutate('fetchPostBonsaiFurnitureList');
+            mutate('fetchPostElectronicDeviceList');
             message.success(res.data.message);
           },
           onFailed(err) {
@@ -138,7 +159,6 @@ export default function PostBonsaiFurniturePage() {
           },
         }}
         columns={columns}
-        // refeshWhenNotValue={'fetchPostBonsaiFurnitureList'}
       />
       <Modal
         styles={{

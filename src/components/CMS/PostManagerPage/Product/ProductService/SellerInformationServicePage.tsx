@@ -13,8 +13,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { useEffectOnce } from 'usehooks-ts';
 
-export default function CategoryProductServicePage() {
-  const [categoryList, setCategoryList] = useState<IJob[]>([]);
+export default function SellerInformationServicePage() {
+  const [dataList, setDataList] = useState<IJob[]>([]);
   const [valueFilter, setValueFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
@@ -26,12 +26,12 @@ export default function CategoryProductServicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`service/category/${currentID}/`, e)
+      .patch(`service/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
         message.success('Đã cập nhật');
-        mutate('fetchCategoryProductServiceList');
+        mutate('fetchSellerInformationServiceList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
@@ -47,19 +47,19 @@ export default function CategoryProductServicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`service/category/${id}/`)
+      .delete(`service/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
-        mutate('fetchCategoryProductServiceList');
+        mutate('fetchSellerInformationServiceList');
       })
       .catch((err) => {
         message.error('Thao tác thất bại');
       });
   };
 
-  const fetchCategoryProductServiceList = useCallback(async () => {
+  const fetchSellerInformationServiceList = useCallback(async () => {
     await instanceAxios
-      .get(`service/category/`, {
+      .get(`service/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -67,17 +67,23 @@ export default function CategoryProductServicePage() {
       })
       .then((res) => {
         setDataTotal(res.data.data.count || [...res.data.data].length);
-        setCategoryList(res.data.data || []);
+        setDataList(res.data.data || []);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [currentPage, valueFilter]);
-  useSWR('fetchCategoryProductServiceList', fetchCategoryProductServiceList);
+  useSWR(
+    'fetchSellerInformationServiceList',
+    fetchSellerInformationServiceList
+  );
 
   useEffect(() => {
-    fetchCategoryProductServiceList();
-  }, [fetchCategoryProductServiceList, valueFilter]);
+    fetchSellerInformationServiceList();
+  }, [fetchSellerInformationServiceList]);
+  // useEffect(() => {
+  //   fetchUserList(valueFilter);
+  // }, [fetchUserList, valueFilter]);
   const columns: ColumnsType<IJob> = [
     {
       title: '#',
@@ -89,7 +95,7 @@ export default function CategoryProductServicePage() {
       render: (value, record, index) => record.id,
     },
     {
-      title: 'Tên danh mục',
+      title: 'Tên ngành nghề',
       dataIndex: 'Name',
     },
     {
@@ -123,14 +129,14 @@ export default function CategoryProductServicePage() {
         onChangPage={onChangPage}
         dataTotal={dataTotal}
         onSearch={onSearch}
-        data={categoryList}
+        data={dataList}
         createAble={true}
         create={{
-          url: 'service/category/',
+          url: 'service/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {
-            mutate('fetchCategoryProductServiceList');
+            mutate('fetchSellerInformationServiceList');
             message.success(res.data.message);
           },
           onFailed(err) {
@@ -138,7 +144,6 @@ export default function CategoryProductServicePage() {
           },
         }}
         columns={columns}
-        // refeshWhenNotValue={'fetchCategoryProductServiceList'}
       />
       <Modal
         styles={{
@@ -147,13 +152,17 @@ export default function CategoryProductServicePage() {
           },
         }}
         centered
-        title={<p className="text-center">Chỉnh sửa</p>}
+        title={<p className="text-center">Label</p>}
         open={openModalCreate}
         onCancel={() => setOpenModalCreate(false)}
         onOk={() => form.submit()}
       >
         <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
-          <Form.Item label={'Tên'} name={'Name'} rules={[{ required: true }]}>
+          <Form.Item
+            label={'Tên nghành nghề'}
+            name={'Name'}
+            rules={[{ required: true }]}
+          >
             <Input defaultValue={currentValue} />
           </Form.Item>
         </Form>

@@ -93,14 +93,7 @@ interface IRefrigeratorPost {
   id: number;
   User: IUser;
   images_A3: IImage[];
-  Location: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-    Address_Location: IAddress[];
-  };
+  Location: ILocation & { Address_Location: IAddress[] };
   Address: IAddress;
   Category: IJob;
   Usage_status: IJob;
@@ -134,27 +127,9 @@ interface IMachinePost {
     Address_Location: IAddress[];
   };
   Address: IAddress;
-  Usage_status: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-  };
-  Seller_information: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-  };
-  Guarantee: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-  };
+  Usage_status: IJob;
+  Seller_information: IJob;
+  Guarantee: IJob;
   Map: string;
   Free_giveaway: string;
   Price: string;
@@ -171,36 +146,11 @@ interface ITaxiPost {
   id: number;
   User: IUser;
   images_A5: IImage[];
-  Location: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-    Address_Location: IAddress[];
-  };
+  Location: ILocation & { Address_Location: IAddress[] };
   Address: IAddress;
-  Usage_status: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-  };
-  Seller_information: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-  };
-  Guarantee: {
-    id: number;
-    Name: string;
-    Url: string | null;
-    Creation_time: string;
-    Update_time: string;
-  };
+  Usage_status: IJob;
+  Seller_information: IJob;
+  Guarantee: IJob;
   Map: string;
   Free_giveaway: string;
   Price: string;
@@ -209,6 +159,110 @@ interface ITaxiPost {
   Video: string;
   Contact_phone_number: string;
   Url: string;
+  Creation_time: string;
+  Update_time: string;
+}
+
+// Vehicle
+
+interface IVehicle {
+  id: number;
+  User: User;
+  images_A3: Image[];
+  Location: ILocation;
+  Address: IAddress;
+  Category: IJob;
+  Map: string;
+  Free_giveaway: string;
+  Price: string;
+  Title: string;
+  Detailed_description: string;
+  Video: string;
+  Contact_phone_number: string;
+  Url: string;
+  Creation_time: string;
+  Update_time: string;
+}
+
+interface IElectroDevice extends IVehicle {
+  Color: Color;
+  Hard_drive: HardDrive;
+  Monitor_card: MonitorCard;
+  Screen_size: ScreenSize;
+}
+
+interface IServices {
+  id: number;
+  User: User;
+  images_A3: Image[];
+  Location: ILocation;
+  Address: IAddress;
+  Category: IJob;
+  Usage_status: IJob;
+  Seller_information: IJob;
+  Guarantee: IJob;
+  Map: null | string;
+  Free_giveaway: null | string;
+  Price: null | string;
+  Title: null | string;
+  Detailed_description: null | string;
+  Video: null | string;
+  Contact_phone_number: null | string;
+  Url: null | string;
+  Creation_time: string;
+  Update_time: string;
+}
+
+interface IHomeAppliance {
+  id: number;
+  User: IUser;
+  images_A3: IImage[];
+  Location: ILocation;
+  Address: IAddress & {
+    Location: ILocation;
+  };
+  Category: IJob;
+  Usage_status: IJob;
+  Seller_information: IJob;
+  Guarantee: IJob;
+  Map: null | string;
+  Free_giveaway: null | string;
+  Price: null | string;
+  Title: null | string;
+  Detailed_description: null | string;
+  Video: null | string;
+  Contact_phone_number: null | string;
+  Url: null | string;
+  Creation_time: string;
+  Update_time: string;
+}
+
+interface IShopViet {
+  id: number;
+  User: IUser;
+  images_A3: {
+    id: number;
+    Image: string;
+    Creation_time: string;
+    Update_time: string;
+    Items: number;
+  }[];
+  Location: ILocation;
+  Address: IAddress & {
+    Location: ILocation;
+  };
+  Category: IJob;
+  Usage_status: IJob;
+  Seller_information: IJob;
+  Guarantee: IJob;
+  Map: null | string;
+  Free_giveaway: null | string;
+  Price: null | string;
+  Title: null | string;
+  Detailed_description: null | string;
+  Video: null | string;
+  Contact_phone_number: null | string;
+  Url: null | string;
   Creation_time: string;
   Update_time: string;
 }

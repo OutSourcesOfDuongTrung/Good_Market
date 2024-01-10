@@ -13,6 +13,7 @@ export default function LoginPage() {
   const route = useRouter();
   const dispatch = useAppDispatch();
   const onFinish = async (e: IUserLogin) => {
+    delete instanceAxios.defaults.headers.common.Authorization;
     await instanceAxios
       .post('api/token/', e)
       .then((res) => {
