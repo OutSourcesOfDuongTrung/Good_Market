@@ -1,7 +1,7 @@
 'use client';
 import CardItem from '@/components/CardItem';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
-import { Carousel, Image } from 'antd';
+import { Badge, Carousel, Image } from 'antd';
 import React, { useRef } from 'react';
 
 export default function HomePage() {
@@ -20,7 +20,7 @@ export default function HomePage() {
     background: '#364d79',
   };
   return (
-    <div className="w-3/4 m-auto">
+    <div className="w-3/4 flex flex-col gap-y-5 m-auto">
       <div className="p-[10px] bg-white shadow-xl rounded-lg">
         <Carousel className="rounded-lg overflow-hidden" autoplay>
           <div>
@@ -37,7 +37,7 @@ export default function HomePage() {
           </div>
         </Carousel>
       </div>
-      <div className="p-[10px] relative rounded-lg ">
+      <div className="p-[10px] relative rounded-lg bg-white">
         <p className="uppercase font-semibold py-[20px] p-[10px] text-[20px]">
           Khám phá danh mục
         </p>
@@ -77,11 +77,19 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div className="rounded-lg my-[20px] font-semibold uppercase text-[20px] px-[10px] py-[5px] shadow-[0_2px_8px_rgba(0,0,0,.15)]">
+      <div className="rounded-lg bg-white font-semibold uppercase text-[20px] px-[10px] py-[5px] shadow-[0_2px_8px_rgba(0,0,0,.15)]">
         Tin đăng mới
       </div>
-      <div>
-        <CardItem />
+      <div className="flex flex-wrap justify-between gap-2">
+        {[...Array(20)].map((_, index) =>
+          index % 2 === 0 ? (
+            <Badge.Ribbon key={index} placement="start" text="Hippies">
+              <CardItem />
+            </Badge.Ribbon>
+          ) : (
+            <CardItem key={index} />
+          )
+        )}
       </div>
     </div>
   );
