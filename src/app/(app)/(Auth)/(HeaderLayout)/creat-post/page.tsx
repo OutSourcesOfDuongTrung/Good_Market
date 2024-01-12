@@ -1,4 +1,5 @@
 'use client';
+import ModalLocationSelectCustom from '@/components/common/ModalLocationSelectCustom';
 import ModalSelectCustom from '@/components/common/ModalSelectCustom';
 import { CloudUploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { Input, Space } from 'antd';
@@ -33,6 +34,7 @@ export default function CreatePostPage() {
         </div>
         <div className="flex-[2_2_0%]">
           <ModalSelectCustom />
+          <ModalLocationSelectCustom />
         </div>
       </div>
     </div>
