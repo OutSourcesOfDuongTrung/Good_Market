@@ -29,7 +29,7 @@ export default function Header() {
           />
         </Link>
 
-        <div className="relative ">
+        <div className="relative">
           <MenuOutlined
             className="mx-[20px]"
             onClick={() => setShowModalMenu(true)}

@@ -1,6 +1,6 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
-import CMSCategory from '@/components/CMSCategory';
+import CMSCategory from '@/components/common/CMSCategory';
 import {
   CloseOutlined,
   ColumnHeightOutlined,

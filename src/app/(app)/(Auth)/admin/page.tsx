@@ -26,7 +26,7 @@ import { Avatar, Button, Layout, Menu, MenuProps, theme } from 'antd';
 import { useState } from 'react';
 import SliderPage from '@/components/CMS/ToolsPage/SliderPage';
 import SEOoptimization from '@/components/CMS/ToolsPage/SEOoptimization';
-import CMSCategory from '@/components/CMSCategory';
+import CMSCategory from '@/components/common/CMSCategory';
 import UserPage from '@/components/CMS/PostManagerPage/Product/User/UserPage';
 import IndustryWorkPage from '@/components/CMS/PostManagerPage/Product/Work/IndustryWorkPage';
 import WorkTypePage from '@/components/CMS/PostManagerPage/Product/Work/WorkTypePage';

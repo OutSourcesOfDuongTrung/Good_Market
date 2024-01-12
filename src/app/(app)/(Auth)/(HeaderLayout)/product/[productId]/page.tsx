@@ -1,5 +1,5 @@
 'use client';
-import CardItem from '@/components/CardItem';
+import CardItem from '@/components/common/CardItem';
 import {
   CaretLeftOutlined,
   CaretRightOutlined,

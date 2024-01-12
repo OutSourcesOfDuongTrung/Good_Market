@@ -1,5 +1,5 @@
 'use client';
-import CardItem from '@/components/CardItem';
+import CardItem from '@/components/common/CardItem';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Badge, Carousel, Image } from 'antd';
 import React, { useRef } from 'react';
@@ -81,15 +81,9 @@ export default function HomePage() {
         Tin đăng mới
       </div>
       <div className="flex flex-wrap justify-between gap-2">
-        {[...Array(20)].map((_, index) =>
-          index % 2 === 0 ? (
-            <Badge.Ribbon key={index} placement="start" text="Hippies">
-              <CardItem />
-            </Badge.Ribbon>
-          ) : (
-            <CardItem key={index} />
-          )
-        )}
+        {[...Array(20)].map((_, index) => (
+          <CardItem ribbon={index % 2 == 0 ? 'Việc 24h' : ''} key={index} />
+        ))}
       </div>
     </div>
   );

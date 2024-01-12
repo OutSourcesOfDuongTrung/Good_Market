@@ -1,8 +1,8 @@
 import { Avatar, Badge, Image, Space } from 'antd';
 import React from 'react';
 
-export default function CardItem() {
-  return (
+export default function CardItem({ ribbon }: { ribbon?: string }) {
+  const children = (
     <div className="w-fit bg-white shadow-[0_2px_8px_rgba(0,0,0,.15)] p-[10px] rounded-lg">
       <Image
         width={200}
@@ -30,5 +30,13 @@ export default function CardItem() {
         </Space>
       </div>
     </div>
+  );
+
+  return ribbon ? (
+    <Badge.Ribbon color="red" placement="start" text="Hippies">
+      {children}
+    </Badge.Ribbon>
+  ) : (
+    children
   );
 }
