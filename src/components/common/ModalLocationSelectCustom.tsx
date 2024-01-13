@@ -9,7 +9,14 @@ import {
   ProfileOutlined,
 } from '@ant-design/icons';
 
-export default function ModalLocationSelectCustom() {
+interface Props {
+  maxLength?: number;
+  required?: boolean;
+  label: string;
+  className?: string;
+}
+
+export default function ModalLocationSelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [value, setValue] = useState('');
@@ -19,14 +26,18 @@ export default function ModalLocationSelectCustom() {
       <div
         onClick={() => setShowModal(true)}
         className={`w-full relative flex justify-between  px-[10px] rounded-lg border ${
-          value ? 'py-[3px]' : 'py-[15px] '
+          value ? 'py-[5px]' : 'py-[15px] '
         }`}
       >
         <div className="flex flex-col gap-y-0">
-          <Space className={`w-full text-[#9b9b9b] text-[14px]`}>
-            Danh mục đăng tin <span className="text-red-500">*</span>
+          <Space
+            className={`w-full text-[#9b9b9b] transition-all text-[14px] ${
+              value && '!text-[12px] font-medium'
+            }`}
+          >
+            {props.label} <span className="text-red-500">*</span>
           </Space>
-          <p>{value}</p>
+          <p className="text-[12px]">{value}</p>
         </div>
 
         <CaretDownOutlined />
@@ -94,8 +105,13 @@ export default function ModalLocationSelectCustom() {
                 items={[
                   {
                     key: '1',
-                    label: 'This panel can only be collapsed by clicking icon',
-                    children: <p>{'text'}</p>,
+                    label: (
+                      <Space direction="vertical">
+                        <p className="text-[16px]">{'Thành phố đài bắc'}</p>
+                        <p>Taipei City</p>
+                      </Space>
+                    ),
+                    children: <Space>{'text'}</Space>,
                     className: '!rounded-none',
                   },
                 ]}

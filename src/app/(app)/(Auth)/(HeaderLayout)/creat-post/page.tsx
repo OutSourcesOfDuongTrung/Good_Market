@@ -1,8 +1,10 @@
 'use client';
+import InputCustom from '@/components/common/InputCustom';
 import ModalLocationSelectCustom from '@/components/common/ModalLocationSelectCustom';
 import ModalSelectCustom from '@/components/common/ModalSelectCustom';
+import SelectCustom from '@/components/common/SelectCustom';
 import { CloudUploadOutlined, InboxOutlined } from '@ant-design/icons';
-import { Input, Space } from 'antd';
+import { Flex, Input, Space } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import Link from 'next/link';
 import React from 'react';
@@ -33,8 +35,25 @@ export default function CreatePostPage() {
           </div>
         </div>
         <div className="flex-[2_2_0%]">
-          <ModalSelectCustom />
-          <ModalLocationSelectCustom />
+          <ModalSelectCustom label="Danh mục tin đăng" />
+          <p className="py-[30px] text-[20px] font-bold">
+            Thông tin nhà tuyển dụng
+          </p>
+          <ModalLocationSelectCustom label={'Địa chỉ'} />
+          <p className="py-[30px] text-[20px] font-bold">Nội dung đăng tuyển</p>
+          <Flex vertical gap={20}>
+            <InputCustom required label={'Tiêu đề tin đăng'} />
+            <InputCustom required type="number" label={'Số lượng tuyển dụng'} />
+            <SelectCustom label={'Nghành nghề'} />
+            <SelectCustom label={'Loại công việc'} />
+            <SelectCustom required label={'Hình thức trả lương'} />
+            <InputCustom required type="number" label={'Lương'} />
+          </Flex>
+          <p className="py-[30px] text-[20px] font-bold">Thông tin thêm</p>
+          <Flex gap={20}>
+            <InputCustom type="number" label={'Độ tuổi tối thiểu'} />
+            <InputCustom type="number" label={'Độ tuổi tối đa'} />
+          </Flex>
         </div>
       </div>
     </div>
