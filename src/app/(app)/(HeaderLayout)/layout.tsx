@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr';
 import Services from '@/components/Services';
 import Header from '@/components/Header';
 
-export default function RootLayout({
+export default function HeaderLayout({
   children,
 }: {
   children: React.ReactNode;

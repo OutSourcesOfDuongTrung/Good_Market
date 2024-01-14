@@ -1,22 +1,38 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { logout } from '@/app/reducers/userReducer';
 import {
   AimOutlined,
   BellOutlined,
   CaretLeftOutlined,
   CaretRightOutlined,
   ImportOutlined,
+  LogoutOutlined,
   MenuOutlined,
   MessageOutlined,
   ProfileOutlined,
   SearchOutlined,
+  UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Dropdown, Image, Input, Modal, Space } from 'antd';
+import { Dropdown, Image, Input, Modal, Popover, Space } from 'antd';
+import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function Header() {
   const [showModalMenu, setShowModalMenu] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+  const router = useRouter();
+  const handleLogout = () => {
+    dispatch(logout());
+    deleteCookie('access');
+    deleteCookie('refresh');
+    router.push('/auth');
+    // setShowModal(true);
+  };
   return (
     <div className="w-full flex items-center justify-between gap-x-5 px-[200px] py-[10px] bg-[#ffba00]">
       <div className="w-2/3 flex items-center gap-x-3 ">
@@ -90,12 +106,39 @@ export default function Header() {
           <BellOutlined />
           <MessageOutlined />
           <AimOutlined />
-          <UserOutlined />
+          <Dropdown
+            getPopupContainer={(trigger) => trigger.parentNode as HTMLElement}
+            menu={{
+              items: [
+                {
+                  label: (
+                    <div
+                      className="min-w-[200px] items-center flex py-[10px] font-medium text-[16px] space-x-3 px-[5px] rounded-xl"
+                      onClick={
+                        user.logged ? handleLogout : () => router.push('/auth')
+                      }
+                    >
+                      <div className="w-[30px]">
+                        {user.logged ? <LogoutOutlined /> : <UserAddOutlined />}
+                      </div>
+                      <p>{`${user.logged ? 'Đăng xuất' : 'Đăng nhập'}`}</p>
+                    </div>
+                  ),
+                  key: '5',
+                },
+              ],
+            }}
+            placement={'bottomLeft'}
+          >
+            <UserOutlined />
+          </Dropdown>
         </div>
-        <Space className="bg-[#dd8500] text-white rounded-md px-[15px] py-[5px]">
-          <ImportOutlined />
-          <p className=" font-semibold">Đăng tin</p>
-        </Space>
+        <Link href={'/creat-post'}>
+          <Space className="bg-[#dd8500] text-white rounded-md px-[15px] py-[5px]">
+            <ImportOutlined />
+            <p className=" font-semibold">Đăng tin</p>
+          </Space>
+        </Link>
       </div>
     </div>
   );

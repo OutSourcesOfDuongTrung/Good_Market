@@ -16,6 +16,12 @@ interface IUserLogin {
   username: string;
   password: string;
 }
+interface IUserRegister {
+  username: string;
+  email: string;
+  password: string;
+  rePassword: string;
+}
 
 interface IAPIRespone {
   onSuccess?: (res: AxiosResponse<any, any>) => void;

@@ -1,5 +1,5 @@
 import { Collapse, Modal, Space } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Span } from 'next/dist/trace';
 import {
   CaretDownOutlined,
@@ -14,13 +14,16 @@ interface Props {
   required?: boolean;
   label: string;
   className?: string;
+  onChange?: (e: string | number | undefined) => void;
 }
 
 export default function ModalLocationSelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [value, setValue] = useState('');
-
+  useEffect(() => {
+    props.onChange?.(value || undefined);
+  }, [props, value]);
   return (
     <div className="w-full ">
       <div

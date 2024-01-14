@@ -15,9 +15,9 @@ interface Props {
   label: string;
   className?: string;
   type?: 'text' | 'number';
+  onChange?: (e: string | number | undefined) => void;
 }
-
-export default function InputCustom(props: Props) {
+export default function TextAreaCustom(props: Props) {
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState<string | number>();
   const [valid, setValid] = useState(true);
@@ -26,9 +26,9 @@ export default function InputCustom(props: Props) {
   const handleClickOutside = () => {
     setFocus(false);
   };
-  // useEffect(() => {
-
-  // }, [value]);
+  useEffect(() => {
+    props.onChange?.(value || undefined);
+  }, [props, value]);
   useOnClickOutside(divRef, handleClickOutside);
   return (
     <div
@@ -43,7 +43,7 @@ export default function InputCustom(props: Props) {
       >
         <Flex vertical gap={1}>
           <Space
-            className={`w-full text-[#9b9b9b] transition-all text-[14px] ${
+            className={`w-full text-[#b4b4b4] transition-all text-[14px] ${
               (focus || value === 0 || value) && '!text-[12px] font-medium'
             }`}
           >
@@ -53,12 +53,13 @@ export default function InputCustom(props: Props) {
               : ''}
           </Space>
           {(focus || value === 0 || value) && (
-            <Input
+            <Input.TextArea
+              autoSize
               onChange={(e) => {
                 if (props.type === 'number') {
                   Number(e.target.value || 0)
                     ? setValue(e.target.value)
-                    : setValue('');
+                    : setValue(0);
                   Number(e.target.value || 0)
                     ? setValid(true)
                     : setValid(false);
@@ -71,7 +72,7 @@ export default function InputCustom(props: Props) {
                 }
               }}
               value={value || ''}
-              className="!p-0"
+              className={`!p-0 ${focus && '!min-h-[100px]'}`}
               ref={inputRef}
               placeholder="Borderless"
               variant="borderless"

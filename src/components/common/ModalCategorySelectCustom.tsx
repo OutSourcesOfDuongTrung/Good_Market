@@ -1,5 +1,5 @@
 import { Modal, Space } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Span } from 'next/dist/trace';
 import {
   CaretDownOutlined,
@@ -13,17 +13,20 @@ interface Props {
   required?: boolean;
   label: string;
   className?: string;
+  onChange?: (e: string | number | undefined) => void;
 }
-export default function ModalSelectCustom(props: Props) {
+export default function ModalCategorySelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [value, setValue] = useState('');
-
+  useEffect(() => {
+    props.onChange?.(value || undefined);
+  }, [props, value]);
   return (
-    <div className="w-full ">
+    <div className={`w-full  ${props.className}`}>
       <div
         onClick={() => setShowModal(true)}
-        className={`w-full relative flex justify-between px-[10px] rounded-lg border ${
+        className={`w-full relative flex justify-between px-[10px] rounded-lg border bg-[#f1f1f1] ${
           value ? 'py-[5px]' : 'py-[15px] '
         }`}
       >

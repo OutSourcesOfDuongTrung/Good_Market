@@ -2,6 +2,7 @@
 import CardItem from '@/components/common/CardItem';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Badge, Carousel, Image } from 'antd';
+import Link from 'next/link';
 import React, { useRef } from 'react';
 
 export default function HomePage() {
@@ -60,19 +61,21 @@ export default function HomePage() {
         >
           <div className="w-[130%] flex flex-col h-[300px] flex-wrap gap-x-2 justify-between">
             {[...Array(15)].map((item, index) => (
-              <div key={index} className="flex w-[100px] flex-col items-start">
-                <Image
-                  preview={false}
-                  width={100}
-                  height={100}
-                  className="rounded-xl object-cover"
-                  src=""
-                  alt=""
-                />
-                <p className="text-wrap text-center text-[12px] font-medium">
-                  Nội thất cây cảnh
-                </p>
-              </div>
+              <Link key={index} href={'/work'}>
+                <div className="flex w-[100px] flex-col items-start">
+                  <Image
+                    preview={false}
+                    width={100}
+                    height={100}
+                    className="rounded-xl object-cover"
+                    src=""
+                    alt=""
+                  />
+                  <p className="text-wrap text-center text-[12px] font-medium">
+                    Nội thất cây cảnh
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

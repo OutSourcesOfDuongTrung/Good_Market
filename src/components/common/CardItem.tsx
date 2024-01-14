@@ -1,12 +1,19 @@
 import { Avatar, Badge, Image, Space } from 'antd';
+import Link from 'next/link';
 import React from 'react';
 
-export default function CardItem({ ribbon }: { ribbon?: string }) {
+interface Props {
+  ribbon?: string;
+  imageHeight?: number;
+  imageWidth?: number;
+}
+
+export default function CardItem(props: Props) {
   const children = (
     <div className="w-fit bg-white shadow-[0_2px_8px_rgba(0,0,0,.15)] p-[10px] rounded-lg">
       <Image
-        width={200}
-        height={230}
+        width={props.imageWidth ? props.imageWidth : 200}
+        height={props.imageHeight ? props.imageHeight : 230}
         preview={false}
         className="object-cover rounded-lg overflow-hidden"
         alt={''}
@@ -32,10 +39,12 @@ export default function CardItem({ ribbon }: { ribbon?: string }) {
     </div>
   );
 
-  return ribbon ? (
-    <Badge.Ribbon color="red" placement="start" text="Hippies">
-      {children}
-    </Badge.Ribbon>
+  return props.ribbon ? (
+    <Link href={'/product/1'}>
+      <Badge.Ribbon color="red" placement="start" text="Hippies">
+        {children}
+      </Badge.Ribbon>
+    </Link>
   ) : (
     children
   );

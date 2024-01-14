@@ -20,9 +20,15 @@ export default function RootLayout({
           Input: {
             paddingBlock: 10,
           },
+          Pagination: {
+            itemActiveBg: '#f26622',
+            // colorLinkActive: '#ffffff',
+            // colorBgTextHover: '#ffffff',
+          },
         },
         token: {
           colorPrimary: '#5d5386',
+          // colorBgTextActive: '#ffffff',
         },
       }}
     >
