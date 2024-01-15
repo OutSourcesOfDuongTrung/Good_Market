@@ -35,6 +35,9 @@ export default function CardItemHorizontalManager() {
             Hiện thị: <b className="text-[#9b9b9b]">03/06/23 - 07/10/23</b>
           </p>
         </Flex>
+        <button className="absolute bottom-5 text-[12px] font-semibold right-5 px-[20px] py-[5px] border border-green-500 text-green-500 rounded-lg">
+          Đợi duyệt
+        </button>
         <Dropdown
           placement="bottomRight"
           menu={{

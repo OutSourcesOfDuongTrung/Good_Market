@@ -5,6 +5,7 @@ import {
   BellOutlined,
   CaretLeftOutlined,
   CaretRightOutlined,
+  HeartOutlined,
   ImportOutlined,
   LogoutOutlined,
   MenuOutlined,
@@ -14,18 +15,30 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Dropdown, Image, Input, Modal, Popover, Space } from 'antd';
+import {
+  Avatar,
+  Dropdown,
+  Flex,
+  Image,
+  Input,
+  Modal,
+  Popover,
+  Space,
+} from 'antd';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useOnClickOutside } from 'usehooks-ts';
 
 export default function Header() {
   const [showModalMenu, setShowModalMenu] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
+  const ref = useRef<HTMLElement>(null);
   const handleLogout = () => {
     dispatch(logout());
     deleteCookie('access');
@@ -33,6 +46,13 @@ export default function Header() {
     router.push('/auth');
     // setShowModal(true);
   };
+  const redirectURL = (url: string) => {
+    router.push(url);
+    setOpenMenu(false);
+  };
+  useOnClickOutside(ref, () => {
+    setOpenMenu(false);
+  });
   return (
     <div className="w-full flex items-center justify-between gap-x-5 px-[200px] py-[10px] bg-[#ffba00]">
       <div className="w-2/3 flex items-center gap-x-3 ">
@@ -108,28 +128,79 @@ export default function Header() {
           <BellOutlined />
           <MessageOutlined />
           <AimOutlined />
-          <Popover
-            trigger={['click']}
-            // getPopupContainer={(trigger) => trigger.parentNode as HTMLElement}
-            content={
-              <div>
-                <div
-                  className="min-w-[200px] items-center flex py-[10px] font-medium text-[16px] space-x-3 px-[5px] rounded-xl"
-                  onClick={
-                    user.logged ? handleLogout : () => router.push('/auth')
-                  }
+
+          <div className="relative cursor-pointer">
+            <UserOutlined onClick={() => setOpenMenu(true)} />
+            {openMenu && (
+              <Flex
+                ref={ref}
+                vertical
+                className="absolute min-w-[250px] -translate-x-1/2 z-[9999] text-[14px] top-full bg-white rounded-lg shadow-lg"
+              >
+                <Flex
+                  gap={15}
+                  align="center"
+                  className="font-semibold text-[14px] p-[10px]"
                 >
-                  <div className="w-[30px]">
+                  <Avatar size={50} />
+                  <p className=" uppercase font-semibold">
+                    Đăng nhập / Đăng kí
+                  </p>
+                </Flex>
+                <Flex vertical>
+                  <p className="bg-[#f4f4f4]  px-[10px] py-[5px] text-[#9b9b9b] font-semibold">
+                    Tiện ích
+                  </p>
+                  <Space
+                    onClick={() => redirectURL('/save-post')}
+                    className="font-medium p-[10px] hover:bg-[#e1e1e1]"
+                  >
+                    <HeartOutlined />
+                    Tin đã lưu
+                  </Space>
+                </Flex>
+                <Flex vertical>
+                  <p className="bg-[#f4f4f4] px-[10px] py-[5px] text-[#9b9b9b] font-semibold">
+                    Tiện ích
+                  </p>
+                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                    <HeartOutlined />
+                    Tạo cửa hàng/Chuyên trang
+                  </Space>
+                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                    <HeartOutlined />
+                    Lịch sử giao dịch
+                  </Space>
+                </Flex>
+                <Flex vertical>
+                  <p className="bg-[#f4f4f4] px-[10px] py-[5px] text-[#9b9b9b] font-semibold">
+                    Khác
+                  </p>
+                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                    <HeartOutlined />
+                    Cài đặt tài khoản
+                  </Space>
+                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                    <HeartOutlined />
+                    Trợ giúp
+                  </Space>
+                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                    <HeartOutlined />
+                    Đóng góp ý kiến
+                  </Space>
+                  <Space
+                    className="font-medium p-[10px] hover:bg-[#e1e1e1]"
+                    onClick={
+                      user.logged ? handleLogout : () => router.push('/auth')
+                    }
+                  >
                     {user.logged ? <LogoutOutlined /> : <UserAddOutlined />}
-                  </div>
-                  <p>{`${user.logged ? 'Đăng xuất' : 'Đăng nhập'}`}</p>
-                </div>
-              </div>
-            }
-            placement={'bottom'}
-          >
-            <UserOutlined />
-          </Popover>
+                    {user.logged ? 'Đăng xuất' : 'Đăng nhập'}
+                  </Space>
+                </Flex>
+              </Flex>
+            )}
+          </div>
         </div>
         <Link href={'/creat-post'}>
           <Space className="bg-[#dd8500] text-white rounded-md px-[15px] py-[5px]">
