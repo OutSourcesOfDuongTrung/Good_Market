@@ -102,36 +102,34 @@ export default function Header() {
       </div>
       <div className="w-1/3 flex gap-x-5">
         <div className="flex gap-x-6 text-[24px]">
-          <ProfileOutlined />
+          <Link href={'/post-manager'}>
+            <ProfileOutlined />
+          </Link>
           <BellOutlined />
           <MessageOutlined />
           <AimOutlined />
-          <Dropdown
-            getPopupContainer={(trigger) => trigger.parentNode as HTMLElement}
-            menu={{
-              items: [
-                {
-                  label: (
-                    <div
-                      className="min-w-[200px] items-center flex py-[10px] font-medium text-[16px] space-x-3 px-[5px] rounded-xl"
-                      onClick={
-                        user.logged ? handleLogout : () => router.push('/auth')
-                      }
-                    >
-                      <div className="w-[30px]">
-                        {user.logged ? <LogoutOutlined /> : <UserAddOutlined />}
-                      </div>
-                      <p>{`${user.logged ? 'Đăng xuất' : 'Đăng nhập'}`}</p>
-                    </div>
-                  ),
-                  key: '5',
-                },
-              ],
-            }}
-            placement={'bottomLeft'}
+          <Popover
+            trigger={['click']}
+            // getPopupContainer={(trigger) => trigger.parentNode as HTMLElement}
+            content={
+              <div>
+                <div
+                  className="min-w-[200px] items-center flex py-[10px] font-medium text-[16px] space-x-3 px-[5px] rounded-xl"
+                  onClick={
+                    user.logged ? handleLogout : () => router.push('/auth')
+                  }
+                >
+                  <div className="w-[30px]">
+                    {user.logged ? <LogoutOutlined /> : <UserAddOutlined />}
+                  </div>
+                  <p>{`${user.logged ? 'Đăng xuất' : 'Đăng nhập'}`}</p>
+                </div>
+              </div>
+            }
+            placement={'bottom'}
           >
             <UserOutlined />
-          </Dropdown>
+          </Popover>
         </div>
         <Link href={'/creat-post'}>
           <Space className="bg-[#dd8500] text-white rounded-md px-[15px] py-[5px]">
