@@ -15,6 +15,7 @@ interface Props {
   label: string;
   className?: string;
   type?: 'text' | 'number';
+  onChange?: (e: string | number | undefined) => void;
 }
 
 export default function InputCustom(props: Props) {
@@ -26,9 +27,9 @@ export default function InputCustom(props: Props) {
   const handleClickOutside = () => {
     setFocus(false);
   };
-  // useEffect(() => {
-
-  // }, [value]);
+  useEffect(() => {
+    props.onChange?.(value);
+  }, [props, value]);
   useOnClickOutside(divRef, handleClickOutside);
   return (
     <div
