@@ -11,6 +11,7 @@ import Dragger from 'antd/es/upload/Dragger';
 import Link from 'next/link';
 import React, { createContext, useEffect, useState } from 'react';
 import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
+import PreviewProduct from '@/components/common/PreviewProduct';
 
 export const PreviewDataContext = createContext<{
   previewData?: object;
@@ -24,6 +25,7 @@ export default function CreatePostPage() {
   }, [previewData]);
   return (
     <div className="w-3/5 flex flex-col gap-y-5 py-[20px] px-[10px] m-auto bg-white mt-[20px] rounded-lg">
+      {/* <PreviewProduct /> */}
       <div className="w-full flex gap-x-5">
         <div className="flex-1">
           <b>Ảnh / video sản phẩm</b>

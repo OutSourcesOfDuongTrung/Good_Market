@@ -5,6 +5,7 @@ import {
   BellOutlined,
   CaretLeftOutlined,
   CaretRightOutlined,
+  CloseCircleFilled,
   HeartOutlined,
   ImportOutlined,
   LogoutOutlined,
@@ -30,15 +31,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
+import NotificationItem from './common/NotificationItem';
 
 export default function Header() {
   const [showModalMenu, setShowModalMenu] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [openNotification, setOpenNotification] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
   const ref = useRef<HTMLElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
   const handleLogout = () => {
     dispatch(logout());
     deleteCookie('access');
@@ -49,9 +53,13 @@ export default function Header() {
   const redirectURL = (url: string) => {
     router.push(url);
     setOpenMenu(false);
+    setOpenNotification(false);
   };
   useOnClickOutside(ref, () => {
     setOpenMenu(false);
+  });
+  useOnClickOutside(notificationRef, () => {
+    setOpenNotification(false);
   });
   return (
     <div className="w-full flex items-center justify-between gap-x-5 px-[200px] py-[10px] bg-[#ffba00]">
@@ -125,8 +133,38 @@ export default function Header() {
           <Link href={'/post-manager'}>
             <ProfileOutlined />
           </Link>
-          <BellOutlined />
-          <MessageOutlined />
+          <div className="relative">
+            <BellOutlined onClick={() => setOpenNotification(true)} />
+            {openNotification && (
+              <div
+                ref={notificationRef}
+                className="w-[400px] absolute top-[120%] -translate-x-1/2 z-[9999] bg-white rounded-lg  shadow-xl"
+              >
+                <Flex className="px-[10px] pt-[10px] justify-between">
+                  <b>Thông báo</b>
+                  <CloseCircleFilled
+                    onClick={() => setOpenNotification(false)}
+                  />
+                </Flex>
+                <Flex gap={10} className="p-[10px]">
+                  <p className="bg-[#ffe9c2] px-[20px] py-[3px] text-[#ffa031] rounded-full text-[14px]">
+                    Tất cả
+                  </p>
+                  <p className="bg-[#ffe9c2] px-[20px] py-[3px] text-[#ffa031] rounded-full text-[14px]">
+                    Chưa xem
+                  </p>
+                </Flex>
+                <Flex vertical className="border-t border-[#ffa031]">
+                  {[...Array(5)].map((_, index) => (
+                    <NotificationItem key={index} />
+                  ))}
+                </Flex>
+              </div>
+            )}
+          </div>
+          <Link href={'/chat'}>
+            <MessageOutlined />
+          </Link>
           <AimOutlined />
 
           <div className="relative cursor-pointer">
