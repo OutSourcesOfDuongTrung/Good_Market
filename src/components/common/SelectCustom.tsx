@@ -10,13 +10,14 @@ interface Props {
   className?: string;
   data: IJob[];
   onChange?: (e: string | number | undefined) => void;
+  defaultValue?: string | number;
 }
 
 export default function SelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [focus, setFocus] = useState(false);
-  const [value, setValue] = useState<string | number>();
+  const [value, setValue] = useState(props.defaultValue);
   const divRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = () => {

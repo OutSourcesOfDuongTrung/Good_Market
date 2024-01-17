@@ -14,11 +14,12 @@ interface Props {
   label: string;
   className?: string;
   onChange?: (e: string | number | undefined) => void;
+  defaultValue?: string | number;
 }
 export default function ModalCategorySelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(props.defaultValue);
   useEffect(() => {
     props.onChange?.(value || undefined);
   }, [props, value]);

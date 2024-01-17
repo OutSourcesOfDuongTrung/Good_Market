@@ -8,7 +8,11 @@ import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import { fetchCareerList } from '@/api/jobRequest';
 import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/creat-post/page';
 
-export default function CreatePostWorkForm() {
+interface Props {
+  onPreview?: () => void;
+}
+
+export default function CreatePostWorkForm(props: Props) {
   const [careerList, setCareerList] = useState<IJob[]>([]);
   const [careerId, setCareerId] = useState<string | number>();
   const [adressId, setAdressId] = useState<string | number>();
@@ -52,6 +56,7 @@ export default function CreatePostWorkForm() {
         <SelectCustom
           onChange={(e) => setCareerId(e)}
           data={careerList}
+          defaultValue={data.previewData?.careerId}
           label={'Nghành nghề'}
         />
         <SelectCustom
@@ -90,7 +95,10 @@ export default function CreatePostWorkForm() {
         />
         <Flex gap={20}>
           <button
-            onClick={() => data.setPreviewData?.(previewData)}
+            onClick={() => {
+              data.setPreviewData?.(previewData);
+              props.onPreview?.();
+            }}
             className="flex-1 py-[10px] rounded-lg border text-[#da7502] border-[#da7502]  hover:bg-[#ffe9c2]"
           >
             Xem trước

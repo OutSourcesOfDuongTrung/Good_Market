@@ -14,50 +14,56 @@ import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 import PreviewProduct from '@/components/common/PreviewProduct';
 
 export const PreviewDataContext = createContext<{
-  previewData?: object;
+  previewData?: {
+    careerId?: number | string;
+  };
   setPreviewData?: React.Dispatch<React.SetStateAction<{}>>;
 }>({});
 export default function CreatePostPage() {
   const [categoryId, setCategoryId] = useState<string | number>();
   const [previewData, setPreviewData] = useState({});
+  const [preview, setPreview] = useState(false);
   useEffect(() => {
     console.log(previewData);
   }, [previewData]);
   return (
     <div className="w-3/5 flex flex-col gap-y-5 py-[20px] px-[10px] m-auto bg-white mt-[20px] rounded-lg">
-      {/* <PreviewProduct /> */}
-      <div className="w-full flex gap-x-5">
-        <div className="flex-1">
-          <b>Ảnh / video sản phẩm</b>
-          <Space className="flex text-[#9b9b9b] text-[13px]">
-            Xem thêm về
-            <Link href="/">
-              <p className="text-blue-500 underline text-wrap">
-                Quy định đăng tin của chợ tốt
-              </p>
-            </Link>
-          </Space>
-          <div className="w-[300px] h-[200px] flex items-center justify-center">
-            <Dragger>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-            </Dragger>
-          </div>
-        </div>
-        <div className="flex-[2_2_0%]">
+      {preview ? (
+        <PreviewProduct onCancel={() => setPreview(false)} />
+      ) : (
+        <div className="w-full flex gap-x-5">
           <PreviewDataContext.Provider value={{ previewData, setPreviewData }}>
-            <ModalCategorySelectCustom
-              onChange={(e) => setCategoryId(e)}
-              label="Danh mục tin đăng"
-            />
-            <CreatePostWorkForm />
+            <div className="flex-1">
+              <b>Ảnh / video sản phẩm</b>
+              <Space className="flex text-[#9b9b9b] text-[13px]">
+                Xem thêm về
+                <Link href="/">
+                  <p className="text-blue-500 underline text-wrap">
+                    Quy định đăng tin của chợ tốt
+                  </p>
+                </Link>
+              </Space>
+              <div className="w-[300px] h-[200px] flex items-center justify-center">
+                <Dragger>
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">
+                    Click or drag file to this area to upload
+                  </p>
+                </Dragger>
+              </div>
+            </div>
+            <div className="flex-[2_2_0%]">
+              <ModalCategorySelectCustom
+                onChange={(e) => setCategoryId(e)}
+                label="Danh mục tin đăng"
+              />
+              <CreatePostWorkForm onPreview={() => setPreview(true)} />
+            </div>
           </PreviewDataContext.Provider>
         </div>
-      </div>
+      )}
     </div>
   );
 }
