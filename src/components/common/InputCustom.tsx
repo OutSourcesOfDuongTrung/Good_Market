@@ -14,13 +14,16 @@ interface Props {
   required?: boolean;
   label: string;
   className?: string;
+  defaultValue?: string | number | undefined;
   type?: 'text' | 'number';
   onChange?: (e: string | number | undefined) => void;
 }
 
 export default function InputCustom(props: Props) {
   const [focus, setFocus] = useState(false);
-  const [value, setValue] = useState<string | number>();
+  const [value, setValue] = useState<string | number | undefined>(
+    props.defaultValue
+  );
   const [valid, setValid] = useState(true);
   const inputRef = useRef<InputRef>(null);
   const divRef = useRef<HTMLDivElement>(null);

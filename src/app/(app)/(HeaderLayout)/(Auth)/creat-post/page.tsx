@@ -14,9 +14,7 @@ import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 import PreviewProduct from '@/components/common/PreviewProduct';
 
 export const PreviewDataContext = createContext<{
-  previewData?: {
-    careerId?: number | string;
-  };
+  previewData?: IJobPostCreate;
   setPreviewData?: React.Dispatch<React.SetStateAction<{}>>;
 }>({});
 export default function CreatePostPage() {

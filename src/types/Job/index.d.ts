@@ -57,6 +57,26 @@ interface IJobPost {
   Creation_time: string;
   Update_time: string;
 }
+interface IJobPostCreate {
+  images_A1_data?: ImageData[];
+  Location?: number | string;
+  Address?: number | string;
+  Career?: number | string;
+  Type_of_work?: number | string;
+  Pay_forms?: number | string;
+  Sex?: number | string;
+  Experience?: number | string;
+  Map?: number | string;
+  Title?: string;
+  Number_of_recruitment?: number;
+  Wage?: number;
+  Detailed_description?: string;
+  Minimum_age?: number;
+  Maximum_age?: number;
+  Video?: string;
+  Contact_phone_number?: string;
+  Url?: string;
+}
 
 interface IGoodHousePost {
   id: number;

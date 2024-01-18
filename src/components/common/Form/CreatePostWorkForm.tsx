@@ -5,7 +5,12 @@ import InputCustom from '../InputCustom';
 import TextAreaCustom from '../TextAreaCustom';
 import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
-import { fetchCareerList } from '@/api/jobRequest';
+import {
+  fetchCareerList,
+  fetchExperienceList,
+  fetchPayFormsList,
+  fetchWorkTypeList,
+} from '@/api/jobRequest';
 import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/creat-post/page';
 
 interface Props {
@@ -14,69 +19,117 @@ interface Props {
 
 export default function CreatePostWorkForm(props: Props) {
   const [careerList, setCareerList] = useState<IJob[]>([]);
+  const [experienceList, setExperienceList] = useState<IJob[]>([]);
+  const [payFormsList, setPayFormsList] = useState<IJob[]>([]);
+  const [workTypeList, setWorkTypeList] = useState<IJob[]>([]);
   const [careerId, setCareerId] = useState<string | number>();
   const [adressId, setAdressId] = useState<string | number>();
   const [workTypeId, setWorkTypeId] = useState<string | number>();
   const [payMethodId, setPayMethodId] = useState<string | number>();
-  const [title, setTitle] = useState<string | number>();
+  const [minAge, setMinAge] = useState<number>();
+  const [maxAge, setMaxAge] = useState<number>();
+  const [wage, setWage] = useState<number>();
+  const [recruitmentTotal, setRecruitmentTotal] = useState<number>();
+  const [title, setTitle] = useState<string>();
   const [genderId, setGenderId] = useState<string | number>();
   const [experienceId, setExperienceId] = useState<string | number>();
   const data = useContext(PreviewDataContext);
 
-  const previewData = {
-    title,
-    careerId,
-    adressId,
-    workTypeId,
-    payMethodId,
-    genderId,
-    experienceId,
+  const previewData: IJobPostCreate = {
+    images_A1_data: [],
+    Location: undefined,
+    Address: adressId,
+    Career: careerId,
+    Type_of_work: workTypeId,
+    Pay_forms: payMethodId,
+    Sex: genderId,
+    Experience: experienceId,
+    Map: undefined,
+    Title: title,
+    Number_of_recruitment: recruitmentTotal,
+    Wage: wage,
+    Detailed_description: '',
+    Minimum_age: minAge,
+    Maximum_age: maxAge,
+    Video: '',
+    Contact_phone_number: '',
+    Url: '',
   };
 
   useEffect(() => {
     fetchCareerList().then((res) => setCareerList(res.data.data || []));
+    fetchExperienceList().then((res) => setExperienceList(res.data.data || []));
+    fetchPayFormsList().then((res) => setPayFormsList(res.data.data || []));
+    fetchWorkTypeList().then((res) => setWorkTypeList(res.data.data || []));
   }, []);
   return (
     <Flex vertical>
-      <p className="py-[30px] text-[20px] font-bold">
+      <p className="py-[30px] text-[20px] font-bAge">
         Thông tin nhà tuyển dụng
       </p>
       <ModalLocationSelectCustom
         onChange={(e) => setAdressId(e)}
         label={'Địa chỉ'}
       />
-      <p className="py-[30px] text-[20px] font-bold">Nội dung đăng tuyển</p>
+      <p className="py-[30px] text-[20px] font-bAge">Nội dung đăng tuyển</p>
       <Flex vertical gap={20}>
         <InputCustom
           required
-          onChange={(e) => setTitle(e)}
+          defaultValue={data.previewData?.Title}
+          onChange={(e) => setTitle(e as string | undefined)}
           label={'Tiêu đề tin đăng'}
         />
-        <InputCustom required type="number" label={'Số lượng tuyển dụng'} />
+        <InputCustom
+          required
+          type="number"
+          defaultValue={data.previewData?.Number_of_recruitment}
+          onChange={(e) => setRecruitmentTotal(e as number | undefined)}
+          label={'Số lượng tuyển dụng'}
+        />
         <SelectCustom
           onChange={(e) => setCareerId(e)}
           data={careerList}
-          defaultValue={data.previewData?.careerId}
+          defaultValue={data.previewData?.Career}
           label={'Nghành nghề'}
         />
         <SelectCustom
           onChange={(e) => setWorkTypeId(e)}
-          data={[]}
+          data={workTypeList}
+          defaultValue={data.previewData?.Type_of_work}
           label={'Loại công việc'}
         />
         <SelectCustom
           onChange={(e) => setPayMethodId(e)}
-          data={[]}
+          data={payFormsList}
+          defaultValue={data.previewData?.Pay_forms}
           required
           label={'Hình thức trả lương'}
         />
-        <InputCustom required type="number" label={'Lương'} />
+        <InputCustom
+          required
+          defaultValue={data.previewData?.Wage}
+          onChange={(e) => setWage(e as number | undefined)}
+          type="number"
+          label={'Lương'}
+        />
         <TextAreaCustom required label={'Mô tả chi tiết'} />
-        <p className="py-[10px] text-[20px] font-bold">Thông tin thêm</p>
+        <p className="py-[10px] text-[20px] font-bAge">Thông tin thêm</p>
 
         <Flex gap={20}>
-          <InputCustom required type="number" label={'Độ tuổi tối thiểu'} />
-          <InputCustom required type="number" label={'Độ tuổi tối đa'} />
+          <InputCustom
+            required
+            type="number"
+            defaultValue={data.previewData?.Minimum_age}
+            onChange={(e) => setMinAge(e as number)}
+            label={'Độ tuổi tối thiểu'}
+          />
+          <InputCustom
+            required
+            defaultValue={data.previewData?.Maximum_age}
+            onChange={(e) => setMaxAge(e as number)}
+            type="number"
+            label={'Độ tuổi tối đa'}
+          />
         </Flex>
         <Space
           className={`w-full text-[#9b9b9b] transition-all !text-[12px] font-medium`}
@@ -89,7 +142,8 @@ export default function CreatePostWorkForm(props: Props) {
         </Flex>
         <SelectCustom
           onChange={(e) => setExperienceId(e)}
-          data={[]}
+          data={experienceList}
+          defaultValue={data.previewData?.Experience}
           required
           label={'Kinh nghiệm'}
         />
