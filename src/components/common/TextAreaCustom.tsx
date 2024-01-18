@@ -15,11 +15,14 @@ interface Props {
   label: string;
   className?: string;
   type?: 'text' | 'number';
+  defaultValue?: string | number | undefined;
   onChange?: (e: string | number | undefined) => void;
 }
 export default function TextAreaCustom(props: Props) {
   const [focus, setFocus] = useState(false);
-  const [value, setValue] = useState<string | number>();
+  const [value, setValue] = useState<string | number | undefined>(
+    props.defaultValue
+  );
   const [valid, setValid] = useState(true);
   const inputRef = useRef<InputRef>(null);
   const divRef = useRef<HTMLDivElement>(null);
