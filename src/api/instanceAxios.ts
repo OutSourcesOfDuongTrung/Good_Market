@@ -1,3 +1,4 @@
+import { message, notification } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { getCookie, deleteCookie } from 'cookies-next';
 
@@ -19,4 +20,22 @@ const instanceAxios = axios.create({
 // instanceAxios.interceptors.response.use(handleSuccess, handleError);
 if (cookie)
   instanceAxios.defaults.headers.common.Authorization = `Bearer ${cookie}`;
+// instanceAxios.interceptors.response.use(
+//   function (response) {
+//     // Bất kì mã trạng thái nào nằm trong tầm 2xx đều khiến hàm này được trigger
+//     // Làm gì đó với dữ liệu response
+//     return response;
+//   },
+//   function (error) {
+//     if (error.response.status >= 500) {
+//       notification.error({
+//         message: 'Lỗi server',
+//         description: 'Có 1 số vấn đề ở server',
+//       });
+//     }
+//     // Bất kì mã trạng thái nào lọt ra ngoài tầm 2xx đều khiến hàm này được trigger\
+//     // Làm gì đó với lỗi response
+//     return Promise.reject(error);
+//   }
+// );
 export default instanceAxios;

@@ -1,65 +1,125 @@
 'use client';
-import { fetchCareerList } from '@/api/jobRequest';
-import InputCustom from '@/components/common/InputCustom';
-import ModalLocationSelectCustom from '@/components/common/ModalLocationSelectCustom';
+import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 import ModalCategorySelectCustom from '@/components/common/ModalCategorySelectCustom';
-import SelectCustom from '@/components/common/SelectCustom';
-import TextAreaCustom from '@/components/common/TextAreaCustom';
-import { CloudUploadOutlined, InboxOutlined } from '@ant-design/icons';
-import { Flex, Input, Space } from 'antd';
+import PreviewProduct from '@/components/common/PreviewProduct';
+import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { GetProp, Image, Modal, Space, UploadFile, UploadProps } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import Link from 'next/link';
-import React, { createContext, useEffect, useState } from 'react';
-import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
-import PreviewProduct from '@/components/common/PreviewProduct';
+import { useContext, useEffect, useState } from 'react';
+import { PreviewDataContext } from '../layout';
 
-export const PreviewDataContext = createContext<{
-  previewData?: IJobPostCreate;
-  setPreviewData?: React.Dispatch<React.SetStateAction<{}>>;
-}>({});
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+const getBase64 = (file: FileType): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+
 export default function CreatePostPage() {
+  const previewData = useContext(PreviewDataContext);
   const [categoryId, setCategoryId] = useState<string | number>();
-  const [previewData, setPreviewData] = useState({});
   const [preview, setPreview] = useState(false);
-  useEffect(() => {
-    console.log(previewData);
-  }, [previewData]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    previewData.previewData?.images_A1_data || []
+  );
+
+  // useEffect(() => {
+
+  // }, [fileList]);
+
+  const handleCancel = () => setPreviewOpen(false);
+
+  const handlePreview: (file: UploadFile) => Promise<void> = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as FileType);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name ||
+        (file.url ? file.url.substring(file.url.lastIndexOf('/') + 1) : '')
+    );
+  };
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    const newList: UploadFile<any>[] = newFileList.map((item) => ({
+      ...item,
+      status: 'done',
+    }));
+    setFileList(newList);
+    previewData.setPreviewData?.((prevData) => ({
+      ...prevData,
+      images_A1_data: newList,
+    }));
+  };
+
+  const uploadButton = (
+    <button style={{ border: 0, background: 'none' }} type="button">
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
   return (
     <div className="w-3/5 flex flex-col gap-y-5 py-[20px] px-[10px] m-auto bg-white mt-[20px] rounded-lg">
       {preview ? (
         <PreviewProduct onCancel={() => setPreview(false)} />
       ) : (
         <div className="w-full flex gap-x-5">
-          <PreviewDataContext.Provider value={{ previewData, setPreviewData }}>
-            <div className="flex-1">
-              <b>Ảnh / video sản phẩm</b>
-              <Space className="flex text-[#9b9b9b] text-[13px]">
-                Xem thêm về
-                <Link href="/">
-                  <p className="text-blue-500 underline text-wrap">
-                    Quy định đăng tin của chợ tốt
-                  </p>
-                </Link>
-              </Space>
-              <div className="w-[300px] h-[200px] flex items-center justify-center">
-                <Dragger>
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                  </p>
-                  <p className="ant-upload-text">
-                    Click or drag file to this area to upload
-                  </p>
-                </Dragger>
-              </div>
+          <div className="flex-1">
+            <b>Ảnh / video sản phẩm</b>
+            <Space className="flex text-[#9b9b9b] text-[13px]">
+              Xem thêm về
+              <Link href="/">
+                <p className="text-blue-500 underline text-wrap">
+                  Quy định đăng tin của chợ tốt
+                </p>
+              </Link>
+            </Space>
+            <div className="w-[300px] min-h-[200px] flex items-center justify-center">
+              <Dragger
+                className="truncate"
+                name="images_A1_data"
+                listType="picture"
+                fileList={fileList}
+                onPreview={handlePreview}
+                onChange={handleChange}
+              >
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+              </Dragger>
+              <Modal
+                open={previewOpen}
+                title={previewTitle}
+                footer={null}
+                onCancel={handleCancel}
+              >
+                <Image
+                  alt="example"
+                  style={{ width: '100%' }}
+                  src={previewImage}
+                />
+              </Modal>
             </div>
-            <div className="flex-[2_2_0%]">
-              <ModalCategorySelectCustom
-                onChange={(e) => setCategoryId(e)}
-                label="Danh mục tin đăng"
-              />
-              <CreatePostWorkForm onPreview={() => setPreview(true)} />
-            </div>
-          </PreviewDataContext.Provider>
+          </div>
+          <div className="flex-[2_2_0%]">
+            <ModalCategorySelectCustom
+              onChange={(e) => setCategoryId(e)}
+              label="Danh mục tin đăng"
+            />
+            <CreatePostWorkForm onPreview={() => setPreview(true)} />
+          </div>
         </div>
       )}
     </div>

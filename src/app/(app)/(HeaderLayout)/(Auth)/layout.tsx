@@ -2,14 +2,19 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Button, Result } from 'antd';
 import { getCookie } from 'cookies-next';
-import React, { useEffect, useState } from 'react';
-
+import React, { createContext, useEffect, useState } from 'react';
+export const PreviewDataContext = createContext<{
+  previewData?: IJobPostCreate;
+  setPreviewData?: React.Dispatch<React.SetStateAction<IJobPostCreate>>;
+}>({});
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [loadingPage, setLoadingPage] = useState(true);
+  const [previewData, setPreviewData] = useState<IJobPostCreate>({});
+
   // const logged = useAppSelector((state) => state.user.logged);
   const token = getCookie('access');
   useEffect(() => {
@@ -19,7 +24,9 @@ export default function AuthLayout({
     !loadingPage && (
       <>
         {token ? (
-          children
+          <PreviewDataContext.Provider value={{ previewData, setPreviewData }}>
+            {children}
+          </PreviewDataContext.Provider>
         ) : (
           <Result
             status="403"

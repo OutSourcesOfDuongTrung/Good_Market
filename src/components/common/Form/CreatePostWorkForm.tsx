@@ -1,23 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SelectCustom from '../SelectCustom';
-import { Flex, Space } from 'antd';
+import { Flex, Space, notification } from 'antd';
 import InputCustom from '../InputCustom';
 import TextAreaCustom from '../TextAreaCustom';
 import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import {
   fetchCareerList,
+  fetchCreateWorkPost,
   fetchExperienceList,
   fetchPayFormsList,
   fetchWorkTypeList,
 } from '@/api/jobRequest';
-import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/creat-post/page';
+import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 
 interface Props {
   onPreview?: () => void;
 }
 
 export default function CreatePostWorkForm(props: Props) {
+  const data = useContext(PreviewDataContext);
   const [careerList, setCareerList] = useState<IJob[]>([]);
   const [experienceList, setExperienceList] = useState<IJob[]>([]);
   const [payFormsList, setPayFormsList] = useState<IJob[]>([]);
@@ -31,12 +33,12 @@ export default function CreatePostWorkForm(props: Props) {
   const [wage, setWage] = useState<number>();
   const [recruitmentTotal, setRecruitmentTotal] = useState<number>();
   const [title, setTitle] = useState<string>();
-  const [genderId, setGenderId] = useState<string | number>();
+  const [genderId, setGenderId] = useState<string | number>(
+    data.previewData?.Sex || ''
+  );
   const [experienceId, setExperienceId] = useState<string | number>();
-  const data = useContext(PreviewDataContext);
 
   const previewData: IJobPostCreate = {
-    images_A1_data: [],
     Location: undefined,
     Address: adressId,
     Career: careerId,
@@ -62,6 +64,27 @@ export default function CreatePostWorkForm(props: Props) {
     fetchPayFormsList().then((res) => setPayFormsList(res.data.data || []));
     fetchWorkTypeList().then((res) => setWorkTypeList(res.data.data || []));
   }, []);
+
+  const onSubmit = async () => {
+    const body = {
+      ...data.previewData,
+      ...previewData,
+    };
+    await fetchCreateWorkPost(body)
+      .then((res) =>
+        notification.success({
+          message: 'Đã tạo',
+          description: 'Đã tạo bài đăng',
+        })
+      )
+      .catch((err) =>
+        notification.error({
+          message: 'Lỗi',
+          description: 'Tạo bài đăng thất bại',
+        })
+      );
+  };
+
   return (
     <Flex vertical>
       <p className="py-[30px] text-[20px] font-bAge">
@@ -136,9 +159,23 @@ export default function CreatePostWorkForm(props: Props) {
         >
           Giới tính <span className="text-red-500">*</span>
         </Space>
-        <Flex className="text-[14px]" gap={10}>
-          <p className="px-[20px] py-[5px] rounded-full bg-[#f4f4f4]">Nam</p>
-          <p className="px-[20px] py-[5px] rounded-full bg-[#f4f4f4]">Nữ</p>
+        <Flex className="text-[14px] cursor-pointer" gap={10}>
+          <p
+            onClick={() => setGenderId(1)}
+            className={`px-[20px] py-[5px] rounded-full bg-[#f4f4f4] ${
+              genderId === 1 && 'bg-[#ffe9c2] text-[#da7502]'
+            }`}
+          >
+            Nam
+          </p>
+          <p
+            onClick={() => setGenderId(2)}
+            className={`px-[20px] py-[5px] rounded-full bg-[#f4f4f4] ${
+              genderId === 2 && 'bg-[#ffe9c2] text-[#da7502]'
+            }`}
+          >
+            Nữ
+          </p>
         </Flex>
         <SelectCustom
           onChange={(e) => setExperienceId(e)}
@@ -150,14 +187,36 @@ export default function CreatePostWorkForm(props: Props) {
         <Flex gap={20}>
           <button
             onClick={() => {
-              data.setPreviewData?.(previewData);
+              data.setPreviewData?.((prevData) => ({
+                ...prevData,
+                Location: undefined,
+                Address: adressId,
+                Career: careerId,
+                Type_of_work: workTypeId,
+                Pay_forms: payMethodId,
+                Sex: genderId,
+                Experience: experienceId,
+                Map: undefined,
+                Title: title,
+                Number_of_recruitment: recruitmentTotal,
+                Wage: wage,
+                Detailed_description: '',
+                Minimum_age: minAge,
+                Maximum_age: maxAge,
+                Video: '',
+                Contact_phone_number: '',
+                Url: '',
+              }));
               props.onPreview?.();
             }}
             className="flex-1 py-[10px] rounded-lg border text-[#da7502] border-[#da7502]  hover:bg-[#ffe9c2]"
           >
             Xem trước
           </button>
-          <button className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]">
+          <button
+            onClick={onSubmit}
+            className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]"
+          >
             Đăng tin
           </button>
         </Flex>

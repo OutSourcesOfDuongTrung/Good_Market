@@ -1,12 +1,31 @@
+import { fetchCreateWorkPost } from '@/api/jobRequest';
+import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import { HeartFilled, ShareAltOutlined } from '@ant-design/icons';
-import { Flex, Image, Space } from 'antd';
-import React from 'react';
+import { Flex, Image, Space, notification } from 'antd';
+import React, { useContext } from 'react';
 
 interface Props {
   onCancel?: () => void;
 }
 
 export default function PreviewProduct(props: Props) {
+  const data = useContext(PreviewDataContext);
+  const onSubmit = async () => {
+    console.log(data.previewData);
+    await fetchCreateWorkPost(data.previewData)
+      .then((res) =>
+        notification.success({
+          message: 'Đã tạo',
+          description: 'Đã tạo bài đăng',
+        })
+      )
+      .catch((err) =>
+        notification.error({
+          message: 'Lỗi',
+          description: 'Tạo bài đăng thất bại',
+        })
+      );
+  };
   return (
     <div className="w-full">
       <div className="w-full bg-white p-[10px] rounded-lg">
@@ -92,7 +111,10 @@ export default function PreviewProduct(props: Props) {
         >
           Chỉnh sửa
         </button>
-        <button className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]">
+        <button
+          onClick={onSubmit}
+          className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]"
+        >
           Đăng tin
         </button>
       </Flex>

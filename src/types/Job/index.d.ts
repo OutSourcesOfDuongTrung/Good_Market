@@ -58,7 +58,7 @@ interface IJobPost {
   Update_time: string;
 }
 interface IJobPostCreate {
-  images_A1_data?: ImageData[];
+  images_A1_data?: UploadFile<any>[];
   Location?: number | string;
   Address?: number | string;
   Career?: number | string;

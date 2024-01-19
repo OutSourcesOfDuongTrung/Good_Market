@@ -1,12 +1,23 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import InputCustom from '@/components/common/InputCustom';
+import SelectCustom from '@/components/common/SelectCustom';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
   FormOutlined,
 } from '@ant-design/icons';
-import { Form, Image, Input, Modal, Popconfirm, Switch, message } from 'antd';
+import {
+  Flex,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Popconfirm,
+  Switch,
+  message,
+} from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -20,6 +31,8 @@ export default function GeographicalAreaAddressPage() {
   const [dataTotal, setDataTotal] = useState(0);
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [currentID, setCurrentID] = useState(0);
+  const [areaID, setAreaID] = useState(0);
+  const [addresValue, setAddresValue] = useState(0);
   const [currentValue, setcurrentValue] = useState('');
   const { mutate } = useSWRConfig();
   const [form] = useForm();
@@ -139,6 +152,12 @@ export default function GeographicalAreaAddressPage() {
           onFailed(err) {
             message.error(err.response.data.detail);
           },
+          childrenModal: (
+            <Flex gap={10}>
+              <SelectCustom data={[]} label={'qweqw'} />
+              <InputCustom label={'Địa chỉ'} />
+            </Flex>
+          ),
         }}
         columns={columns}
       />

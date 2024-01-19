@@ -1,6 +1,10 @@
 import { message } from 'antd';
 import instanceAxios from './instanceAxios';
 
+export const fetchCreateWorkPost = async (data?: IJobPostCreate) => {
+  return await instanceAxios.post(`job/items/`, data);
+};
+
 export const fetchCareerList = async (
   searchData?: string,
   currentPage?: number
@@ -12,6 +16,7 @@ export const fetchCareerList = async (
     },
   });
 };
+
 export const fetchExperienceList = async (
   searchData?: string,
   currentPage?: number
@@ -23,6 +28,7 @@ export const fetchExperienceList = async (
     },
   });
 };
+
 export const fetchPayFormsList = async (
   searchData?: string,
   currentPage?: number
@@ -34,6 +40,7 @@ export const fetchPayFormsList = async (
     },
   });
 };
+
 export const fetchWorkTypeList = async (
   searchData?: string,
   currentPage?: number
@@ -45,6 +52,7 @@ export const fetchWorkTypeList = async (
     },
   });
 };
+
 // export const fetchJobList = async (
 //   searchData?: string,
 //   currentPage?: number
