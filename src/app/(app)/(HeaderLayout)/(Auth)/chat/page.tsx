@@ -12,10 +12,14 @@ import React from 'react';
 
 export default function ChatPage() {
   return (
-    <div className="w-4/6 h-[630px] m-auto bg-white">
+    <div className="w-5/6 h-[630px] m-auto bg-white">
       <Flex className="h-full">
-        <Flex vertical justify="space-between" className="w-2/5 cursor-pointer">
-          <Flex vertical>
+        <Flex
+          vertical
+          justify="space-between"
+          className="w-2/5 h-full cursor-pointer"
+        >
+          <Flex vertical className="h-full">
             <Flex className="p-[10px]" gap={10}>
               <p className="bg-[#ffe9c2] px-[20px] py-[3px] text-[#ffa031] rounded-full text-[14px]">
                 Tất cả
@@ -27,16 +31,18 @@ export default function ChatPage() {
                 Tôi bán
               </p>
             </Flex>
-            <Flex vertical>
-              {[...Array(5)].map((_, index) => (
-                <MessageTabItem key={index} />
-              ))}
+            <Flex className="overflow-y-auto" vertical align="revert">
+              <Flex vertical>
+                {[...Array(100)].map((_, index) => (
+                  <MessageTabItem key={index} />
+                ))}
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex vertical>
-            <button className="w-fit m-auto px-[10px] py-[5px] rounded-lg border text-orange-600 border-orange-600">
-              Xóa cuộc trò chuyện
-            </button>
+            <Flex vertical className="">
+              <button className="w-fit my-[20px] m-auto px-[10px] py-[5px] rounded-lg border text-orange-600 border-orange-600">
+                Xóa cuộc trò chuyện
+              </button>
+            </Flex>
           </Flex>
         </Flex>
         <Flex vertical className="w-3/5 h-full text-[14px]">

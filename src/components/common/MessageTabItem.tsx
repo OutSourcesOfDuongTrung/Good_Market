@@ -25,7 +25,7 @@ export default function MessageTabItem() {
               Ô tô điện Vìnast
             </p>
             <Flex className="text-[12px] w-full text-[#b4b4b4]" gap={5}>
-              <p className=" font-medium truncate max-w-[170px]">
+              <p className=" font-medium truncate max-w-[200px]">
                 Xe này còn
                 khôngqweeeeeeeasddddddddddddddddddddddddddddddddddddddddddddddddd
               </p>
