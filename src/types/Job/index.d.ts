@@ -6,6 +6,14 @@ interface IJob {
   Update_time?: string; // Tương tự, nếu muốn xử lý ngày thì có thể sử dụng kiểu Date
 }
 
+interface ICategory {
+  key: string;
+  label: string;
+  children?: boolean;
+  url?: string;
+  icon: ReactNode;
+}
+
 interface IImage {
   id: number;
   Image: string;

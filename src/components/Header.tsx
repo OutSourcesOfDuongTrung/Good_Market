@@ -29,20 +29,36 @@ import {
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 import NotificationItem from './common/NotificationItem';
+import categoryList from '@/services/categoryList';
+import instanceAxios from '@/api/instanceAxios';
+import getListCategoryLinkAPI from '@/services/getListCategoryLinkAPI';
 
 export default function Header() {
   const [showModalMenu, setShowModalMenu] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
+  const [currentCategoryList, setCurrentCategoryList] = useState<IJob[]>([]);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
   const ref = useRef<HTMLElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
+
+  const fethCategoryList = async (url: string) => {
+    await instanceAxios
+      .get(url)
+      .then((res) => setCurrentCategoryList(res.data.data || []))
+      .catch((err) => console.log(err));
+  };
+  // useEffect(() => {
+  //   if (isSubMenu) {
+  //   }
+  // }, [isSubMenu]);
+
   const handleLogout = () => {
     dispatch(logout());
     deleteCookie('access');
@@ -105,19 +121,42 @@ export default function Header() {
             footer={[]}
           >
             <div className="rounded-lg border mx-[30px] overflow-hidden">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  onClick={() => setIsSubMenu(true)}
-                  className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
-                >
-                  <Space className="">
-                    {!isSubMenu && <ProfileOutlined />}
-                    Việc làm
-                  </Space>
-                  <CaretRightOutlined />
-                </div>
-              ))}
+              {isSubMenu
+                ? currentCategoryList.map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setIsSubMenu(false)}
+                      className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
+                    >
+                      <Link className="text-inherit" href={'/'}>
+                        <Space className="">
+                          {/* {item.icon} */}
+                          {item.Name}
+                        </Space>
+                      </Link>
+                      <CaretRightOutlined />
+                    </div>
+                  ))
+                : categoryList.map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        if (item.children) {
+                          router.push(`/${item.url}` || '/');
+                        } else {
+                          fethCategoryList(getListCategoryLinkAPI(item.key));
+                          setIsSubMenu(true);
+                        }
+                      }}
+                      className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
+                    >
+                      <Space className="">
+                        {!isSubMenu && item.icon}
+                        {item.label}
+                      </Space>
+                      <CaretRightOutlined />
+                    </div>
+                  ))}
             </div>
           </Modal>
         </div>
