@@ -20,6 +20,7 @@ interface Props {
 
 export default function CreatePostWorkForm(props: Props) {
   const data = useContext(PreviewDataContext);
+  const [locationId, setLocationId] = useState<string | number>();
   const [careerList, setCareerList] = useState<IJob[]>([]);
   const [experienceList, setExperienceList] = useState<IJob[]>([]);
   const [payFormsList, setPayFormsList] = useState<IJob[]>([]);
@@ -39,23 +40,23 @@ export default function CreatePostWorkForm(props: Props) {
   const [experienceId, setExperienceId] = useState<string | number>();
 
   const previewData: IJobPostCreate = {
-    Location: undefined,
+    Location: locationId,
     Address: adressId,
     Career: careerId,
     Type_of_work: workTypeId,
     Pay_forms: payMethodId,
     Sex: genderId,
     Experience: experienceId,
-    Map: undefined,
+    Map: 11,
     Title: title,
     Number_of_recruitment: recruitmentTotal,
     Wage: wage,
-    Detailed_description: '',
+    Detailed_description: '12312',
     Minimum_age: minAge,
     Maximum_age: maxAge,
-    Video: '',
-    Contact_phone_number: '',
-    Url: '',
+    Video: '131',
+    Contact_phone_number: '12313',
+    Url: '3123',
   };
 
   useEffect(() => {
@@ -66,6 +67,15 @@ export default function CreatePostWorkForm(props: Props) {
   }, []);
 
   const onSubmit = async () => {
+    const isValid = !Object.values(previewData).some((value) => !value);
+
+    if (!isValid) {
+      return notification.error({
+        message: 'Dữ liệu bạn nhập không đủ hoặc không đúng!',
+        description: 'Vui lòng kiểm tra lại.',
+      });
+    }
+
     const body = {
       ...data.previewData,
       ...previewData,
@@ -91,7 +101,10 @@ export default function CreatePostWorkForm(props: Props) {
         Thông tin nhà tuyển dụng
       </p>
       <ModalLocationSelectCustom
-        onChange={(e) => setAdressId(e)}
+        onChange={(e) => {
+          setLocationId(e);
+          setAdressId(e);
+        }}
         label={'Địa chỉ'}
       />
       <p className="py-[30px] text-[20px] font-bAge">Nội dung đăng tuyển</p>

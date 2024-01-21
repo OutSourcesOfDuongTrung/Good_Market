@@ -1,4 +1,4 @@
-import { Collapse, Modal, Space } from 'antd';
+import { Collapse, Flex, Modal, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Span } from 'next/dist/trace';
 import {
@@ -91,14 +91,6 @@ export default function ModalLocationSelectCustom(props: Props) {
           </div>
           <div className="rounded-lg cursor-pointer border overflow-hidden">
             {[...Array(12)].map((_, index) => (
-              // <div
-              //   key={index}
-              //   // onClick={() => {
-              //   //   setValue('AAAA');
-              //   //   isSubMenu ? setShowModal(false) : setIsSubMenu(true);
-              //   // }}
-              //   className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
-              // >
               <Collapse
                 key={index}
                 className="w-full !rounded-none !border-0"
@@ -114,12 +106,28 @@ export default function ModalLocationSelectCustom(props: Props) {
                         <p>Taipei City</p>
                       </Space>
                     ),
-                    children: <Space>{'text'}</Space>,
+                    children: (
+                      <Flex
+                        onClick={() => {
+                          setShowModal(false);
+                          setValue('BBBB');
+                        }}
+                        justify="space-between"
+                      >
+                        <p>{'text'}</p>
+                        <p
+                          className={`w-[20px] h-[20px] rounded-full bg-white  ${
+                            index % 2 == 0
+                              ? 'border-[#c8c8c8]'
+                              : 'border-yellow-500'
+                          } border-[6px]`}
+                        ></p>
+                      </Flex>
+                    ),
                     className: '!rounded-none',
                   },
                 ]}
               />
-              // </div>
             ))}
           </div>
         </div>
