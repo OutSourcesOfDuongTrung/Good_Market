@@ -29,9 +29,10 @@ export default function TextAreaCustom(props: Props) {
   const handleClickOutside = () => {
     setFocus(false);
   };
-  useEffect(() => {
-    props.onChange?.(value || undefined);
-  }, [props, value]);
+  const handleChange = (e: string | number) => {
+    setValue(e);
+    props.onChange?.(e || undefined);
+  };
   useOnClickOutside(divRef, handleClickOutside);
   return (
     <div
@@ -61,8 +62,8 @@ export default function TextAreaCustom(props: Props) {
               onChange={(e) => {
                 if (props.type === 'number') {
                   Number(e.target.value || 0)
-                    ? setValue(e.target.value)
-                    : setValue(0);
+                    ? handleChange(e.target.value)
+                    : handleChange(0);
                   Number(e.target.value || 0)
                     ? setValid(true)
                     : setValid(false);
@@ -70,8 +71,8 @@ export default function TextAreaCustom(props: Props) {
                   e.target.value ? setValid(true) : setValid(false);
                   props.maxLength
                     ? e.target.value.length <= props.maxLength &&
-                      setValue(e.target.value)
-                    : setValue(e.target.value);
+                      handleChange(e.target.value)
+                    : handleChange(e.target.value);
                 }
               }}
               value={value || ''}

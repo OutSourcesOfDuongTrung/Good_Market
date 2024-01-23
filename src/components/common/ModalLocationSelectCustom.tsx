@@ -20,10 +20,13 @@ interface Props {
 export default function ModalLocationSelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
-  const [value, setValue] = useState('');
-  useEffect(() => {
-    props.onChange?.(value || undefined);
-  }, [props, value]);
+  const [value, setValue] = useState<string | number>();
+
+  const handleChange = (e: string | number) => {
+    setValue(e);
+    props.onChange?.(e || undefined);
+  };
+
   return (
     <div className="w-full ">
       <div
@@ -110,7 +113,7 @@ export default function ModalLocationSelectCustom(props: Props) {
                       <Flex
                         onClick={() => {
                           setShowModal(false);
-                          setValue('BBBB');
+                          handleChange('BBB');
                         }}
                         justify="space-between"
                       >

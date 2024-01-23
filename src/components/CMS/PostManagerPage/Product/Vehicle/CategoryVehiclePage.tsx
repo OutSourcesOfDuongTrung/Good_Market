@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { VehicleFormList } from '@/services/keyFormList';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -128,6 +129,10 @@ export default function CategoryVehiclePage() {
         onSearch={onSearch}
         data={categoryList}
         createAble={true}
+        keyForm={VehicleFormList.map((item, index) => ({
+          id: item,
+          Name: item,
+        }))}
         create={{
           url: 'vehicle/category/',
           inputName: ['Name'],

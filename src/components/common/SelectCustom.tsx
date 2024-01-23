@@ -17,15 +17,18 @@ export default function SelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [focus, setFocus] = useState(false);
-  const [value, setValue] = useState(props.defaultValue);
+  const [value, setValue] = useState<string | number | undefined>(
+    props.defaultValue
+  );
   const divRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = () => {
     setFocus(false);
   };
-  useEffect(() => {
-    props.onChange?.(value || undefined);
-  }, [props, value]);
+  const handleChange = (e: string | number) => {
+    setValue(e);
+    props.onChange?.(e || undefined);
+  };
   useOnClickOutside(divRef, handleClickOutside);
 
   return (
@@ -47,30 +50,7 @@ export default function SelectCustom(props: Props) {
           >
             {props.label} <span className="text-red-500">*</span>
           </Space>
-          {/* {focus && (
-            <Select
-              open={focus}
-              // showSearch
-              className="!border-none !shadow-none"
-              style={{ width: '100%' }}
-              placeholder="Select a person"
-              // optionFilterProp="children"
-              options={[
-                {
-                  value: 'jack',
-                  label: 'Jack',
-                },
-                {
-                  value: 'lucy',
-                  label: 'Lucy',
-                },
-                {
-                  value: 'tom',
-                  label: 'Tom',
-                },
-              ]}
-            />
-          )} */}
+
           {value && (
             <p className="text-[14px]">
               {props.data?.find((item) => item.id === value)?.Name}
@@ -84,14 +64,14 @@ export default function SelectCustom(props: Props) {
       {showModal && (
         <Flex
           vertical
-          className={`w-full flex justify-between p-[10px] rounded-lg border`}
+          className={`w-full flex justify-between  rounded-lg border`}
         >
           {props.data.map((item, index) => (
             <div
               key={index}
               onClick={() => {
                 setShowModal(false);
-                setValue(item.id);
+                handleChange(item.id || '');
               }}
               className={`transform-gpu transition-transform duration-500 w-full relative flex justify-between hover:bg-gray-100 rounded-lg text-[#9b9b9b] text-[14px] px-[20px] py-[15px]`}
             >

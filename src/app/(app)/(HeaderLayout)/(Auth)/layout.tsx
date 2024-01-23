@@ -7,6 +7,11 @@ export const PreviewDataContext = createContext<{
   previewData?: IJobPostCreate;
   setPreviewData?: React.Dispatch<React.SetStateAction<IJobPostCreate>>;
 }>({});
+export const MotelRoomPreviewDataContext = createContext<{
+  previewData?: IJobPostCreate;
+  setPreviewData?: React.Dispatch<React.SetStateAction<IJobPostCreate>>;
+}>({});
+
 export default function AuthLayout({
   children,
 }: {

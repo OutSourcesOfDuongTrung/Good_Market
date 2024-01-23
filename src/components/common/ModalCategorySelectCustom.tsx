@@ -7,6 +7,7 @@ import {
   CaretRightOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
+import categoryList from '@/services/categoryList';
 
 interface Props {
   maxLength?: number;
@@ -20,9 +21,10 @@ export default function ModalCategorySelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [value, setValue] = useState(props.defaultValue);
-  useEffect(() => {
-    props.onChange?.(value || undefined);
-  }, [props, value]);
+  const handleChange = (e: string | number) => {
+    setValue(e);
+    props.onChange?.(e || undefined);
+  };
   return (
     <div className={`w-full  ${props.className}`}>
       <div
@@ -75,18 +77,18 @@ export default function ModalCategorySelectCustom(props: Props) {
         footer={[]}
       >
         <div className="rounded-lg border mx-[30px] overflow-hidden">
-          {[...Array(12)].map((_, index) => (
+          {categoryList.map((item, index) => (
             <div
               key={index}
               onClick={() => {
-                setValue('AAAA');
+                handleChange('AAAA');
                 isSubMenu ? setShowModal(false) : setIsSubMenu(true);
               }}
               className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
             >
               <Space className="">
                 {!isSubMenu && <ProfileOutlined />}
-                Việc làm
+                {item.label}
               </Space>
               <CaretRightOutlined />
             </div>

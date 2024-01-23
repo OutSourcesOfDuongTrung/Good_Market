@@ -10,6 +10,7 @@ import {
 import {
   ConfigProvider,
   Dropdown,
+  Flex,
   Form,
   Image,
   Input,
@@ -24,6 +25,7 @@ import { ColumnsType } from 'antd/es/table';
 import { AxiosResponse } from 'axios';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSWRConfig } from 'swr';
+import SelectCustom from './SelectCustom';
 
 interface Props {
   // table: ReactNode;
@@ -36,6 +38,7 @@ interface Props {
   onSearch?: (e: string) => void;
   onChangPage?: (e: number) => void;
   dataTotal: number;
+  keyForm?: IJob[];
   create?: {
     url?: string;
     body?: Object;
@@ -158,13 +161,25 @@ export default function CMSCategory(props: Props) {
       >
         {props.create?.childrenModal || (
           <Form form={form} onFinish={onFinish} name="basic" layout="vertical">
-            <Form.Item
-              label={'Tên'}
-              name={props.create?.inputName?.[0]}
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
+            <Flex vertical gap={10}>
+              {props.keyForm && (
+                <Form.Item
+                  label={'Form'}
+                  name={'keyForm'}
+                  rules={[{ required: true }]}
+                >
+                  <SelectCustom label={'Chọn form'} data={props.keyForm} />
+                </Form.Item>
+              )}
+
+              <Form.Item
+                label={'Tên'}
+                name={props.create?.inputName?.[0]}
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Flex>
           </Form>
         )}
       </Modal>

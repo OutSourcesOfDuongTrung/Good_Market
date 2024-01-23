@@ -1,7 +1,10 @@
+import { ReactNode } from 'react';
+
 interface IJob {
   id?: number;
   Name?: string;
   Url?: string;
+  keyForm?: string;
   Creation_time?: string; // Nếu bạn muốn xử lý ngày thì có thể sử dụng kiểu Date
   Update_time?: string; // Tương tự, nếu muốn xử lý ngày thì có thể sử dụng kiểu Date
 }
@@ -12,6 +15,7 @@ interface ICategory {
   children?: boolean;
   url?: string;
   icon: ReactNode;
+  form?: ReactNode;
 }
 
 interface IImage {
@@ -82,6 +86,24 @@ interface IJobPostCreate {
   Minimum_age?: number;
   Maximum_age?: number;
   Video?: string;
+  Contact_phone_number?: string;
+  Url?: string;
+}
+interface IGoodHousePostCreate {
+  images_A2_data?: UploadFile<any>[];
+  Location?: number | string;
+  Address?: number | string;
+  Category?: number | string;
+  Acreage?: number | string;
+  Price?: number | string;
+  Deposit_amount?: number | string;
+  Interior_condition?: number | string;
+  Title?: string;
+  Seller_information?: number | string;
+  Number_of_bedrooms?: number;
+  Number_of_bathrooms?: string;
+  Detailed_description?: number | string;
+  Video?: UploadFile<any>[];
   Contact_phone_number?: string;
   Url?: string;
 }

@@ -1,13 +1,24 @@
 'use client';
-import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 import ModalCategorySelectCustom from '@/components/common/ModalCategorySelectCustom';
 import PreviewProduct from '@/components/common/PreviewProduct';
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
-import { GetProp, Image, Modal, Space, UploadFile, UploadProps } from 'antd';
+import {
+  Flex,
+  GetProp,
+  Image,
+  Modal,
+  Space,
+  UploadFile,
+  UploadProps,
+  notification,
+} from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { PreviewDataContext } from '../layout';
+import { fetchCreateWorkPost } from '@/api/jobRequest';
+import CreatePostGooHouse from '@/components/common/Form/CreatePostGooHouse';
+import CreatePostMotelRoomForm from '@/components/common/Form/CreatePostMotelRoomForm';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -61,12 +72,34 @@ export default function CreatePostPage() {
     }));
   };
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+  const onSubmit = async () => {
+    const isValid = !Object.values(previewData).some((value) => !value);
+
+    if (!isValid) {
+      return notification.error({
+        message: 'Dữ liệu bạn nhập không đủ hoặc không đúng!',
+        description: 'Vui lòng kiểm tra lại.',
+      });
+    }
+
+    // const body: IJobPostCreate = {
+    // ...data.previewData,
+    //   ...previewData.previewData,
+    // };
+    await fetchCreateWorkPost(previewData.previewData)
+      .then((res) =>
+        notification.success({
+          message: 'Đã tạo',
+          description: 'Đã tạo bài đăng',
+        })
+      )
+      .catch((err) =>
+        notification.error({
+          message: 'Lỗi',
+          description: 'Tạo bài đăng thất bại',
+        })
+      );
+  };
   return (
     <div className="w-3/5 flex flex-col gap-y-5 py-[20px] px-[10px] m-auto bg-white mt-[20px] rounded-lg">
       {preview ? (
@@ -115,10 +148,28 @@ export default function CreatePostPage() {
           </div>
           <div className="flex-[2_2_0%]">
             <ModalCategorySelectCustom
-              onChange={(e) => setCategoryId(e)}
+              // onChange={(e) => setCategoryId(e)}
               label="Danh mục tin đăng"
             />
-            <CreatePostWorkForm onPreview={() => setPreview(true)} />
+            <CreatePostMotelRoomForm />
+            {/* <CreatePostGooHouse /> */}
+            {/* <ElectronicDeviceForm /> */}
+            {/* <CarForm /> */}
+            {/* <CreatePostWorkForm onPreview={() => setPreview(true)} /> */}
+            <Flex gap={20} className="my-[20px]">
+              <button
+                onClick={() => setPreview(true)}
+                className="flex-1 py-[10px] rounded-lg border text-[#da7502] border-[#da7502]  hover:bg-[#ffe9c2]"
+              >
+                Xem trước
+              </button>
+              <button
+                onClick={onSubmit}
+                className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]"
+              >
+                Đăng tin
+              </button>
+            </Flex>
           </div>
         </div>
       )}

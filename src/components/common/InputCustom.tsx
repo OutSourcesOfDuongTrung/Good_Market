@@ -30,9 +30,10 @@ export default function InputCustom(props: Props) {
   const handleClickOutside = () => {
     setFocus(false);
   };
-  useEffect(() => {
-    props.onChange?.(value);
-  }, [props, value]);
+  const handleChange = (e: string | number) => {
+    setValue(e);
+    props.onChange?.(e || undefined);
+  };
   useOnClickOutside(divRef, handleClickOutside);
   return (
     <div
@@ -52,17 +53,15 @@ export default function InputCustom(props: Props) {
             }`}
           >
             {props.label}
-            {props.required
-              ? !valid && <span className="text-red-500">*</span>
-              : ''}
+            {props.required && <span className="text-red-500">*</span>}
           </Space>
           {(focus || value === 0 || value) && (
             <Input
               onChange={(e) => {
                 if (props.type === 'number') {
                   Number(e.target.value || 0)
-                    ? setValue(e.target.value)
-                    : setValue('');
+                    ? handleChange(e.target.value)
+                    : handleChange('');
                   Number(e.target.value || 0)
                     ? setValid(true)
                     : setValid(false);
@@ -70,8 +69,8 @@ export default function InputCustom(props: Props) {
                   e.target.value ? setValid(true) : setValid(false);
                   props.maxLength
                     ? e.target.value.length <= props.maxLength &&
-                      setValue(e.target.value)
-                    : setValue(e.target.value);
+                      handleChange(e.target.value)
+                    : handleChange(e.target.value);
                 }
               }}
               value={value || ''}
