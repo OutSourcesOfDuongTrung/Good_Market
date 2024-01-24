@@ -12,6 +12,17 @@ export const fetchInteriorConditionList = async (
     },
   });
 };
+export const fetchSellerInformationList = async (
+  searchData?: string,
+  currentPage?: number
+) => {
+  return await instanceAxios.get(`good-house/seller-information/`, {
+    params: {
+      ...(searchData && { search: searchData }),
+      page_size: currentPage,
+    },
+  });
+};
 
 export const fetchCreateGoodHousePost = async (
   data?: IGoodHousePostCreate | FormData

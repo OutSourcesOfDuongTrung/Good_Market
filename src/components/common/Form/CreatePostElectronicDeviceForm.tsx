@@ -5,15 +5,10 @@ import InputCustom from '../InputCustom';
 import TextAreaCustom from '../TextAreaCustom';
 import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 
-import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import HorizontalSelect from '../HorizontalSelect';
+import { IJobPostCreate } from '@/types/Job';
 
 export default function CreatePostElectronicDeviceForm() {
-  const previewData = useContext(PreviewDataContext);
-  const onChangeData = (data: IJobPostCreate) => {
-    console.log(data);
-    previewData.setPreviewData?.((prevData) => ({ ...prevData, ...data }));
-  };
   useEffect(() => {
     // fetchCareerList().then((res) => setCareerList(res.data.data || []));
     // fetchExperienceList().then((res) => setExperienceList(res.data.data || []));

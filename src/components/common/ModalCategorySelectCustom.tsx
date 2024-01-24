@@ -1,5 +1,5 @@
 import { Modal, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Span } from 'next/dist/trace';
 import {
   CaretDownOutlined,
@@ -10,6 +10,7 @@ import {
 import categoryList from '@/services/categoryList';
 import { IJob } from '@/types/Job';
 import instanceAxios from '@/api/instanceAxios';
+import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 
 interface Props {
   maxLength?: number;
@@ -17,13 +18,17 @@ interface Props {
   label: string;
   className?: string;
   onChange?: (e: string | number | undefined) => void;
-  defaultValue?: string | number;
+  onChangeKey?: (e: string) => void;
 }
 export default function ModalCategorySelectCustom(props: Props) {
+  const currentForm = useContext(CurrentFormContext);
+
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [subMenuList, setSubMenuList] = useState<IJob[]>([]);
-  const [value, setValue] = useState(props.defaultValue);
+  const [value, setValue] = useState<string | number>(
+    currentForm.currentLabel || ''
+  );
   const handleChange = (e: string | number) => {
     setValue(e);
     props.onChange?.(e || undefined);
@@ -37,7 +42,7 @@ export default function ModalCategorySelectCustom(props: Props) {
       .catch((err) => {});
   };
   return (
-    <div className={`w-full  ${props.className}`}>
+    <div className={`w-full ${props.className}`}>
       <div
         onClick={() => setShowModal(true)}
         className={`w-full relative flex justify-between px-[10px] rounded-lg border bg-[#f1f1f1] ${
@@ -96,6 +101,9 @@ export default function ModalCategorySelectCustom(props: Props) {
                   key={index}
                   onClick={() => {
                     handleChange(item.id || '');
+                    currentForm.setCurrentForm?.(item.keyForm || '');
+                    currentForm.setCurrentLabel?.(item.Name || '');
+                    props.onChangeKey?.(item.keyForm || '');
                     isSubMenu ? setShowModal(false) : setIsSubMenu(true);
                   }}
                   className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
@@ -115,7 +123,10 @@ export default function ModalCategorySelectCustom(props: Props) {
                       setIsSubMenu(true);
                       fetchSubMenuList(item.urlSub || '');
                     } else {
-                      handleChange('AAAA');
+                      props.onChangeKey?.(item.key);
+                      currentForm.setCurrentForm?.(item.key || '');
+                      currentForm.setCurrentLabel?.(item.label || '');
+                      setValue(item.label);
                       setShowModal(false);
                     }
                   }}

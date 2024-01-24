@@ -4,13 +4,11 @@ import { IJobPostCreate } from '@/types/Job';
 import { Button, Result } from 'antd';
 import { getCookie } from 'cookies-next';
 import React, { createContext, useEffect, useState } from 'react';
-export const PreviewDataContext = createContext<{
-  previewData?: IJobPostCreate;
-  setPreviewData?: React.Dispatch<React.SetStateAction<IJobPostCreate>>;
-}>({});
-export const MotelRoomPreviewDataContext = createContext<{
-  previewData?: IJobPostCreate;
-  setPreviewData?: React.Dispatch<React.SetStateAction<IJobPostCreate>>;
+export const CurrentFormContext = createContext<{
+  currentForm?: string;
+  setCurrentForm?: React.Dispatch<React.SetStateAction<string>>;
+  currentLabel?: string;
+  setCurrentLabel?: React.Dispatch<React.SetStateAction<string>>;
 }>({});
 
 export default function AuthLayout({
@@ -19,7 +17,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const [loadingPage, setLoadingPage] = useState(true);
-  const [previewData, setPreviewData] = useState<IJobPostCreate>({});
+  const [currentForm, setCurrentForm] = useState('');
+  const [currentLabel, setCurrentLabel] = useState('');
 
   // const logged = useAppSelector((state) => state.user.logged);
   const token = getCookie('access');
@@ -30,9 +29,16 @@ export default function AuthLayout({
     !loadingPage && (
       <>
         {token ? (
-          <PreviewDataContext.Provider value={{ previewData, setPreviewData }}>
+          <CurrentFormContext.Provider
+            value={{
+              currentForm,
+              setCurrentForm,
+              currentLabel,
+              setCurrentLabel,
+            }}
+          >
             {children}
-          </PreviewDataContext.Provider>
+          </CurrentFormContext.Provider>
         ) : (
           <Result
             status="403"

@@ -27,12 +27,18 @@ import {
   fetchSellerInformationList,
 } from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
+import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 
-export default function CreatePostMotelRoomForm() {
+interface Props {
+  defaultValue: string;
+}
+export default function CreatePostWholeHouse() {
+  const currentForm = useContext(CurrentFormContext);
+
   const [mapValue, setMapValue] = useState('');
   const [locationId, setLocationId] = useState<number | string>('');
   const [addressId, setAddressId] = useState<number | string>('');
-  const [categoryId, setCategoryId] = useState<number | string>('');
+  const [categoryId, setCategoryId] = useState('');
   const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
     []
   );
@@ -69,7 +75,6 @@ export default function CreatePostMotelRoomForm() {
     fetchSellerInformationList().then((res) =>
       setSellerInformationList(res.data.data || [])
     );
-    // fetchExperienceList().then((res) => setExperienceList(res.data.data || []));
     // fetchPayFormsList().then((res) => setPayFormsList(res.data.data || []));
     // fetchWorkTypeList().then((res) => setWorkTypeList(res.data.data || []));
   }, []);
@@ -109,38 +114,25 @@ export default function CreatePostMotelRoomForm() {
     const formData = new FormData();
     formData.append('Address', addressId as string);
     formData.append('Location', locationId as string);
-    formData.append('Acreage', acreage as string);
-    formData.append('Category', categoryId as string);
+    formData.append('Deposit_amount', depositAmount as string);
+    formData.append('Number_of_bedrooms', numberBedrooms as unknown as string);
+    formData.append(
+      'Number_of_bathrooms',
+      numberBathrooms as unknown as string
+    );
     formData.append('Interior_condition', interiorCondition as string);
+    formData.append('Acreage', acreage as string);
     formData.append('Price', priceValue as string);
-    formData.append('Seller_information', sellerInformation as string);
     formData.append('Title', title as string);
+    formData.append('Detailed_description', detailedDescription as string);
+    formData.append('Seller_information', sellerInformation as string);
+
     for (let index = 0; index < fileList.length; index++) {
       formData.append('images_A2_data', fileList[index].originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0].originFileObj as Blob);
 
-    await fetchCreateGoodHousePost(
-      formData
-      //   {
-      //   Address: addressId,
-      //   // Contact_phone_number: '',
-      //   // Detailed_description: '',
-      //   Location: locationId,
-      //   Acreage: acreage,
-      //   Category: 1,
-      //   Deposit_amount: depositAmount,
-      //   images_A2_data: fileList,
-      //   Interior_condition: interiorCondition,
-      //   // Number_of_bathrooms: '',
-      //   // Number_of_bedrooms: 0,
-      //   Price: priceValue,
-      //   Seller_information: sellerInformation,
-      //   Title: title as string,
-      //   // Url: '',
-      //   ...(videoFileList && { Video: videoFileList[0] }),
-      // }
-    )
+    await fetchCreateGoodHousePost(formData)
       .then((res) =>
         notification.success({
           message: 'Đã tạo',
@@ -226,7 +218,7 @@ export default function CreatePostMotelRoomForm() {
       </div>
       <div className="flex-[2_2_0%]">
         <ModalCategorySelectCustom
-          onChange={(e) => setCategoryId(e as number)}
+          onChangeKey={(e) => currentForm.setCurrentForm?.(e)}
           label="Danh mục tin đăng"
         />
         <Flex vertical gap={20}>
@@ -238,6 +230,33 @@ export default function CreatePostMotelRoomForm() {
             }}
             label={'Địa chỉ'}
           />
+          <p className={titleClassName}>Thông tin chi tiết</p>
+          <Flex gap={10}>
+            <InputCustom
+              defaultValue={depositAmount}
+              onChange={(e) => setDepositAmount(e || '')}
+              label={'Số tiền cọc'}
+            />
+            <InputCustom
+              defaultValue={numberBedrooms}
+              type="number"
+              onChange={(e) => setNumberBedrooms(e as number)}
+              label={'Số phòng ngủ'}
+            />
+          </Flex>
+          <Flex gap={10}>
+            <InputCustom
+              defaultValue={numberBathrooms}
+              onChange={(e) => setNumberBathrooms(e as number)}
+              label={'Số phòng vệ sinh'}
+            />
+            <SelectCustom
+              defaultValue={interiorCondition}
+              onChange={(e) => setInteriorCondition(e || '')}
+              label={'Tình trạng nội thất'}
+              data={interiorConditionList}
+            />
+          </Flex>
           <p className={titleClassName}>Diện tích & Giá</p>
           <Flex gap={10}>
             <InputCustom
@@ -252,20 +271,7 @@ export default function CreatePostMotelRoomForm() {
               label={'Giá'}
             />
           </Flex>
-          <p className={titleClassName}>Thông tin khác</p>
-          <Flex gap={10}>
-            <InputCustom
-              defaultValue={depositAmount}
-              onChange={(e) => setDepositAmount(e || '')}
-              label={'Số tiền cọc'}
-            />
-            <SelectCustom
-              defaultValue={interiorCondition}
-              onChange={(e) => setInteriorCondition(e || '')}
-              label={'Tình trạng nội thất'}
-              data={interiorConditionList}
-            />
-          </Flex>
+
           <p className={titleClassName}>Tiêu đề và mô tả chi tiết</p>
           <InputCustom
             defaultValue={title}
@@ -282,10 +288,7 @@ export default function CreatePostMotelRoomForm() {
             defaultValue={sellerInformation}
             label="Thông tin người bán"
             onChange={(e) => setSellerInformation(e as number)}
-            data={[
-              { id: 1, Name: 'Cá nhân' },
-              { id: 2, Name: 'Môi giới' },
-            ]}
+            data={sellerInformationList}
           />
         </Flex>
         <Flex gap={20} className="my-[20px]">

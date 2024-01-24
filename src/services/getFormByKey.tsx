@@ -1,11 +1,13 @@
-import CreatePostCarForm from '@/components/common/Form/CreatePostCarForm';
 import CreatePostElectronicDeviceForm from '@/components/common/Form/CreatePostElectronicDeviceForm';
+import CreatePostWholeHouse from '@/components/common/Form/CreatePostWholeHouse';
 import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 
 const getFormByKey = (key: string) => {
   switch (key) {
     case 'CAR':
-      return <CreatePostCarForm />;
+      return;
+    case 'MOTEL-ROOM-DORMITORY':
+      return <CreatePostWholeHouse />;
     case 'MOTORBIKE':
       return;
     case 'COMMON-VEHICLE':
