@@ -1,7 +1,11 @@
 'use client';
 import ModalCategorySelectCustom from '@/components/common/ModalCategorySelectCustom';
 import PreviewProduct from '@/components/common/PreviewProduct';
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  InboxOutlined,
+  PlusOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
 import {
   Flex,
   GetProp,
@@ -19,16 +23,7 @@ import { PreviewDataContext } from '../layout';
 import { fetchCreateWorkPost } from '@/api/jobRequest';
 import CreatePostGooHouse from '@/components/common/Form/CreatePostGooHouse';
 import CreatePostMotelRoomForm from '@/components/common/Form/CreatePostMotelRoomForm';
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import getBase64, { FileType } from '@/services/getBase64';
 
 export default function CreatePostPage() {
   const previewData = useContext(PreviewDataContext);
@@ -39,6 +34,9 @@ export default function CreatePostPage() {
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>(
     previewData.previewData?.images_A1_data || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    previewData.previewData?.Video || []
   );
 
   // useEffect(() => {
@@ -71,6 +69,19 @@ export default function CreatePostPage() {
       images_A1_data: newList,
     }));
   };
+  const handleChangeVideo: UploadProps['onChange'] = ({
+    fileList: newFileList,
+  }) => {
+    const newList: UploadFile<any>[] = newFileList.map((item) => ({
+      ...item,
+      status: 'done',
+    }));
+    setVideoFileList(newList);
+    previewData.setPreviewData?.((prevData) => ({
+      ...prevData,
+      images_A1_data: newList,
+    }));
+  };
 
   const onSubmit = async () => {
     const isValid = !Object.values(previewData).some((value) => !value);
@@ -82,10 +93,6 @@ export default function CreatePostPage() {
       });
     }
 
-    // const body: IJobPostCreate = {
-    // ...data.previewData,
-    //   ...previewData.previewData,
-    // };
     await fetchCreateWorkPost(previewData.previewData)
       .then((res) =>
         notification.success({
@@ -105,73 +112,103 @@ export default function CreatePostPage() {
       {preview ? (
         <PreviewProduct onCancel={() => setPreview(false)} />
       ) : (
-        <div className="w-full flex gap-x-5">
-          <div className="flex-1">
-            <b>Ảnh / video sản phẩm</b>
-            <Space className="flex text-[#9b9b9b] text-[13px]">
-              Xem thêm về
-              <Link href="/">
-                <p className="text-blue-500 underline text-wrap">
-                  Quy định đăng tin của chợ tốt
-                </p>
-              </Link>
-            </Space>
-            <div className="w-[300px] min-h-[200px] flex items-center justify-center">
-              <Dragger
-                className="truncate"
-                name="images_A1_data"
-                listType="picture"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-              </Dragger>
-              <Modal
-                open={previewOpen}
-                title={previewTitle}
-                footer={null}
-                onCancel={handleCancel}
-              >
-                <Image
-                  alt="example"
-                  style={{ width: '100%' }}
-                  src={previewImage}
-                />
-              </Modal>
-            </div>
-          </div>
-          <div className="flex-[2_2_0%]">
-            <ModalCategorySelectCustom
-              // onChange={(e) => setCategoryId(e)}
-              label="Danh mục tin đăng"
-            />
-            <CreatePostMotelRoomForm />
-            {/* <CreatePostGooHouse /> */}
-            {/* <ElectronicDeviceForm /> */}
-            {/* <CarForm /> */}
-            {/* <CreatePostWorkForm onPreview={() => setPreview(true)} /> */}
-            <Flex gap={20} className="my-[20px]">
-              <button
-                onClick={() => setPreview(true)}
-                className="flex-1 py-[10px] rounded-lg border text-[#da7502] border-[#da7502]  hover:bg-[#ffe9c2]"
-              >
-                Xem trước
-              </button>
-              <button
-                onClick={onSubmit}
-                className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]"
-              >
-                Đăng tin
-              </button>
-            </Flex>
-          </div>
-        </div>
+        <CreatePostMotelRoomForm />
+        // <div className="w-full flex gap-x-5">
+        //   <div className="flex-1">
+        //     <b>Ảnh / video sản phẩm</b>
+        //     <Space className="flex text-[#9b9b9b] text-[13px]">
+        //       Xem thêm về
+        //       <Link href="/">
+        //         <p className="text-blue-500 underline text-wrap">
+        //           Quy định đăng tin của chợ tốt
+        //         </p>
+        //       </Link>
+        //     </Space>
+        //     <div className="w-[300px] min-h-[200px] flex items-center justify-center">
+        //       <Dragger
+        //         className="truncate"
+        //         name="images_A1_data"
+        //         listType="picture"
+        //         fileList={fileList}
+        //         onPreview={handlePreview}
+        //         onChange={handleChange}
+        //       >
+        //         <p className="ant-upload-drag-icon">
+        //           <InboxOutlined />
+        //         </p>
+        //         <p className="ant-upload-text">
+        //           Click or drag file to this area to upload
+        //         </p>
+        //       </Dragger>
+        //       <Modal
+        //         open={previewOpen}
+        //         title={previewTitle}
+        //         footer={null}
+        //         onCancel={handleCancel}
+        //       >
+        //         <Image
+        //           alt="example"
+        //           style={{ width: '100%' }}
+        //           src={previewImage}
+        //         />
+        //       </Modal>
+        //     </div>
+        //     <div className="w-[300px] min-h-[200px] flex items-center justify-center">
+        //       <Dragger
+        //         className="truncate"
+        //         name="Video"
+        //         listType="picture"
+        //         fileList={videoFileList}
+        //         // onPreview={handlePreview}
+        //         onChange={handleChangeVideo}
+        //       >
+        //         <p className="ant-upload-drag-icon">
+        //           <VideoCameraOutlined />
+        //         </p>
+        //         <p className="ant-upload-text">
+        //           Click or drag file to this area to upload
+        //         </p>
+        //       </Dragger>
+        //       <Modal
+        //         open={previewOpen}
+        //         title={previewTitle}
+        //         footer={null}
+        //         onCancel={handleCancel}
+        //       >
+        //         <Image
+        //           alt="example"
+        //           style={{ width: '100%' }}
+        //           src={previewImage}
+        //         />
+        //       </Modal>
+        //     </div>
+        //   </div>
+        //   <div className="flex-[2_2_0%]">
+        //     <ModalCategorySelectCustom
+        //       // onChange={(e) => setCategoryId(e)}
+        //       label="Danh mục tin đăng"
+        //     />
+        //     <CreatePostMotelRoomForm />
+        //     {/* <CreatePostGooHouse /> */}
+        //     {/* <ElectronicDeviceForm /> */}
+        //     {/* <CarForm /> */}
+        //     {/* <CreatePostWorkForm onPreview={() => setPreview(true)} /> */}
+        //     <Flex gap={20} className="my-[20px]">
+        //       <button
+        //         onClick={() => setPreview(true)}
+        //         className="flex-1 py-[10px] rounded-lg border text-[#da7502] border-[#da7502]  hover:bg-[#ffe9c2]"
+        //       >
+        //         Xem trước
+        //       </button>
+        //       <button
+        //         onClick={onSubmit}
+        //         className="flex-1 py-[10px] rounded-lg border text-white bg-[#da7502] border-[#da7502] hover:text-white hover:bg-[#da6702]"
+        //       >
+        //         Đăng tin
+        //       </button>
+        //     </Flex>
+        //   </div>
+        // </div>
       )}
     </div>
   );

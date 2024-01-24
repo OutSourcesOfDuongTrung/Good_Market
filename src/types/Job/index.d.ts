@@ -14,6 +14,7 @@ interface ICategory {
   label: string;
   children?: boolean;
   url?: string;
+  urlSub?: string;
   icon: ReactNode;
   form?: ReactNode;
 }
@@ -31,6 +32,15 @@ interface ILocation {
   id: number;
   Name: string;
   Url: string | null;
+  Creation_time: string;
+  Update_time: string;
+}
+
+interface ILocationResponse {
+  id: 1;
+  Address_Location: IAddress[];
+  Name: string;
+  Url: string;
   Creation_time: string;
   Update_time: string;
 }
@@ -85,7 +95,7 @@ interface IJobPostCreate {
   Detailed_description?: string;
   Minimum_age?: number;
   Maximum_age?: number;
-  Video?: string;
+  Video?: UploadFile<any>[];
   Contact_phone_number?: string;
   Url?: string;
 }
@@ -103,7 +113,7 @@ interface IGoodHousePostCreate {
   Number_of_bedrooms?: number;
   Number_of_bathrooms?: string;
   Detailed_description?: number | string;
-  Video?: UploadFile<any>[];
+  Video?: UploadFile;
   Contact_phone_number?: string;
   Url?: string;
 }

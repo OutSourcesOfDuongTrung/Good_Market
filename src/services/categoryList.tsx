@@ -1,3 +1,4 @@
+import { ICategory } from '@/types/Job';
 import { GithubOutlined } from '@ant-design/icons';
 
 const categoryList: ICategory[] = [
@@ -17,9 +18,12 @@ const categoryList: ICategory[] = [
     icon: <GithubOutlined />,
   },
   {
-    key: 'a',
+    key: 'GOODHOUSE',
     label: 'Nhà tốt',
+    children: true,
+
     icon: <GithubOutlined />,
+    urlSub: 'good-house/category/',
   },
   {
     key: 'a',
@@ -37,6 +41,7 @@ const categoryList: ICategory[] = [
     children: false,
     icon: <GithubOutlined />,
     url: 'maymoc',
+    urlSub: '',
   },
   {
     key: 'a',

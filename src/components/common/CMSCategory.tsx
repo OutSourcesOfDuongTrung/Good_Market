@@ -26,6 +26,7 @@ import { AxiosResponse } from 'axios';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSWRConfig } from 'swr';
 import SelectCustom from './SelectCustom';
+import { IJob } from '@/types/Job';
 
 interface Props {
   // table: ReactNode;
@@ -157,6 +158,7 @@ export default function CMSCategory(props: Props) {
         onOk={() => {
           props.create?.onOKModal?.();
           form.submit();
+          setOpenModalCreate(false);
         }}
       >
         {props.create?.childrenModal || (

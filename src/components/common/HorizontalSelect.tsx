@@ -1,3 +1,4 @@
+import { IJob } from '@/types/Job';
 import { Flex, Space } from 'antd';
 import React, { useState } from 'react';
 
@@ -6,9 +7,13 @@ interface Props {
   label: string;
   required?: boolean;
   className?: string;
+  onChange?: (e: string | number | undefined) => void;
+  defaultValue?: string | number | undefined;
 }
 export default function HorizontalSelect(props: Props) {
-  const [currentData, setCurrentData] = useState<string | number>();
+  const [value, setValue] = useState<string | number | undefined>(
+    props.defaultValue
+  );
   return (
     <div className={props.className}>
       <Space
@@ -21,9 +26,12 @@ export default function HorizontalSelect(props: Props) {
         {props.data.map((item, index) => (
           <p
             key={index}
-            onClick={() => setCurrentData(item.id)}
+            onClick={() => {
+              props.onChange?.(item.id);
+              setValue(item.id);
+            }}
             className={`px-[20px] py-[5px] rounded-full bg-[#f4f4f4] ${
-              currentData === item.id && 'bg-[#ffe9c2] text-[#da7502]'
+              value === item.id && 'bg-[#ffe9c2] text-[#da7502]'
             }`}
           >
             {item.Name}
@@ -32,7 +40,7 @@ export default function HorizontalSelect(props: Props) {
         {/* <p
           // onClick={() => setGenderId(2)}
           className={`px-[20px] py-[5px] rounded-full bg-[#f4f4f4] ${
-            currentData === 2 && 'bg-[#ffe9c2] text-[#da7502]'
+            value === 2 && 'bg-[#ffe9c2] text-[#da7502]'
           }`}
         >
           Nữ

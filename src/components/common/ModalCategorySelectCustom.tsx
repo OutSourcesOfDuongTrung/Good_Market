@@ -8,6 +8,8 @@ import {
   ProfileOutlined,
 } from '@ant-design/icons';
 import categoryList from '@/services/categoryList';
+import { IJob } from '@/types/Job';
+import instanceAxios from '@/api/instanceAxios';
 
 interface Props {
   maxLength?: number;
@@ -20,10 +22,19 @@ interface Props {
 export default function ModalCategorySelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [isSubMenu, setIsSubMenu] = useState(false);
+  const [subMenuList, setSubMenuList] = useState<IJob[]>([]);
   const [value, setValue] = useState(props.defaultValue);
   const handleChange = (e: string | number) => {
     setValue(e);
     props.onChange?.(e || undefined);
+  };
+  const fetchSubMenuList = async (urlSub: string) => {
+    await instanceAxios
+      .get(urlSub)
+      .then((res) => {
+        setSubMenuList(res.data.data || []);
+      })
+      .catch((err) => {});
   };
   return (
     <div className={`w-full  ${props.className}`}>
@@ -41,7 +52,9 @@ export default function ModalCategorySelectCustom(props: Props) {
           >
             {props.label} <span className="text-red-500">*</span>
           </Space>
-          <p className="text-[14px]">{value}</p>
+          <p className="text-[14px]">
+            {subMenuList.find((item) => item.id === value)?.Name || value}
+          </p>
         </div>
 
         <CaretDownOutlined />
@@ -77,22 +90,44 @@ export default function ModalCategorySelectCustom(props: Props) {
         footer={[]}
       >
         <div className="rounded-lg border mx-[30px] overflow-hidden">
-          {categoryList.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                handleChange('AAAA');
-                isSubMenu ? setShowModal(false) : setIsSubMenu(true);
-              }}
-              className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
-            >
-              <Space className="">
-                {!isSubMenu && <ProfileOutlined />}
-                {item.label}
-              </Space>
-              <CaretRightOutlined />
-            </div>
-          ))}
+          {isSubMenu
+            ? subMenuList.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    handleChange(item.id || '');
+                    isSubMenu ? setShowModal(false) : setIsSubMenu(true);
+                  }}
+                  className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
+                >
+                  <Space className="">
+                    {/* {!isSubMenu && <ProfileOutlined />} */}
+                    {item.Name}
+                  </Space>
+                  <CaretRightOutlined />
+                </div>
+              ))
+            : categoryList.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    if (item.children) {
+                      setIsSubMenu(true);
+                      fetchSubMenuList(item.urlSub || '');
+                    } else {
+                      handleChange('AAAA');
+                      setShowModal(false);
+                    }
+                  }}
+                  className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
+                >
+                  <Space className="">
+                    {!isSubMenu && <ProfileOutlined />}
+                    {item.label}
+                  </Space>
+                  <CaretRightOutlined />
+                </div>
+              ))}
         </div>
       </Modal>
     </div>

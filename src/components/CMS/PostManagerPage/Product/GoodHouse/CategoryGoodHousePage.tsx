@@ -1,12 +1,26 @@
+import { fetchCreateGoodHouseCategory } from '@/api/goodHouseRequest';
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import InputCustom from '@/components/common/InputCustom';
+import SelectCustom from '@/components/common/SelectCustom';
+import { GoodHouseKeyFormList } from '@/services/keyFormList';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
   FormOutlined,
 } from '@ant-design/icons';
-import { Form, Image, Input, Modal, Popconfirm, Switch, message } from 'antd';
+import {
+  Flex,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Popconfirm,
+  Switch,
+  message,
+} from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -16,6 +30,8 @@ import { useEffectOnce } from 'usehooks-ts';
 export default function CategoryGoodHousePage() {
   const [categoryList, setCategoryList] = useState<IJob[]>([]);
   const [valueFilter, setValueFilter] = useState('');
+  const [name, setName] = useState('');
+  const [keyForm, setKeyForm] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [dataTotal, setDataTotal] = useState(0);
   const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -132,6 +148,17 @@ export default function CategoryGoodHousePage() {
           url: 'good-house/category/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
+          onOKModal() {
+            fetchCreateGoodHouseCategory({ Name: name, keyForm: keyForm })
+              .then((res) => {
+                form.resetFields();
+                mutate('fetchCategoryGoodHouseList');
+                message.success(res.data.message);
+              })
+              .catch((err) => {
+                message.error('Đã có lỗi xảy ra');
+              });
+          },
           onSucces(res) {
             mutate('fetchCategoryGoodHouseList');
             message.success(res.data.message);
@@ -139,6 +166,25 @@ export default function CategoryGoodHousePage() {
           onFailed(err) {
             message.error(err.response.data.detail);
           },
+          childrenModal: (
+            <Flex vertical gap={10}>
+              <SelectCustom
+                onChange={(e) => setKeyForm((e as string) || '')}
+                data={GoodHouseKeyFormList.map(
+                  (item, index) =>
+                    ({
+                      id: item,
+                      Name: item,
+                    } as unknown as IJob)
+                )}
+                label={'Chọn Form'}
+              />
+              <InputCustom
+                onChange={(e) => setName((e as string) || '')}
+                label={'Tên'}
+              />
+            </Flex>
+          ),
         }}
         columns={columns}
       />

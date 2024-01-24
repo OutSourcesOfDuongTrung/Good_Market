@@ -1,8 +1,10 @@
+import { fetchAreaList } from '@/api/addressRequest';
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
 import InputCustom from '@/components/common/InputCustom';
 import SelectCustom from '@/components/common/SelectCustom';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -31,8 +33,10 @@ export default function GeographicalAreaAddressPage() {
   const [dataTotal, setDataTotal] = useState(0);
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [currentID, setCurrentID] = useState(0);
-  const [areaID, setAreaID] = useState(0);
-  const [addresValue, setAddresValue] = useState(0);
+  const [areaID, setAreaID] = useState<string | number>(0);
+  const [addresValue, setAddresValue] = useState<string | number>(0);
+  const [addresENValue, setAddresENValue] = useState<string | number>(0);
+  const [addresList, setAddresList] = useState<IJob[]>([]);
   const [currentValue, setcurrentValue] = useState('');
   const { mutate } = useSWRConfig();
   const [form] = useForm();
@@ -89,6 +93,14 @@ export default function GeographicalAreaAddressPage() {
   useSWR('fetchGeographicalAreaAddressList', fetchGeographicalAreaAddressList);
 
   useEffect(() => {
+    const fethAreaListData = async () => {
+      await fetchAreaList()
+        .then((res) => {
+          setAddresList(res.data.data || []);
+        })
+        .catch((err) => {});
+    };
+    fethAreaListData();
     fetchGeographicalAreaAddressList();
   }, [fetchGeographicalAreaAddressList]);
   // useEffect(() => {
@@ -145,6 +157,22 @@ export default function GeographicalAreaAddressPage() {
           url: 'location/address/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
+          onOKModal() {
+            instanceAxios
+              .post('location/address/', {
+                Location: areaID,
+                Name: addresValue,
+                Name_en: addresENValue,
+              })
+              .then((res) => {
+                form.resetFields();
+                mutate('fetchGeographicalAreaAddressList');
+                message.success(res.data.message);
+              })
+              .catch((err) => {
+                message.error('Đã có lỗi xảy ra');
+              });
+          },
           onSucces(res) {
             mutate('fetchGeographicalAreaAddressList');
             message.success(res.data.message);
@@ -153,9 +181,20 @@ export default function GeographicalAreaAddressPage() {
             message.error(err.response.data.detail);
           },
           childrenModal: (
-            <Flex gap={10}>
-              <SelectCustom data={[]} label={'qweqw'} />
-              <InputCustom label={'Địa chỉ'} />
+            <Flex vertical gap={10}>
+              <SelectCustom
+                onChange={(e) => setAreaID(e || '')}
+                data={addresList}
+                label={'Chọn khu vực'}
+              />
+              <InputCustom
+                onChange={(e) => setAddresValue(e || '')}
+                label={'Địa chỉ'}
+              />
+              <InputCustom
+                onChange={(e) => setAddresENValue(e || '')}
+                label={'Địa chỉ theo EN'}
+              />
             </Flex>
           ),
         }}

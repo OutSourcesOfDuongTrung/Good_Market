@@ -8,24 +8,40 @@ import {
   GlobalOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
+import { fetchAreaList } from '@/api/addressRequest';
+import { ILocationResponse } from '@/types/Job';
 
 interface Props {
   maxLength?: number;
   required?: boolean;
   label: string;
   className?: string;
-  onChange?: (e: string | number | undefined) => void;
+  onChange?: (
+    location: string | number | undefined,
+    address: string | number | undefined
+  ) => void;
 }
 
 export default function ModalLocationSelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
+  const [areaList, setAreaList] = useState<ILocationResponse[]>([]);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [value, setValue] = useState<string | number>();
 
-  const handleChange = (e: string | number) => {
+  const handleChange = (e: string | number, address: string | number) => {
     setValue(e);
-    props.onChange?.(e || undefined);
+    props.onChange?.(e || undefined, address || undefined);
   };
+  useEffect(() => {
+    const fethAreaListData = async () => {
+      await fetchAreaList()
+        .then((res) => {
+          setAreaList(res.data.data || []);
+        })
+        .catch((err) => {});
+    };
+    fethAreaListData();
+  }, []);
 
   return (
     <div className="w-full ">
@@ -83,7 +99,7 @@ export default function ModalLocationSelectCustom(props: Props) {
             Lọc khu vực
           </Space>
           <div className="flex justify-center gap-x-5 my-[20px]">
-            {[...Array(4)].map((_, index) => (
+            {[...Array(3)].map((_, index) => (
               <p
                 key={index}
                 className="w-fit px-[20px] py-[5px] rounded-full bg-[#f4f4f4]"
@@ -93,7 +109,7 @@ export default function ModalLocationSelectCustom(props: Props) {
             ))}
           </div>
           <div className="rounded-lg cursor-pointer border overflow-hidden">
-            {[...Array(12)].map((_, index) => (
+            {areaList.map((item, index) => (
               <Collapse
                 key={index}
                 className="w-full !rounded-none !border-0"
@@ -105,27 +121,30 @@ export default function ModalLocationSelectCustom(props: Props) {
                     key: '1',
                     label: (
                       <Space direction="vertical">
-                        <p className="text-[16px]">{'Thành phố đài bắc'}</p>
+                        <p className="text-[16px]">{item.Name}</p>
                         <p>Taipei City</p>
                       </Space>
                     ),
-                    children: (
-                      <Flex
-                        onClick={() => {
-                          setShowModal(false);
-                          handleChange('BBB');
-                        }}
-                        justify="space-between"
-                      >
-                        <p>{'text'}</p>
-                        <p
-                          className={`w-[20px] h-[20px] rounded-full bg-white  ${
-                            index % 2 == 0
-                              ? 'border-[#c8c8c8]'
-                              : 'border-yellow-500'
-                          } border-[6px]`}
-                        ></p>
-                      </Flex>
+                    children: item.Address_Location.map(
+                      (addressItem, index) => (
+                        <Flex
+                          key={index}
+                          onClick={() => {
+                            setShowModal(false);
+                            handleChange(item.id, addressItem.id);
+                          }}
+                          justify="space-between"
+                        >
+                          <p>{addressItem.Name}</p>
+                          <p
+                            className={`w-[20px] h-[20px] rounded-full bg-white  ${
+                              index % 2 == 0
+                                ? 'border-[#c8c8c8]'
+                                : 'border-yellow-500'
+                            } border-[6px]`}
+                          ></p>
+                        </Flex>
+                      )
                     ),
                     className: '!rounded-none',
                   },

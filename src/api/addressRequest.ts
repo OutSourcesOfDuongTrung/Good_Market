@@ -4,7 +4,7 @@ export const fetchAreaList = async (
   searchData?: string,
   currentPage?: number
 ) => {
-  return await instanceAxios.get(`job/career/`, {
+  return await instanceAxios.get(`location/`, {
     params: {
       ...(searchData && { search: searchData }),
       page_size: currentPage,

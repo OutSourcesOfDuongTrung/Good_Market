@@ -1,3 +1,4 @@
+import { IGoodHousePostCreate, IJob } from '@/types/Job';
 import instanceAxios from './instanceAxios';
 
 export const fetchInteriorConditionList = async (
@@ -10,4 +11,13 @@ export const fetchInteriorConditionList = async (
       page_size: currentPage,
     },
   });
+};
+
+export const fetchCreateGoodHousePost = async (
+  data?: IGoodHousePostCreate | FormData
+) => {
+  return await instanceAxios.post(`good-house/items/`, data);
+};
+export const fetchCreateGoodHouseCategory = async (data?: IJob) => {
+  return await instanceAxios.post(`good-house/category/`, data);
 };

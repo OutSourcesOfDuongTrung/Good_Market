@@ -1,3 +1,4 @@
+import { IJob } from '@/types/Job';
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Flex, Form, Select, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';

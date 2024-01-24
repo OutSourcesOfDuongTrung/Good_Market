@@ -7,6 +7,7 @@ import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 
 import { PreviewDataContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import HorizontalSelect from '../HorizontalSelect';
+import { IJobPostCreate } from '@/types/Job';
 
 export default function CreatePostGooHouse() {
   const previewData = useContext(PreviewDataContext);

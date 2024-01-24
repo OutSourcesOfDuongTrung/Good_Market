@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IGoodHousePost } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -102,7 +103,7 @@ export default function PostGoodHousePage() {
         <Image
           className="rounded"
           alt=""
-          src={record.images_A2[0].Image || ''}
+          src={record.images_A2[0]?.Image || ''}
           width={100}
           height={60}
         />

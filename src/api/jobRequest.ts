@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import instanceAxios from './instanceAxios';
+import { IJobPostCreate } from '@/types/Job';
 
 export const fetchCreateWorkPost = async (data?: IJobPostCreate) => {
   return await instanceAxios.post(`job/items/`, data);

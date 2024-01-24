@@ -2,6 +2,7 @@ import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
 import { VehicleFormList } from '@/services/keyFormList';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -129,10 +130,13 @@ export default function CategoryVehiclePage() {
         onSearch={onSearch}
         data={categoryList}
         createAble={true}
-        keyForm={VehicleFormList.map((item, index) => ({
-          id: item,
-          Name: item,
-        }))}
+        keyForm={VehicleFormList.map(
+          (item, index) =>
+            ({
+              id: item,
+              Name: item,
+            } as unknown as IJob)
+        )}
         create={{
           url: 'vehicle/category/',
           inputName: ['Name'],

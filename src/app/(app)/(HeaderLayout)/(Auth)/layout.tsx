@@ -1,5 +1,6 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { IJobPostCreate } from '@/types/Job';
 import { Button, Result } from 'antd';
 import { getCookie } from 'cookies-next';
 import React, { createContext, useEffect, useState } from 'react';
