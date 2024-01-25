@@ -1,6 +1,8 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { FridgeKeyFormList } from '@/services/keyFormList';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -131,6 +133,13 @@ export default function CategoryRefrigeratorPage() {
         onSearch={onSearch}
         data={dataList}
         createAble={true}
+        keyForm={FridgeKeyFormList.map(
+          (item, index) =>
+            ({
+              id: item,
+              Name: item,
+            } as unknown as IJob)
+        )}
         create={{
           url: 'refrigerator-airconditioner-washingmachine/category/',
           inputName: ['Name'],

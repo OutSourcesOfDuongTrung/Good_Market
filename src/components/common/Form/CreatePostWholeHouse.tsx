@@ -128,9 +128,9 @@ export default function CreatePostWholeHouse() {
     formData.append('Seller_information', sellerInformation as string);
 
     for (let index = 0; index < fileList.length; index++) {
-      formData.append('images_A2_data', fileList[index].originFileObj as Blob);
+      formData.append('images_A2_data', fileList[index]?.originFileObj as Blob);
     }
-    formData.append('Video', videoFileList[0].originFileObj as Blob);
+    formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
     await fetchCreateGoodHousePost(formData)
       .then((res) =>

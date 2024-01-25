@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import SelectCustom from '../SelectCustom';
 import {
+  Checkbox,
   Flex,
   Image,
   Modal,
@@ -9,39 +8,37 @@ import {
   UploadProps,
   notification,
 } from 'antd';
+import { useContext, useEffect, useState } from 'react';
 import InputCustom from '../InputCustom';
-import TextAreaCustom from '../TextAreaCustom';
 import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
+import SelectCustom from '../SelectCustom';
+import TextAreaCustom from '../TextAreaCustom';
 
+import {
+  fetchCreateElectroDevicePost,
+  fetchElectronicDeviceCapacitiesList,
+  fetchElectronicDeviceColorList,
+  fetchElectronicDeviceCompaniesList,
+  fetchElectronicDeviceGuaranteeList,
+  fetchElectronicDeviceHardDriveList,
+  fetchElectronicDeviceMicroprocessorList,
+  fetchElectronicDeviceMonitorCardList,
+  fetchElectronicDeviceRamList,
+  fetchElectronicDeviceScreenSizeList,
+  fetchElectronicDeviceSellerInformationList,
+  fetchElectronicDeviceUsageStatusList,
+} from '@/api/electroDeviceRequest';
+import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import getBase64, { FileType } from '@/services/getBase64';
+import { IJob } from '@/types/Job';
+import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import Dragger from 'antd/es/upload/Dragger';
+import Link from 'next/link';
 import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
-import Dragger from 'antd/es/upload/Dragger';
-import { IJob, IJobPostCreate } from '@/types/Job';
-import getBase64, { FileType } from '@/services/getBase64';
-import { fetchCreateWorkPost } from '@/api/jobRequest';
-import Link from 'next/link';
-import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import {
-  fetchCreateGoodHousePost,
-  fetchInteriorConditionList,
-  fetchSellerInformationList,
-} from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
-import {
-  fetchCreateVehiclePost,
-  fetchVehicleCapacitiesList,
-  fetchVehicleCompaniesList,
-  fetchVehicleFuelsList,
-  fetchVehicleGearboxesList,
-  fetchVehicleGuaranteeList,
-  fetchVehicleSeatNumbersList,
-  fetchVehicleSellerInformationList,
-  fetchVehicleUsageStatusList,
-  fetchVehicleYearsOfManufactureList,
-} from '@/api/vehicleRequest';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 
-export default function CreatePostCarForm() {
+export default function CreatePostDesktopForm() {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
@@ -53,14 +50,18 @@ export default function CreatePostCarForm() {
   const [sellerInformationList, setSellerInformationList] = useState<IJob[]>(
     []
   );
+
+  const [capacitiesList, setCapacitiesList] = useState([]);
+  const [colorList, setColorList] = useState([]);
+  const [companiesList, setCompaniesList] = useState([]);
+  const [guaranteeList, setGuaranteeList] = useState([]);
+  const [hardDriveList, setHardDriveList] = useState([]);
+  const [microprocessorList, setMicroprocessorList] = useState([]);
+  const [deviceMonitorCardList, setDeviceMonitorCardList] = useState([]);
+  const [ramList, setRamList] = useState([]);
+  const [screenSizeList, setScreenSizeList] = useState([]);
   const [usageStatusList, setUsageStatusList] = useState<IJob[]>([]);
-  const [guaranteeList, setGuaranteeList] = useState<IJob[]>([]);
-  const [capacityList, setCapacityList] = useState<IJob[]>([]);
   const [companyList, setCompanyList] = useState<IJob[]>([]);
-  const [yearManufactureList, setYearManufactureList] = useState<IJob[]>([]);
-  const [fuelList, setFuelList] = useState<IJob[]>([]);
-  const [gearBoxList, setGearBoxList] = useState<IJob[]>([]);
-  const [seatNumberList, setSeatNumberList] = useState<IJob[]>([]);
 
   const [title, setTitle] = useState<number | string>('');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
@@ -69,23 +70,24 @@ export default function CreatePostCarForm() {
   const [detailedDescription, setDetailedDescription] = useState<string>('');
   const [usageStatus, setUsageStatus] = useState<number | string>('');
   const [guarantee, setGuarantee] = useState<number | string>('');
-  const [company, setCompany] = useState<number | string>('');
-  const [yearManufacture, setYearManufacture] = useState<number | string>('');
-  const [gearBox, setGearBox] = useState<number | string>('');
-  const [fuel, setFuel] = useState<number | string>('');
-  const [seatNumber, setSeatNumber] = useState<number | string>('');
-  const [capacity, setCapacity] = useState<number | string>('');
   const [map, setMap] = useState<number | string>('');
-  const [walked, setWalked] = useState<number | string>('');
   const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
+  const [company, setCompany] = useState<number | string>('');
+  const [color, setColor] = useState<number | string>('');
+  const [capacity, setCapacity] = useState<number | string>('');
+  const [microprocessor, setMicroprocessor] = useState<number | string>('');
+  const [ram, setRam] = useState<number | string>('');
+  const [monitorCard, setMonitorCard] = useState<number | string>('');
+  const [hardDrive, setHardDrive] = useState<number | string>('');
+  const [screenSize, setScreenSize] = useState<number | string>('');
   const [price, setPrice] = useState<number | string>('');
   const [checked, setChecked] = useState<boolean>();
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
     ''
   );
+
   const [defaultLabel, setDefaultLabel] = useState<number | string>('');
   const [url, setUrl] = useState('');
-
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -94,30 +96,38 @@ export default function CreatePostCarForm() {
   const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    fetchVehicleSellerInformationList().then((res) =>
-      setSellerInformationList(res.data.data || [])
+    fetchElectronicDeviceCapacitiesList().then((res) =>
+      setCapacitiesList(res.data.data || [])
     );
-    fetchVehicleUsageStatusList().then((res) =>
-      setUsageStatusList(res.data.data || [])
+    fetchElectronicDeviceColorList().then((res) =>
+      setColorList(res.data.data || [])
     );
-    fetchVehicleGuaranteeList().then((res) =>
+    fetchElectronicDeviceCompaniesList().then((res) =>
+      setCompaniesList(res.data.data || [])
+    );
+    fetchElectronicDeviceGuaranteeList().then((res) =>
       setGuaranteeList(res.data.data || [])
     );
-    fetchVehicleCapacitiesList().then((res) =>
-      setCapacityList(res.data.data || [])
+    fetchElectronicDeviceHardDriveList().then((res) =>
+      setHardDriveList(res.data.data || [])
     );
-    fetchVehicleCompaniesList().then((res) =>
-      setCompanyList(res.data.data || [])
+    fetchElectronicDeviceMicroprocessorList().then((res) =>
+      setMicroprocessorList(res.data.data || [])
     );
-    fetchVehicleYearsOfManufactureList().then((res) =>
-      setYearManufactureList(res.data.data || [])
+    fetchElectronicDeviceMonitorCardList().then((res) =>
+      setDeviceMonitorCardList(res.data.data || [])
     );
-    fetchVehicleFuelsList().then((res) => setFuelList(res.data.data || []));
-    fetchVehicleGearboxesList().then((res) =>
-      setGearBoxList(res.data.data || [])
+    fetchElectronicDeviceRamList().then((res) =>
+      setRamList(res.data.data || [])
     );
-    fetchVehicleSeatNumbersList().then((res) =>
-      setSeatNumberList(res.data.data || [])
+    fetchElectronicDeviceScreenSizeList().then((res) =>
+      setScreenSizeList(res.data.data || [])
+    );
+    fetchElectronicDeviceSellerInformationList().then((res) =>
+      setSellerInformationList(res.data.data || [])
+    );
+    fetchElectronicDeviceUsageStatusList().then((res) =>
+      setUsageStatusList(res.data.data || [])
     );
   }, []);
   const handleCancel = () => setPreviewOpen(false);
@@ -162,15 +172,18 @@ export default function CreatePostCarForm() {
       formData.append('Seller_information', sellerInformation as string);
     guarantee && formData.append('Guarantee', guarantee as string);
     company && formData.append('Company', company as string);
-    yearManufacture &&
-      formData.append('Year_of_manufacture', yearManufacture as string);
-    gearBox && formData.append('Gearbox', gearBox as string);
-    fuel && formData.append('Fuel', fuel as string);
-    seatNumber && formData.append('Seat_number', seatNumber as string);
+    color && formData.append('Color', color as string);
     capacity && formData.append('Capacity', capacity as string);
-    map && formData.append('Map', map as string);
+    microprocessor &&
+      formData.append('Microprocessor', microprocessor as string);
+    ram && formData.append('Ram', ram as string);
+    hardDrive && formData.append('HardDrive', hardDrive as string);
+    monitorCard && formData.append('MonitorCard', monitorCard as string);
+    screenSize && formData.append('ScreenSize', screenSize as string);
     freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
-    price && formData.append('Price', price as string);
+
+    map && formData.append('Map', map as string);
+    price && !checked && formData.append('Price', price as string);
     title && formData.append('Title', title as string);
     detailedDescription &&
       formData.append('Detailed_description', detailedDescription as string);
@@ -178,11 +191,11 @@ export default function CreatePostCarForm() {
       formData.append('Contact_phone_number', contactPhoneNumber as string);
     url && formData.append('Url', url as string);
     for (let index = 0; index < fileList.length; index++) {
-      formData.append('images_A3_data', fileList[index].originFileObj as Blob);
+      formData.append('images_A3_data', fileList[index]?.originFileObj as Blob);
     }
-    formData.append('Video', videoFileList[0].originFileObj as Blob);
+    formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateVehiclePost(formData)
+    await fetchCreateElectroDevicePost(formData)
       .then((res) =>
         notification.success({
           message: 'Đã tạo',
@@ -273,59 +286,90 @@ export default function CreatePostCarForm() {
         />
         <Flex vertical gap={20}>
           <p className={titleClassName}>Thông tin chi tiết</p>
-          <Flex gap={10}>
-            <InputCustom
+          {/* <Flex gap={10}>
+            <SelectCustom
+              data={companiesList}
               defaultValue={company}
               onChange={(e) => setCompany(e || '')}
               label={'Hãng'}
             />
-            <InputCustom
-              defaultValue={yearManufacture}
-              type="number"
-              onChange={(e) => setYearManufacture(e || '')}
-              label={'Năm sản xuất'}
-            />
-          </Flex>
-          <HorizontalSelect
-            onChange={(e) => setGearBox(e || '')}
-            data={gearBoxList}
-            label={'Hộp sô'}
-          />
-          <HorizontalSelect
-            onChange={(e) => setFuel(e || '')}
-            data={fuelList}
-            label={'Nhiên liệu'}
-          />
-          <Flex gap={10}>
-            <InputCustom
+            <SelectCustom
+              data={guaranteeList}
               defaultValue={guarantee}
               onChange={(e) => setGuarantee(e || '')}
               label={'Bảo hành'}
             />
-            <InputCustom
-              defaultValue={seatNumber}
-              type="number"
-              onChange={(e) => setSeatNumber(e || '')}
-              label={'Số chỗ'}
+          </Flex> */}
+          <HorizontalSelect
+            onChange={(e) => setUsageStatus(e || '')}
+            data={usageStatusList}
+            required
+            label={'Tình trạng'}
+          />
+
+          <Flex gap={10}>
+            <SelectCustom
+              data={colorList}
+              defaultValue={color}
+              onChange={(e) => setColor(e || '')}
+              label={'Màu sắc'}
+            />
+            <SelectCustom
+              data={ramList}
+              defaultValue={ram}
+              onChange={(e) => setRam(e || '')}
+              label={'RAM'}
             />
           </Flex>
-          <HorizontalSelect
-            data={usageStatusList}
-            label={'Tình trạng sử dụng'}
-          />
           <Flex gap={10}>
-            <InputCustom
-              defaultValue={walked}
-              onChange={(e) => setWalked(e || '')}
-              label={'Số km đã đi'}
+            <SelectCustom
+              data={hardDriveList}
+              defaultValue={hardDrive}
+              onChange={(e) => setHardDrive(e || '')}
+              label={'Ổ cứng'}
             />
+            <SelectCustom
+              data={hardDriveList}
+              defaultValue={hardDrive}
+              onChange={(e) => setHardDrive(e || '')}
+              label={'Card màn hình'}
+            />
+          </Flex>
+          <Flex gap={10}>
+            <SelectCustom
+              data={screenSizeList}
+              defaultValue={screenSize}
+              onChange={(e) => setScreenSize(e || '')}
+              label={'Kích cỡ màn hình'}
+            />
+            <SelectCustom
+              data={colorList}
+              defaultValue={capacity}
+              onChange={(e) => setColor(e || '')}
+              label={'Màu sắc'}
+            />
+          </Flex>
+          <Flex gap={10} className="w-1/2">
+            <SelectCustom
+              data={guaranteeList}
+              defaultValue={guarantee}
+              onChange={(e) => setGuarantee(e || '')}
+              label={'Bảo hành'}
+            />
+          </Flex>
+          <Space>
+            <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+            <p>Tôi muốn cho tặng miễn phí</p>
+          </Space>
+
+          {!checked && (
             <InputCustom
               defaultValue={price}
               type="number"
               onChange={(e) => setPrice(e || '')}
               label={'Giá'}
             />
-          </Flex>
+          )}
 
           <p className={titleClassName}>Tiêu đề và mô tả chi tiết</p>
           <InputCustom

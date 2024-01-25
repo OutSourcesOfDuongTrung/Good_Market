@@ -114,9 +114,9 @@ export default function CreatePostWorkForm(props: Props) {
     // formData.append('Contact_phone_number', locationId as string);
     formData.append('Url', locationId as string);
     for (let index = 0; index < fileList.length; index++) {
-      formData.append('images_A1_data', fileList[index].originFileObj as Blob);
+      formData.append('images_A1_data', fileList[index]?.originFileObj as Blob);
     }
-    formData.append('Video', videoFileList[0].originFileObj as Blob);
+    formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
     await fetchCreateWorkPost(formData)
       .then((res) =>

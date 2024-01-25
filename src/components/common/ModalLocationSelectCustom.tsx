@@ -16,17 +16,19 @@ interface Props {
   required?: boolean;
   label: string;
   className?: string;
+  defaultValue?: string | number | undefined;
   onChange?: (
     location: string | number | undefined,
     address: string | number | undefined
   ) => void;
+  onChangeLabel?: (e: string | number | undefined) => void;
 }
 
 export default function ModalLocationSelectCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [areaList, setAreaList] = useState<ILocationResponse[]>([]);
   const [isSubMenu, setIsSubMenu] = useState(false);
-  const [value, setValue] = useState<string | number>();
+  const [value, setValue] = useState<string | number>(props.defaultValue || '');
 
   const handleChange = (e: string | number, address: string | number) => {
     setValue(e);
@@ -132,6 +134,8 @@ export default function ModalLocationSelectCustom(props: Props) {
                           onClick={() => {
                             setShowModal(false);
                             handleChange(item.id, addressItem.id);
+                            setValue(addressItem.Name);
+                            props.onChangeLabel?.(addressItem.Name || '');
                           }}
                           justify="space-between"
                         >

@@ -103,6 +103,7 @@ export default function ModalCategorySelectCustom(props: Props) {
                     handleChange(item.id || '');
                     currentForm.setCurrentForm?.(item.keyForm || '');
                     currentForm.setCurrentLabel?.(item.Name || '');
+                    currentForm.setCurrentCategoryId?.(item.id || '');
                     props.onChangeKey?.(item.keyForm || '');
                     isSubMenu ? setShowModal(false) : setIsSubMenu(true);
                   }}
@@ -119,13 +120,14 @@ export default function ModalCategorySelectCustom(props: Props) {
                 <div
                   key={index}
                   onClick={() => {
-                    if (item.children) {
+                    if (item.urlSub) {
                       setIsSubMenu(true);
                       fetchSubMenuList(item.urlSub || '');
                     } else {
                       props.onChangeKey?.(item.key);
                       currentForm.setCurrentForm?.(item.key || '');
                       currentForm.setCurrentLabel?.(item.label || '');
+                      currentForm.setCurrentCategoryId?.('');
                       setValue(item.label);
                       setShowModal(false);
                     }

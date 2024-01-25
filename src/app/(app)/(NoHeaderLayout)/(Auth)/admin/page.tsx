@@ -451,7 +451,7 @@ const pageList = [
   },
 
   // Tu lanh
-  { key: 'Fridge_Sub_CONDITION', children: <UsageStatusMachineryPage /> },
+  { key: 'Fridge_Sub_CONDITION', children: <UsageStatusRefrigeratorPage /> },
   { key: 'Fridge_Sub_CATEGORY', children: <CategoryRefrigeratorPage /> },
   { key: 'Fridge_Sub_Guarantee', children: <GuaranteeRefrigeratorPage /> },
   { key: 'Fridge_Sub_Manage_posts', children: <PostRefrigeratorPage /> },

@@ -9,6 +9,8 @@ export const CurrentFormContext = createContext<{
   setCurrentForm?: React.Dispatch<React.SetStateAction<string>>;
   currentLabel?: string;
   setCurrentLabel?: React.Dispatch<React.SetStateAction<string>>;
+  currentCategoryId?: string | number;
+  setCurrentCategoryId?: React.Dispatch<React.SetStateAction<string | number>>;
 }>({});
 
 export default function AuthLayout({
@@ -19,6 +21,9 @@ export default function AuthLayout({
   const [loadingPage, setLoadingPage] = useState(true);
   const [currentForm, setCurrentForm] = useState('');
   const [currentLabel, setCurrentLabel] = useState('');
+  const [currentCategoryId, setCurrentCategoryId] = useState<string | number>(
+    ''
+  );
 
   // const logged = useAppSelector((state) => state.user.logged);
   const token = getCookie('access');
@@ -35,6 +40,8 @@ export default function AuthLayout({
               setCurrentForm,
               currentLabel,
               setCurrentLabel,
+              currentCategoryId,
+              setCurrentCategoryId,
             }}
           >
             {children}

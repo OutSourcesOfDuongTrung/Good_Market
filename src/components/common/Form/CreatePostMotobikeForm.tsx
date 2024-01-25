@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SelectCustom from '../SelectCustom';
 import {
+  Checkbox,
   Flex,
   Image,
   Modal,
@@ -27,32 +28,63 @@ import {
   fetchSellerInformationList,
 } from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
+import {
+  fetchCreateVehiclePost,
+  fetchVehicleCapacitiesList,
+  fetchVehicleCompaniesList,
+  fetchVehicleFuelsList,
+  fetchVehicleGearboxesList,
+  fetchVehicleGuaranteeList,
+  fetchVehicleSeatNumbersList,
+  fetchVehicleSellerInformationList,
+  fetchVehicleUsageStatusList,
+  fetchVehicleYearsOfManufactureList,
+} from '@/api/vehicleRequest';
+import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 
-export default function CreatePostMotelRoomForm() {
+export default function CreatePostMotobikeForm() {
+  const currentForm = useContext(CurrentFormContext);
+
   const [mapValue, setMapValue] = useState('');
   const [locationId, setLocationId] = useState<number | string>('');
   const [addressId, setAddressId] = useState<number | string>('');
-  const [categoryId, setCategoryId] = useState<number | string>('');
-  const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
-    []
+  const [categoryId, setCategoryId] = useState<number | string>(
+    currentForm.currentCategoryId || ''
   );
   const [sellerInformationList, setSellerInformationList] = useState<IJob[]>(
     []
   );
-  const [acreage, setAcreage] = useState<number | string>('');
-  const [priceValue, setPriceValue] = useState<number | string>('');
-  const [depositAmount, setDepositAmount] = useState<number | string>('');
-  const [interiorCondition, setInteriorCondition] = useState<number | string>(
-    ''
-  );
+  const [usageStatusList, setUsageStatusList] = useState<IJob[]>([]);
+  const [guaranteeList, setGuaranteeList] = useState<IJob[]>([]);
+  const [capacityList, setCapacityList] = useState<IJob[]>([]);
+  const [companyList, setCompanyList] = useState<IJob[]>([]);
+  const [yearManufactureList, setYearManufactureList] = useState<IJob[]>([]);
+  const [fuelList, setFuelList] = useState<IJob[]>([]);
+  const [gearBoxList, setGearBoxList] = useState<IJob[]>([]);
+  const [seatNumberList, setSeatNumberList] = useState<IJob[]>([]);
+
   const [title, setTitle] = useState<number | string>('');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
     ''
   );
-  const [numberBedrooms, setNumberBedrooms] = useState<number>(0);
-  const [numberBathrooms, setNumberBathrooms] = useState<number>(0);
   const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [contactPhoneNumber, setContactPhoneNumber] = useState<number>(0);
+  const [usageStatus, setUsageStatus] = useState<number | string>('');
+  const [guarantee, setGuarantee] = useState<number | string>('');
+  const [company, setCompany] = useState<number | string>('');
+  const [yearManufacture, setYearManufacture] = useState<number | string>('');
+  const [gearBox, setGearBox] = useState<number | string>('');
+  const [fuel, setFuel] = useState<number | string>('');
+  const [seatNumber, setSeatNumber] = useState<number | string>('');
+  const [capacity, setCapacity] = useState<number | string>('');
+  const [map, setMap] = useState<number | string>('');
+  const [walked, setWalked] = useState<number | string>('');
+  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
+  const [price, setPrice] = useState<number | string>('');
+  const [checked, setChecked] = useState<boolean>();
+  const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
+    ''
+  );
+  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
   const [url, setUrl] = useState('');
 
   const [preview, setPreview] = useState(false);
@@ -63,15 +95,31 @@ export default function CreatePostMotelRoomForm() {
   const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    fetchInteriorConditionList().then((res) =>
-      setInteriorConditionList(res.data.data || [])
-    );
-    fetchSellerInformationList().then((res) =>
+    fetchVehicleSellerInformationList().then((res) =>
       setSellerInformationList(res.data.data || [])
     );
-    // fetchExperienceList().then((res) => setExperienceList(res.data.data || []));
-    // fetchPayFormsList().then((res) => setPayFormsList(res.data.data || []));
-    // fetchWorkTypeList().then((res) => setWorkTypeList(res.data.data || []));
+    fetchVehicleUsageStatusList().then((res) =>
+      setUsageStatusList(res.data.data || [])
+    );
+    fetchVehicleGuaranteeList().then((res) =>
+      setGuaranteeList(res.data.data || [])
+    );
+    fetchVehicleCapacitiesList().then((res) =>
+      setCapacityList(res.data.data || [])
+    );
+    fetchVehicleCompaniesList().then((res) =>
+      setCompanyList(res.data.data || [])
+    );
+    fetchVehicleYearsOfManufactureList().then((res) =>
+      setYearManufactureList(res.data.data || [])
+    );
+    fetchVehicleFuelsList().then((res) => setFuelList(res.data.data || []));
+    fetchVehicleGearboxesList().then((res) =>
+      setGearBoxList(res.data.data || [])
+    );
+    fetchVehicleSeatNumbersList().then((res) =>
+      setSeatNumberList(res.data.data || [])
+    );
   }, []);
   const handleCancel = () => setPreviewOpen(false);
 
@@ -107,40 +155,35 @@ export default function CreatePostMotelRoomForm() {
 
   const onSubmit = async () => {
     const formData = new FormData();
-    formData.append('Address', addressId as string);
-    formData.append('Location', locationId as string);
-    formData.append('Acreage', acreage as string);
-    formData.append('Category', categoryId as string);
-    formData.append('Interior_condition', interiorCondition as string);
-    formData.append('Price', priceValue as string);
-    formData.append('Seller_information', sellerInformation as string);
-    formData.append('Title', title as string);
+    addressId && formData.append('Address', addressId as string);
+    locationId && formData.append('Location', locationId as string);
+    categoryId && formData.append('Category', categoryId as string);
+    usageStatus && formData.append('Usage_status', usageStatus as string);
+    sellerInformation &&
+      formData.append('Seller_information', sellerInformation as string);
+    guarantee && formData.append('Guarantee', guarantee as string);
+    company && formData.append('Company', company as string);
+    yearManufacture &&
+      formData.append('Year_of_manufacture', yearManufacture as string);
+    gearBox && formData.append('Gearbox', gearBox as string);
+    fuel && formData.append('Fuel', fuel as string);
+    seatNumber && formData.append('Seat_number', seatNumber as string);
+    capacity && formData.append('Capacity', capacity as string);
+    map && formData.append('Map', map as string);
+    freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
+    price && formData.append('Price', price as string);
+    title && formData.append('Title', title as string);
+    detailedDescription &&
+      formData.append('Detailed_description', detailedDescription as string);
+    contactPhoneNumber &&
+      formData.append('Contact_phone_number', contactPhoneNumber as string);
+    url && formData.append('Url', url as string);
     for (let index = 0; index < fileList.length; index++) {
-      formData.append('images_A2_data', fileList[index]?.originFileObj as Blob);
+      formData.append('images_A3_data', fileList[index]?.originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateGoodHousePost(
-      formData
-      //   {
-      //   Address: addressId,
-      //   // Contact_phone_number: '',
-      //   // Detailed_description: '',
-      //   Location: locationId,
-      //   Acreage: acreage,
-      //   Category: 1,
-      //   Deposit_amount: depositAmount,
-      //   images_A2_data: fileList,
-      //   Interior_condition: interiorCondition,
-      //   // Number_of_bathrooms: '',
-      //   // Number_of_bedrooms: 0,
-      //   Price: priceValue,
-      //   Seller_information: sellerInformation,
-      //   Title: title as string,
-      //   // Url: '',
-      //   ...(videoFileList && { Video: videoFileList[0] }),
-      // }
-    )
+    await fetchCreateVehiclePost(formData)
       .then((res) =>
         notification.success({
           message: 'Đã tạo',
@@ -230,42 +273,59 @@ export default function CreatePostMotelRoomForm() {
           label="Danh mục tin đăng"
         />
         <Flex vertical gap={20}>
-          <p className={titleClassName}>Địa chỉ</p>
-          <ModalLocationSelectCustom
-            onChange={(location, address) => {
-              setLocationId((location as number) || 0);
-              setAddressId((address as number) || 0);
-            }}
-            label={'Địa chỉ'}
-          />
-          <p className={titleClassName}>Diện tích & Giá</p>
+          <p className={titleClassName}>Thông tin chi tiết</p>
           <Flex gap={10}>
-            <InputCustom
-              defaultValue={acreage}
-              onChange={(e) => setAcreage(e || '')}
-              label={'Diện tích'}
-            />
-            <InputCustom
-              defaultValue={priceValue}
-              type="number"
-              onChange={(e) => setPriceValue(e || '')}
-              label={'Giá'}
-            />
-          </Flex>
-          <p className={titleClassName}>Thông tin khác</p>
-          <Flex gap={10}>
-            <InputCustom
-              defaultValue={depositAmount}
-              onChange={(e) => setDepositAmount(e || '')}
-              label={'Số tiền cọc'}
+            <SelectCustom
+              data={companyList}
+              defaultValue={company}
+              onChange={(e) => setCompany(e || '')}
+              label={'Hãng'}
             />
             <SelectCustom
-              defaultValue={interiorCondition}
-              onChange={(e) => setInteriorCondition(e || '')}
-              label={'Tình trạng nội thất'}
-              data={interiorConditionList}
+              data={yearManufactureList}
+              defaultValue={yearManufacture}
+              onChange={(e) => setYearManufacture(e || '')}
+              label={'Năm sản xuất'}
             />
           </Flex>
+          <Flex gap={10}>
+            <SelectCustom
+              data={guaranteeList}
+              defaultValue={guarantee}
+              onChange={(e) => setGuarantee(e || '')}
+              label={'Bảo hành'}
+            />
+            <SelectCustom
+              data={capacityList}
+              defaultValue={capacity}
+              onChange={(e) => setCapacity(e || '')}
+              label={'Dung tích xe'}
+            />
+          </Flex>
+
+          <HorizontalSelect
+            onChange={(e) => setUsageStatus(e || '')}
+            data={usageStatusList}
+            label={'Tình trạng'}
+          />
+          <InputCustom
+            defaultValue={walked}
+            onChange={(e) => setWalked(e || '')}
+            label={'Số km đã đi'}
+          />
+          <Space>
+            <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+            <p>Tôi muốn cho tặng miễn phí</p>
+          </Space>
+          {!checked && (
+            <InputCustom
+              defaultValue={price}
+              type="number"
+              onChange={(e) => setPrice(e || '')}
+              label={'Giá'}
+            />
+          )}
+
           <p className={titleClassName}>Tiêu đề và mô tả chi tiết</p>
           <InputCustom
             defaultValue={title}
@@ -277,15 +337,21 @@ export default function CreatePostMotelRoomForm() {
             onChange={(e) => setDetailedDescription(e as string)}
             label="Mô tả chi tiết"
           />
-          <p className={titleClassName}>Thông tin người đăng</p>
+          <p className={titleClassName}>Thông tin người bán</p>
           <HorizontalSelect
             defaultValue={sellerInformation}
-            label="Thông tin người bán"
+            label="Bạn là"
             onChange={(e) => setSellerInformation(e as number)}
-            data={[
-              { id: 1, Name: 'Cá nhân' },
-              { id: 2, Name: 'Môi giới' },
-            ]}
+            data={sellerInformationList}
+          />
+          <ModalLocationSelectCustom
+            defaultValue={defaultLabel}
+            onChangeLabel={(e) => setDefaultLabel(e || '')}
+            onChange={(location, address) => {
+              setLocationId((location as number) || 0);
+              setAddressId((address as number) || 0);
+            }}
+            label={'Địa chỉ'}
           />
         </Flex>
         <Flex gap={20} className="my-[20px]">

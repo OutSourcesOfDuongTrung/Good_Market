@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SelectCustom from '../SelectCustom';
 import {
+  Checkbox,
   Flex,
   Image,
   Modal,
@@ -27,34 +28,76 @@ import {
   fetchSellerInformationList,
 } from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
+import {
+  fetchCreateVehiclePost,
+  fetchVehicleSellerInformationList,
+} from '@/api/vehicleRequest';
+import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import {
+  fetchCreateElectroDevicePost,
+  fetchElectronicDeviceCapacitiesList,
+  fetchElectronicDeviceColorList,
+  fetchElectronicDeviceCompaniesList,
+  fetchElectronicDeviceGuaranteeList,
+  fetchElectronicDeviceHardDriveList,
+  fetchElectronicDeviceMicroprocessorList,
+  fetchElectronicDeviceMonitorCardList,
+  fetchElectronicDeviceRamList,
+  fetchElectronicDeviceScreenSizeList,
+  fetchElectronicDeviceSellerInformationList,
+  fetchElectronicDeviceUsageStatusList,
+} from '@/api/electroDeviceRequest';
 
-export default function CreatePostMotelRoomForm() {
+export default function CreatePostPhoneForm() {
+  const currentForm = useContext(CurrentFormContext);
+
   const [mapValue, setMapValue] = useState('');
   const [locationId, setLocationId] = useState<number | string>('');
   const [addressId, setAddressId] = useState<number | string>('');
-  const [categoryId, setCategoryId] = useState<number | string>('');
-  const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
-    []
+  const [categoryId, setCategoryId] = useState<number | string>(
+    currentForm.currentCategoryId || ''
   );
   const [sellerInformationList, setSellerInformationList] = useState<IJob[]>(
     []
   );
-  const [acreage, setAcreage] = useState<number | string>('');
-  const [priceValue, setPriceValue] = useState<number | string>('');
-  const [depositAmount, setDepositAmount] = useState<number | string>('');
-  const [interiorCondition, setInteriorCondition] = useState<number | string>(
-    ''
-  );
+
+  const [capacitiesList, setCapacitiesList] = useState([]);
+  const [colorList, setColorList] = useState([]);
+  const [companiesList, setCompaniesList] = useState([]);
+  const [guaranteeList, setGuaranteeList] = useState([]);
+  const [hardDriveList, setHardDriveList] = useState([]);
+  const [microprocessorList, setMicroprocessorList] = useState([]);
+  const [deviceMonitorCardList, setDeviceMonitorCardList] = useState([]);
+  const [ramList, setRamList] = useState([]);
+  const [screenSizeList, setScreenSizeList] = useState([]);
+  const [usageStatusList, setUsageStatusList] = useState<IJob[]>([]);
+  const [companyList, setCompanyList] = useState<IJob[]>([]);
+
   const [title, setTitle] = useState<number | string>('');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
     ''
   );
-  const [numberBedrooms, setNumberBedrooms] = useState<number>(0);
-  const [numberBathrooms, setNumberBathrooms] = useState<number>(0);
   const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [contactPhoneNumber, setContactPhoneNumber] = useState<number>(0);
-  const [url, setUrl] = useState('');
+  const [usageStatus, setUsageStatus] = useState<number | string>('');
+  const [guarantee, setGuarantee] = useState<number | string>('');
+  const [map, setMap] = useState<number | string>('');
+  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
+  const [company, setCompany] = useState<number | string>('');
+  const [color, setColor] = useState<number | string>('');
+  const [capacity, setCapacity] = useState<number | string>('');
+  const [microprocessor, setMicroprocessor] = useState<number | string>('');
+  const [ram, setRam] = useState<number | string>('');
+  const [monitorCard, setMonitorCard] = useState<number | string>('');
+  const [hardDrive, setHardDrive] = useState<number | string>('');
+  const [screenSize, setScreenSize] = useState<number | string>('');
+  const [price, setPrice] = useState<number | string>('');
+  const [checked, setChecked] = useState<boolean>();
+  const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
+    ''
+  );
 
+  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
+  const [url, setUrl] = useState('');
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -63,15 +106,39 @@ export default function CreatePostMotelRoomForm() {
   const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    fetchInteriorConditionList().then((res) =>
-      setInteriorConditionList(res.data.data || [])
+    fetchElectronicDeviceCapacitiesList().then((res) =>
+      setCapacitiesList(res.data.data || [])
     );
-    fetchSellerInformationList().then((res) =>
+    fetchElectronicDeviceColorList().then((res) =>
+      setColorList(res.data.data || [])
+    );
+    fetchElectronicDeviceCompaniesList().then((res) =>
+      setCompaniesList(res.data.data || [])
+    );
+    fetchElectronicDeviceGuaranteeList().then((res) =>
+      setGuaranteeList(res.data.data || [])
+    );
+    fetchElectronicDeviceHardDriveList().then((res) =>
+      setHardDriveList(res.data.data || [])
+    );
+    fetchElectronicDeviceMicroprocessorList().then((res) =>
+      setMicroprocessorList(res.data.data || [])
+    );
+    fetchElectronicDeviceMonitorCardList().then((res) =>
+      setDeviceMonitorCardList(res.data.data || [])
+    );
+    fetchElectronicDeviceRamList().then((res) =>
+      setRamList(res.data.data || [])
+    );
+    fetchElectronicDeviceScreenSizeList().then((res) =>
+      setScreenSizeList(res.data.data || [])
+    );
+    fetchElectronicDeviceSellerInformationList().then((res) =>
       setSellerInformationList(res.data.data || [])
     );
-    // fetchExperienceList().then((res) => setExperienceList(res.data.data || []));
-    // fetchPayFormsList().then((res) => setPayFormsList(res.data.data || []));
-    // fetchWorkTypeList().then((res) => setWorkTypeList(res.data.data || []));
+    fetchElectronicDeviceUsageStatusList().then((res) =>
+      setUsageStatusList(res.data.data || [])
+    );
   }, []);
   const handleCancel = () => setPreviewOpen(false);
 
@@ -107,40 +174,38 @@ export default function CreatePostMotelRoomForm() {
 
   const onSubmit = async () => {
     const formData = new FormData();
-    formData.append('Address', addressId as string);
-    formData.append('Location', locationId as string);
-    formData.append('Acreage', acreage as string);
-    formData.append('Category', categoryId as string);
-    formData.append('Interior_condition', interiorCondition as string);
-    formData.append('Price', priceValue as string);
-    formData.append('Seller_information', sellerInformation as string);
-    formData.append('Title', title as string);
+    addressId && formData.append('Address', addressId as string);
+    locationId && formData.append('Location', locationId as string);
+    categoryId && formData.append('Category', categoryId as string);
+    usageStatus && formData.append('Usage_status', usageStatus as string);
+    sellerInformation &&
+      formData.append('Seller_information', sellerInformation as string);
+    guarantee && formData.append('Guarantee', guarantee as string);
+    company && formData.append('Company', company as string);
+    color && formData.append('Color', color as string);
+    capacity && formData.append('Capacity', capacity as string);
+    microprocessor &&
+      formData.append('Microprocessor', microprocessor as string);
+    ram && formData.append('Ram', ram as string);
+    hardDrive && formData.append('HardDrive', hardDrive as string);
+    monitorCard && formData.append('MonitorCard', monitorCard as string);
+    screenSize && formData.append('ScreenSize', screenSize as string);
+    freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
+
+    map && formData.append('Map', map as string);
+    price && !checked && formData.append('Price', price as string);
+    title && formData.append('Title', title as string);
+    detailedDescription &&
+      formData.append('Detailed_description', detailedDescription as string);
+    contactPhoneNumber &&
+      formData.append('Contact_phone_number', contactPhoneNumber as string);
+    url && formData.append('Url', url as string);
     for (let index = 0; index < fileList.length; index++) {
-      formData.append('images_A2_data', fileList[index]?.originFileObj as Blob);
+      formData.append('images_A3_data', fileList[index]?.originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateGoodHousePost(
-      formData
-      //   {
-      //   Address: addressId,
-      //   // Contact_phone_number: '',
-      //   // Detailed_description: '',
-      //   Location: locationId,
-      //   Acreage: acreage,
-      //   Category: 1,
-      //   Deposit_amount: depositAmount,
-      //   images_A2_data: fileList,
-      //   Interior_condition: interiorCondition,
-      //   // Number_of_bathrooms: '',
-      //   // Number_of_bedrooms: 0,
-      //   Price: priceValue,
-      //   Seller_information: sellerInformation,
-      //   Title: title as string,
-      //   // Url: '',
-      //   ...(videoFileList && { Video: videoFileList[0] }),
-      // }
-    )
+    await fetchCreateElectroDevicePost(formData)
       .then((res) =>
         notification.success({
           message: 'Đã tạo',
@@ -230,42 +295,55 @@ export default function CreatePostMotelRoomForm() {
           label="Danh mục tin đăng"
         />
         <Flex vertical gap={20}>
-          <p className={titleClassName}>Địa chỉ</p>
-          <ModalLocationSelectCustom
-            onChange={(location, address) => {
-              setLocationId((location as number) || 0);
-              setAddressId((address as number) || 0);
-            }}
-            label={'Địa chỉ'}
+          <p className={titleClassName}>Thông tin chi tiết</p>
+          <HorizontalSelect
+            onChange={(e) => setUsageStatus(e || '')}
+            data={usageStatusList}
+            required
+            label={'Tình trạng'}
           />
-          <p className={titleClassName}>Diện tích & Giá</p>
           <Flex gap={10}>
-            <InputCustom
-              defaultValue={acreage}
-              onChange={(e) => setAcreage(e || '')}
-              label={'Diện tích'}
-            />
-            <InputCustom
-              defaultValue={priceValue}
-              type="number"
-              onChange={(e) => setPriceValue(e || '')}
-              label={'Giá'}
-            />
-          </Flex>
-          <p className={titleClassName}>Thông tin khác</p>
-          <Flex gap={10}>
-            <InputCustom
-              defaultValue={depositAmount}
-              onChange={(e) => setDepositAmount(e || '')}
-              label={'Số tiền cọc'}
+            <SelectCustom
+              data={companiesList}
+              defaultValue={company}
+              onChange={(e) => setCompany(e || '')}
+              label={'Hãng'}
             />
             <SelectCustom
-              defaultValue={interiorCondition}
-              onChange={(e) => setInteriorCondition(e || '')}
-              label={'Tình trạng nội thất'}
-              data={interiorConditionList}
+              data={guaranteeList}
+              defaultValue={guarantee}
+              onChange={(e) => setGuarantee(e || '')}
+              label={'Bảo hành'}
             />
           </Flex>
+          <Flex gap={10}>
+            <SelectCustom
+              data={colorList}
+              defaultValue={color}
+              onChange={(e) => setColor(e || '')}
+              label={'Màu sắc'}
+            />
+            <SelectCustom
+              data={capacitiesList}
+              defaultValue={capacity}
+              onChange={(e) => setCapacity(e || '')}
+              label={'Dung lượng'}
+            />
+          </Flex>
+          <Space>
+            <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+            <p>Tôi muốn cho tặng miễn phí</p>
+          </Space>
+
+          {!checked && (
+            <InputCustom
+              defaultValue={price}
+              type="number"
+              onChange={(e) => setPrice(e || '')}
+              label={'Giá'}
+            />
+          )}
+
           <p className={titleClassName}>Tiêu đề và mô tả chi tiết</p>
           <InputCustom
             defaultValue={title}
@@ -277,15 +355,21 @@ export default function CreatePostMotelRoomForm() {
             onChange={(e) => setDetailedDescription(e as string)}
             label="Mô tả chi tiết"
           />
-          <p className={titleClassName}>Thông tin người đăng</p>
+          <p className={titleClassName}>Thông tin người bán</p>
           <HorizontalSelect
             defaultValue={sellerInformation}
-            label="Thông tin người bán"
+            label="Bạn là"
             onChange={(e) => setSellerInformation(e as number)}
-            data={[
-              { id: 1, Name: 'Cá nhân' },
-              { id: 2, Name: 'Môi giới' },
-            ]}
+            data={sellerInformationList}
+          />
+          <ModalLocationSelectCustom
+            defaultValue={defaultLabel}
+            onChangeLabel={(e) => setDefaultLabel(e || '')}
+            onChange={(location, address) => {
+              setLocationId((location as number) || 0);
+              setAddressId((address as number) || 0);
+            }}
+            label={'Địa chỉ'}
           />
         </Flex>
         <Flex gap={20} className="my-[20px]">
