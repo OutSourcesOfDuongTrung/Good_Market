@@ -7,6 +7,7 @@ import CreatePostElectronicDeviceForm from '@/components/common/Form/CreatePostE
 import CreatePostFridgeForm from '@/components/common/Form/CreatePostFridgeForm';
 import CreatePostHomeApplianceForm from '@/components/common/Form/CreatePostHomeApplianceForm';
 import CreatePostLaptopForm from '@/components/common/Form/CreatePostLaptopForm';
+import CreatePostMachineryEquipmentForm from '@/components/common/Form/CreatePostMachineryEquipmentForm';
 import CreatePostMotobikeForm from '@/components/common/Form/CreatePostMotobikeForm';
 import CreatePostPhoneForm from '@/components/common/Form/CreatePostPhoneForm';
 import CreatePostServiceForm from '@/components/common/Form/CreatePostServiceForm';
@@ -52,7 +53,7 @@ const getFormByKey = (key: string) => {
     case 'COMMON-VIETSHOP':
       return;
     case 'MACHINE':
-      return;
+      return <CreatePostMachineryEquipmentForm />;
     case 'WORK':
       return <CreatePostWorkForm />;
     case 'TAXI':

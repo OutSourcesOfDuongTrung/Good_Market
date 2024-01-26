@@ -144,6 +144,13 @@ export default function CategoryGoodHousePage() {
         onSearch={onSearch}
         data={categoryList}
         createAble={true}
+        keyForm={GoodHouseKeyFormList.map(
+          (item, index) =>
+            ({
+              id: item,
+              Name: item,
+            } as unknown as IJob)
+        )}
         create={{
           url: 'good-house/category/',
           inputName: ['Name'],

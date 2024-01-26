@@ -1,6 +1,8 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { ServiceFormList } from '@/services/keyFormList';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -125,6 +127,13 @@ export default function CategoryProductServicePage() {
         onSearch={onSearch}
         data={categoryList}
         createAble={true}
+        keyForm={ServiceFormList.map(
+          (item, index) =>
+            ({
+              id: item,
+              Name: item,
+            } as unknown as IJob)
+        )}
         create={{
           url: 'service/category/',
           inputName: ['Name'],

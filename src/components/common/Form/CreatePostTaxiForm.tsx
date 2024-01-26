@@ -31,12 +31,7 @@ import Link from 'next/link';
 import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import PreviewProduct from '../PreviewProduct';
-import {
-  fetchServiceGuaranteeList,
-  fetchServicePost,
-  fetchServiceSellerInformationList,
-  fetchServiceUsageStatusList,
-} from '@/api/serviceRequest';
+
 import { fetchAreaList } from '@/api/addressRequest';
 import {
   fetchTaxiPost,

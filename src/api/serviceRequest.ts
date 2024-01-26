@@ -1,7 +1,7 @@
 import instanceAxios from './instanceAxios';
 
 export const fetchServicePost = async (data?: FormData) => {
-  return await instanceAxios.post(`/service/items`, data);
+  return await instanceAxios.post(`/service/items/`, data);
 };
 export const fetchServiceGuaranteeList = async (
   searchData?: string,
