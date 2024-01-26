@@ -1,12 +1,15 @@
 'use client';
+import instanceAxios from '@/api/instanceAxios';
 import CardItem from '@/components/common/CardItem';
+import { IProduct } from '@/types/Job';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Badge, Carousel, Image } from 'antd';
 import Link from 'next/link';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function HomePage() {
   const ref = useRef<HTMLDivElement>(null);
+  const [productList, setProducList] = useState<IProduct[]>([]);
 
   const scroll = (scrollOffset: number) => {
     if (ref.current) {
@@ -20,6 +23,19 @@ export default function HomePage() {
     textAlign: 'center',
     background: '#364d79',
   };
+
+  useEffect(() => {
+    const fetchProducHome = async () => {
+      await instanceAxios
+        .get(`list_home/`)
+        .then((res) => {
+          setProducList(res.data.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchProducHome();
+  }, []);
+
   return (
     <div className="w-3/4 flex flex-col gap-y-5 m-auto">
       <div className="p-[10px] bg-white shadow-xl rounded-lg">
@@ -84,8 +100,12 @@ export default function HomePage() {
         Tin đăng mới
       </div>
       <div className="flex flex-wrap justify-between gap-2">
-        {[...Array(20)].map((_, index) => (
-          <CardItem ribbon={index % 2 == 0 ? 'Việc 24h' : ''} key={index} />
+        {productList.map((item, index) => (
+          <CardItem
+            data={item}
+            ribbon={index % 2 == 0 ? 'Việc 24h' : ''}
+            key={index}
+          />
         ))}
       </div>
     </div>

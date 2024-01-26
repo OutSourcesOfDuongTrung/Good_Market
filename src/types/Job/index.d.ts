@@ -326,3 +326,26 @@ interface IShopViet {
   Creation_time: string;
   Update_time: string;
 }
+
+interface IProduct {
+  id: number;
+  User: IUser;
+  Location: ILocationResponse;
+  Address: IAddress;
+  Category: IJob;
+  Usage_status: IJob;
+  Seller_information: IJob;
+  Guarantee: IJob;
+  Company: IJob;
+  Capacity: IJob;
+  Map: IJob;
+  Free_giveaway: IJob;
+  Price: number;
+  Title: number;
+  Detailed_description: string;
+  Video: string;
+  Contact_phone_number: string;
+  Url: string;
+  Creation_time: string;
+  Update_time: string;
+}
