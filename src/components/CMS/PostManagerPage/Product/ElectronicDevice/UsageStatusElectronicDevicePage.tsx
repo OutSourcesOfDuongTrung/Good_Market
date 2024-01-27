@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function UsageStatusElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/usage-status/${currentID}/`, e)
+      .patch(`/ElectronicDevice/usage-status/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function UsageStatusElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/usage-status/${id}/`)
+      .delete(`/ElectronicDevice/usage-status/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchUsageStatusElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function UsageStatusElectronicDevicePage() {
 
   const fetchUsageStatusElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/usage-status/`, {
+      .get(`/ElectronicDevice/usage-status/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function UsageStatusElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/usage-status/',
+          url: '/ElectronicDevice/usage-status/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

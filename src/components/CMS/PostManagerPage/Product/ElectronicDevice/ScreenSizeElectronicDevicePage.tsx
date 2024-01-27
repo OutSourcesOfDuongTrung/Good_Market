@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function ScreenSizeElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/screen_size/${currentID}/`, e)
+      .patch(`/ElectronicDevice/screen_size/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function ScreenSizeElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/screen_size/${id}/`)
+      .delete(`/ElectronicDevice/screen_size/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchScreenSizeElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function ScreenSizeElectronicDevicePage() {
 
   const fetchScreenSizeElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/screen_size/`, {
+      .get(`/ElectronicDevice/screen_size/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function ScreenSizeElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/screen_size/',
+          url: '/ElectronicDevice/screen_size/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

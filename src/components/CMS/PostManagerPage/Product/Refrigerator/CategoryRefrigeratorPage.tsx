@@ -29,7 +29,7 @@ export default function CategoryRefrigeratorPage() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/category/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/category/${currentID}/`,
         e
       )
       .then((res) => {
@@ -52,7 +52,7 @@ export default function CategoryRefrigeratorPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`refrigerator-airconditioner-washingmachine/category/${id}/`)
+      .delete(`/refrigerator-airconditioner-washingmachine/category/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCategoryRefrigeratorList');
@@ -64,7 +64,7 @@ export default function CategoryRefrigeratorPage() {
 
   const fetchCategoryRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/category/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/category/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -141,7 +141,7 @@ export default function CategoryRefrigeratorPage() {
             } as unknown as IJob)
         )}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/category/',
+          url: '/refrigerator-airconditioner-washingmachine/category/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -27,7 +27,7 @@ export default function PostGoodHousePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`good-house/items/${currentID}/`, e)
+      .patch(`/good-house/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -48,7 +48,7 @@ export default function PostGoodHousePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`good-house/items/${id}/`)
+      .delete(`/good-house/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostGoodHouse');
@@ -60,7 +60,7 @@ export default function PostGoodHousePage() {
 
   const fetchPostGoodHouse = useCallback(async () => {
     await instanceAxios
-      .get(`good-house/items/`, {
+      .get(`/good-house/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -148,7 +148,7 @@ export default function PostGoodHousePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'good-house/items/',
+          url: '/good-house/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -18,7 +18,7 @@ import TextAreaCustom from '../TextAreaCustom';
 
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
-import { IJob, ILocationResponse } from '@/types/Job';
+import { IJob, ILocationResponse, IVehicle } from '@/types/Job';
 import {
   CalendarOutlined,
   CaretLeftOutlined,
@@ -38,40 +38,69 @@ import {
   fetchTaxiPostedNewsList,
   fetchTaxiPosterInformationList,
 } from '@/api/taxiRequest';
+import getParentUrl from '@/services/getUrl';
 
-export default function CreatePostTaxiForm() {
+interface Props {
+  edit?: boolean;
+  data?: IVehicle;
+}
+export default function CreatePostTaxiForm(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location?.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address?.id || ''
+  );
   const [categoryId, setCategoryId] = useState<number | string>(
     currentForm.currentCategoryId || ''
   );
 
-  const [title, setTitle] = useState<number | string>('');
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
-    ''
+    props.data?.Seller_information?.id || ''
   );
   const [postedNewsList, setPostedNewsList] = useState<IJob[]>([]);
   const [posterInformationList, setPosterInformationList] = useState<IJob[]>(
     []
   );
-  const [detailedDescription, setDetailedDescription] = useState<string>('');
+  const [detailedDescription, setDetailedDescription] = useState<string>(
+    props.data?.Detailed_description || ''
+  );
   const [price, setPrice] = useState<number | string>('');
 
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
-    ''
+    props.data?.Contact_phone_number || ''
   );
 
   const [defaultLabel, setDefaultLabel] = useState<number | string>('');
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(getParentUrl.Taxi);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A3.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   const [showModal, setShowModal] = useState(false);
   const [areaList, setAreaList] = useState<ILocationResponse[]>([]);

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function SellerietShopPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`shop-viet/seller-information/${currentID}/`, e)
+      .patch(`/shop-viet/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function SellerietShopPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`shop-viet/seller-information/${id}/`)
+      .delete(`/shop-viet/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchSellerietShopList');
@@ -59,7 +60,7 @@ export default function SellerietShopPage() {
 
   const fetchSellerietShopList = useCallback(async () => {
     await instanceAxios
-      .get(`shop-viet/seller-information/`, {
+      .get(`/shop-viet/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -126,7 +127,7 @@ export default function SellerietShopPage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'shop-viet/seller-information/',
+          url: '/shop-viet/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

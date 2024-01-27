@@ -30,7 +30,7 @@ import {
 } from '@/api/electroDeviceRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
-import { IJob } from '@/types/Job';
+import { IJob, IRefrigeratorPost } from '@/types/Job';
 import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import Dragger from 'antd/es/upload/Dragger';
 import Link from 'next/link';
@@ -46,13 +46,22 @@ import {
   fetchRefrigeratorWashingVolumeList,
   fetchRefrigeratorWattageList,
 } from '@/api/fridgeRequest';
+import getParentUrl from '@/services/getUrl';
 
-export default function CreatePostFridgeForm() {
+interface Props {
+  edit?: boolean;
+  data?: IRefrigeratorPost;
+}
+export default function CreatePostFridgeForm(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location?.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address?.id || ''
+  );
   const [categoryId, setCategoryId] = useState<number | string>(
     currentForm.currentCategoryId || ''
   );
@@ -68,33 +77,65 @@ export default function CreatePostFridgeForm() {
   const [washingVolumeList, setWashingVolumeList] = useState([]);
   const [wattageList, setWattageList] = useState([]);
 
-  const [title, setTitle] = useState<number | string>('');
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
-    ''
+    props.data?.Seller_information?.id || ''
   );
-  const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [usageStatus, setUsageStatus] = useState<number | string>('');
-  const [guarantee, setGuarantee] = useState<number | string>('');
+  const [detailedDescription, setDetailedDescription] = useState<string>(
+    props.data?.Detailed_description || ''
+  );
+  const [usageStatus, setUsageStatus] = useState<number | string>(
+    props.data?.Usage_status?.id || ''
+  );
+  const [guarantee, setGuarantee] = useState<number | string>(
+    props.data?.Guarantee?.id || ''
+  );
   const [map, setMap] = useState<number | string>('');
-  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
-  const [price, setPrice] = useState<number | string>('');
-  const [volume, setVolume] = useState<number | string>('');
-  const [wattage, setWattage] = useState<number | string>('');
-  const [washingVolume, setWashingVolume] = useState<number | string>('');
+  const [freeGiveAway, setFreeGiveAway] = useState<number | string>(
+    props.data?.Free_giveaway || ''
+  );
+  const [price, setPrice] = useState<number | string>(props.data?.Price || '');
+  const [volume, setVolume] = useState<number | string>(
+    props.data?.Volume?.id || ''
+  );
+  const [wattage, setWattage] = useState<number | string>(
+    props.data?.Wattage?.id || ''
+  );
+  const [washingVolume, setWashingVolume] = useState<number | string>(
+    props.data?.Washing_volume?.id || ''
+  );
 
   const [checked, setChecked] = useState<boolean>();
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
-    ''
+    props.data?.Contact_phone_number || ''
   );
 
   const [defaultLabel, setDefaultLabel] = useState<number | string>('');
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(getParentUrl.Fridge);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A3.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchRefrigeratorGuaranteeList().then((res) =>
@@ -269,6 +310,7 @@ export default function CreatePostFridgeForm() {
         <Flex vertical gap={20}>
           <p className={titleClassName}>Thông tin chi tiết</p>
           <HorizontalSelect
+            defaultValue={wattage}
             onChange={(e) => setUsageStatus(e || '')}
             data={usageStatusList}
             required
@@ -282,9 +324,9 @@ export default function CreatePostFridgeForm() {
               label={'Bảo Hành'}
             />
             <SelectCustom
-              data={volumeList}
-              defaultValue={volume}
-              onChange={(e) => setVolume(e || '')}
+              data={wattageList}
+              defaultValue={wattage}
+              onChange={(e) => setWattage(e || '')}
               label={'Công suất'}
             />
           </Flex>

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function CapacitiesVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/capacities/${currentID}/`, e)
+      .patch(`/vehicle/capacities/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function CapacitiesVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/capacities/${id}/`)
+      .delete(`/vehicle/capacities/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCapacitiesVehicleList');
@@ -59,7 +60,7 @@ export default function CapacitiesVehiclePage() {
 
   const fetchCapacitiesVehicleList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/capacities/`, {
+      .get(`/vehicle/capacities/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function CapacitiesVehiclePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'vehicle/capacities/',
+          url: '/vehicle/capacities/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

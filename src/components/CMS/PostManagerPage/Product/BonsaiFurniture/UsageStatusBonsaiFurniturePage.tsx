@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function UsageStatusBonsaiFurniturePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`home-appliance/usage-status/${currentID}/`, e)
+      .patch(`/home-appliance/usage-status/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function UsageStatusBonsaiFurniturePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`home-appliance/usage-status/${id}/`)
+      .delete(`/home-appliance/usage-status/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchUsageStatusBonsaiFurnitureList');
@@ -59,7 +60,7 @@ export default function UsageStatusBonsaiFurniturePage() {
 
   const fetchUsageStatusBonsaiFurnitureList = useCallback(async () => {
     await instanceAxios
-      .get(`home-appliance/usage-status/`, {
+      .get(`/home-appliance/usage-status/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function UsageStatusBonsaiFurniturePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'home-appliance/usage-status/',
+          url: '/home-appliance/usage-status/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

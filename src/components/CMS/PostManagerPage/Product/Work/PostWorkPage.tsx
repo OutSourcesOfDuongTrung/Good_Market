@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJobPost } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -35,7 +36,7 @@ export default function PostWorkPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/items/${currentID}/`, e)
+      .patch(`/job/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -56,7 +57,7 @@ export default function PostWorkPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/items/${id}/`)
+      .delete(`/job/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostList');
@@ -68,7 +69,7 @@ export default function PostWorkPage() {
 
   const fetchPostList = useCallback(async () => {
     await instanceAxios
-      .get(`job/items/`, {
+      .get(`/job/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -155,7 +156,7 @@ export default function PostWorkPage() {
         data={postList.map((item, index) => ({ key: index, ...item }))}
         createAble={true}
         create={{
-          url: 'job/items/',
+          url: '/job/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

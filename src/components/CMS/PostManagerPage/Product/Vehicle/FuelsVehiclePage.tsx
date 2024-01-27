@@ -27,7 +27,7 @@ export default function FuelsVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/fuels/${currentID}/`, e)
+      .patch(`/vehicle/fuels/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -48,7 +48,7 @@ export default function FuelsVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/fuels/${id}/`)
+      .delete(`/vehicle/fuels/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchFuelsVehicleList');
@@ -60,7 +60,7 @@ export default function FuelsVehiclePage() {
 
   const fetchFuelsVehicleList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/fuels/`, {
+      .get(`/vehicle/fuels/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -130,7 +130,7 @@ export default function FuelsVehiclePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'vehicle/fuels/',
+          url: '/vehicle/fuels/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

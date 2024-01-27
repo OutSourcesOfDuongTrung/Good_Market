@@ -17,7 +17,7 @@ import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import Dragger from 'antd/es/upload/Dragger';
-import { IJob, IJobPostCreate } from '@/types/Job';
+import { IElectroDevice, IJob, IJobPostCreate } from '@/types/Job';
 import getBase64, { FileType } from '@/services/getBase64';
 import { fetchCreateWorkPost } from '@/api/jobRequest';
 import Link from 'next/link';
@@ -47,13 +47,22 @@ import {
   fetchElectronicDeviceSellerInformationList,
   fetchElectronicDeviceUsageStatusList,
 } from '@/api/electroDeviceRequest';
+import getParentUrl from '@/services/getUrl';
 
-export default function CreatePostTabletForm() {
+interface Props {
+  edit?: boolean;
+  data?: IElectroDevice;
+}
+export default function CreatePostTabletForm(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location?.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address?.id || ''
+  );
   const [categoryId, setCategoryId] = useState<number | string>(
     currentForm.currentCategoryId || ''
   );
@@ -73,37 +82,69 @@ export default function CreatePostTabletForm() {
   const [usageStatusList, setUsageStatusList] = useState<IJob[]>([]);
   const [companyList, setCompanyList] = useState<IJob[]>([]);
 
-  const [title, setTitle] = useState<number | string>('');
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
-    ''
+    props.data?.Seller_information?.id || ''
   );
-  const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [usageStatus, setUsageStatus] = useState<number | string>('');
-  const [guarantee, setGuarantee] = useState<number | string>('');
+  const [detailedDescription, setDetailedDescription] = useState<string>(
+    props.data?.Detailed_description || ''
+  );
+  const [usageStatus, setUsageStatus] = useState<number | string>(
+    props.data?.Usage_status?.id || ''
+  );
+  const [guarantee, setGuarantee] = useState<number | string>(
+    props.data?.Guarantee?.id || ''
+  );
   const [map, setMap] = useState<number | string>('');
-  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
-  const [company, setCompany] = useState<number | string>('');
+  const [freeGiveAway, setFreeGiveAway] = useState<number | string>(
+    props.data?.Free_giveaway || ''
+  );
+  const [company, setCompany] = useState<number | string>(
+    props.data?.Company?.id || ''
+  );
   const [color, setColor] = useState<number | string>('');
   const [capacity, setCapacity] = useState<number | string>('');
   const [microprocessor, setMicroprocessor] = useState<number | string>('');
   const [ram, setRam] = useState<number | string>('');
   const [monitorCard, setMonitorCard] = useState<number | string>('');
-  const [hardDrive, setHardDrive] = useState<number | string>('');
-  const [screenSize, setScreenSize] = useState<number | string>('');
-  const [price, setPrice] = useState<number | string>('');
+  const [hardDrive, setHardDrive] = useState<number | string>(
+    props.data?.Hard_drive?.id || ''
+  );
+  const [screenSize, setScreenSize] = useState<number | string>(
+    props.data?.Screen_size?.id || ''
+  );
+  const [price, setPrice] = useState<number | string>(props.data?.Price || '');
   const [checked, setChecked] = useState<boolean>();
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
-    ''
+    props.data?.Contact_phone_number || ''
   );
 
   const [defaultLabel, setDefaultLabel] = useState<number | string>('');
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(getParentUrl.ElectroDevice);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A3.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchElectronicDeviceCapacitiesList().then((res) =>

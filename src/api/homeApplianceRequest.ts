@@ -8,7 +8,7 @@ export const fetchHomeApplianceGuaranteeList = async (
   searchData?: string,
   currentPage?: number
 ) => {
-  return await instanceAxios.get(`home-appliance/guarantee/`, {
+  return await instanceAxios.get(`/home-appliance/guarantee/`, {
     params: {
       ...(searchData && { search: searchData }),
       page_size: currentPage,
@@ -19,7 +19,7 @@ export const fetchHomeApplianceSellerInformationList = async (
   searchData?: string,
   currentPage?: number
 ) => {
-  return await instanceAxios.get(`home-appliance/seller-information/`, {
+  return await instanceAxios.get(`/home-appliance/seller-information/`, {
     params: {
       ...(searchData && { search: searchData }),
       page_size: currentPage,
@@ -30,7 +30,7 @@ export const fetchHomeApplianceUsageStatusList = async (
   searchData?: string,
   currentPage?: number
 ) => {
-  return await instanceAxios.get(`home-appliance/usage-status/`, {
+  return await instanceAxios.get(`/home-appliance/usage-status/`, {
     params: {
       ...(searchData && { search: searchData }),
       page_size: currentPage,

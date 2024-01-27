@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function SellerInformationServicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`service/seller-information/${currentID}/`, e)
+      .patch(`/service/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function SellerInformationServicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`service/seller-information/${id}/`)
+      .delete(`/service/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchSellerInformationServiceList');
@@ -59,7 +60,7 @@ export default function SellerInformationServicePage() {
 
   const fetchSellerInformationServiceList = useCallback(async () => {
     await instanceAxios
-      .get(`service/seller-information/`, {
+      .get(`/service/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function SellerInformationServicePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'service/seller-information/',
+          url: '/service/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -5,7 +5,7 @@ export const fetchInteriorConditionList = async (
   searchData?: string,
   currentPage?: number
 ) => {
-  return await instanceAxios.get(`good-house/interior-condition/`, {
+  return await instanceAxios.get(`/good-house/interior-condition/`, {
     params: {
       ...(searchData && { search: searchData }),
       page_size: currentPage,
@@ -16,7 +16,7 @@ export const fetchSellerInformationList = async (
   searchData?: string,
   currentPage?: number
 ) => {
-  return await instanceAxios.get(`good-house/seller-information/`, {
+  return await instanceAxios.get(`/good-house/seller-information/`, {
     params: {
       ...(searchData && { search: searchData }),
       page_size: currentPage,
@@ -27,8 +27,8 @@ export const fetchSellerInformationList = async (
 export const fetchCreateGoodHousePost = async (
   data?: IGoodHousePostCreate | FormData
 ) => {
-  return await instanceAxios.post(`good-house/items/`, data);
+  return await instanceAxios.post(`/good-house/items/`, data);
 };
 export const fetchCreateGoodHouseCategory = async (data?: IJob) => {
-  return await instanceAxios.post(`good-house/category/`, data);
+  return await instanceAxios.post(`/good-house/category/`, data);
 };

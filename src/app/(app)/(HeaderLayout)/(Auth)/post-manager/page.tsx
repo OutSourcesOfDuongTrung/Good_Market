@@ -1,11 +1,16 @@
 'use client';
+import instanceAxios from '@/api/instanceAxios';
+import { useAppSelector } from '@/app/hooks';
 import CardItemHorizontalManager from '@/components/common/CardItemHorizontalManager';
-import { Avatar, Flex, Pagination } from 'antd';
+import { IProduct } from '@/types/Job';
+import { Avatar, Flex, List, Pagination } from 'antd';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function PostManagePage() {
+  const currentUser = useAppSelector((state) => state.user.data);
   const [currentTab, setCurrentTab] = useState('active');
+  const [productList, setProductList] = useState<IProduct[]>([]);
   const tabList = [
     { key: 'active', label: 'Đang hiện thị', children: <p>ok</p> },
     { key: 'expired', label: 'Hết hạn', children: <p>ok</p> },
@@ -13,6 +18,15 @@ export default function PostManagePage() {
     { key: 'not_active', label: 'Đã ẩn', children: <p>ok</p> },
     { key: 'different', label: 'Khác', children: <p>ok</p> },
   ];
+  useEffect(() => {
+    const fethUserPost = async () => {
+      await instanceAxios
+        .get(`list_home/user/${currentUser?.id}/`)
+        .then((res) => setProductList(res.data.data || []))
+        .catch((err) => console.log(err));
+    };
+    fethUserPost();
+  }, [currentUser?.id]);
   return (
     <div className="w-2/3 m-auto">
       <p className="py-[20px] font-bold">Quản lí tin đăng</p>
@@ -53,11 +67,26 @@ export default function PostManagePage() {
           </p>
         ))}
       </Flex>
-      <Flex vertical gap={5} align="center">
-        {[...Array(5)].map((item, index) => (
+      <Flex className="w-full" vertical gap={5} align="center">
+        <List
+          className="w-full"
+          pagination={{
+            position: 'bottom',
+            align: 'center',
+            pageSize: 5,
+            total: productList.length,
+          }}
+          dataSource={productList}
+          renderItem={(item, index) => (
+            <List.Item>
+              <CardItemHorizontalManager data={item} key={index} />
+            </List.Item>
+          )}
+        />
+        {/* {productList.map((item, index) => (
           <CardItemHorizontalManager key={index} />
         ))}
-        <Pagination className="!my-[20px]" defaultCurrent={1} total={50} />
+        <Pagination className="!my-[20px]" defaultCurrent={1} total={50} /> */}
       </Flex>
     </div>
   );

@@ -16,7 +16,7 @@ import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import Dragger from 'antd/es/upload/Dragger';
-import { IJob, IJobPostCreate } from '@/types/Job';
+import { IGoodHousePost, IJob, IJobPostCreate } from '@/types/Job';
 import getBase64, { FileType } from '@/services/getBase64';
 import { fetchCreateWorkPost } from '@/api/jobRequest';
 import Link from 'next/link';
@@ -28,45 +28,85 @@ import {
 } from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import getParentUrl from '@/services/getUrl';
 
 interface Props {
-  defaultValue: string;
+  edit?: boolean;
+  data?: IGoodHousePost;
+  // defaultValue: string;
 }
-export default function CreatePostWholeHouse() {
+
+export default function CreatePostWholeHouse(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
-  const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
-  const [categoryId, setCategoryId] = useState('');
+  const [mapValue, setMapValue] = useState(props.data?.Map || '');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address.id || ''
+  );
+  const [categoryId, setCategoryId] = useState<number | string>(
+    props.data?.Category.id || ''
+  );
   const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
     []
   );
   const [sellerInformationList, setSellerInformationList] = useState<IJob[]>(
     []
   );
-  const [acreage, setAcreage] = useState<number | string>('');
-  const [priceValue, setPriceValue] = useState<number | string>('');
-  const [depositAmount, setDepositAmount] = useState<number | string>('');
+  const [acreage, setAcreage] = useState<number | string>(
+    props.data?.Acreage || ''
+  );
+  const [priceValue, setPriceValue] = useState<number | string>(
+    props.data?.Price || ''
+  );
+  const [depositAmount, setDepositAmount] = useState<number | string>(
+    props.data?.Deposit_amount || ''
+  );
   const [interiorCondition, setInteriorCondition] = useState<number | string>(
     ''
   );
-  const [title, setTitle] = useState<number | string>('');
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
-    ''
+    props.data?.Seller_information.id || ''
   );
-  const [numberBedrooms, setNumberBedrooms] = useState<number>(0);
-  const [numberBathrooms, setNumberBathrooms] = useState<number>(0);
+  const [numberBedrooms, setNumberBedrooms] = useState<number>(
+    props.data?.Number_of_bedrooms || 0
+  );
+  const [numberBathrooms, setNumberBathrooms] = useState<number>(
+    props.data?.Number_of_bathrooms || 0
+  );
   const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [contactPhoneNumber, setContactPhoneNumber] = useState<number>(0);
-  const [url, setUrl] = useState('');
+  const [contactPhoneNumber, setContactPhoneNumber] = useState<string | number>(
+    props.data?.Contact_phone_number || ''
+  );
+  const [url, setUrl] = useState(props.data?.Url);
 
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A2?.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchInteriorConditionList().then((res) =>
@@ -126,6 +166,7 @@ export default function CreatePostWholeHouse() {
     formData.append('Title', title as string);
     formData.append('Detailed_description', detailedDescription as string);
     formData.append('Seller_information', sellerInformation as string);
+    formData.append('Url', url as string);
 
     for (let index = 0; index < fileList.length; index++) {
       formData.append('images_A2_data', fileList[index]?.originFileObj as Blob);

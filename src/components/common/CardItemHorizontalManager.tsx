@@ -1,3 +1,6 @@
+import { textDefault } from '@/services/dataDefault';
+import getImageLink from '@/services/getImageLink';
+import { IProduct } from '@/types/Job';
 import {
   EditOutlined,
   EyeOutlined,
@@ -6,8 +9,10 @@ import {
 } from '@ant-design/icons';
 import { Dropdown, Flex, Image } from 'antd';
 import React from 'react';
-
-export default function CardItemHorizontalManager() {
+interface Props {
+  data?: IProduct;
+}
+export default function CardItemHorizontalManager(props: Props) {
   return (
     <div className="w-full">
       <Flex
@@ -22,15 +27,15 @@ export default function CardItemHorizontalManager() {
             preview={false}
             className=""
             alt=""
-            src=""
+            src={getImageLink(props.data || {})}
           />
           <p className="absolute w-full left-0 bottom-0 py-[5px] text-[10px] text-white text-center bg-[rgba(0,0,0,0.7)]">
             Đẫ ẩn
           </p>
         </div>
         <Flex vertical gap={5}>
-          <p>SH 125 CBS 2020 xe CVC Chät Siéu Li-rdT NEW</p>
-          <b className="text-red-500 text-[14px]">$3000/tháng</b>
+          <p>{props.data?.Title || textDefault}</p>
+          <b className="text-red-500 text-[14px]">${props.data?.Price || 0}</b>
           <p className="text-[#9b9b9b] text-[12px]">
             Hiện thị: <b className="text-[#9b9b9b]">03/06/23 - 07/10/23</b>
           </p>

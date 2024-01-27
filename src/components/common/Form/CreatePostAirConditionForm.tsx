@@ -15,29 +15,6 @@ import SelectCustom from '../SelectCustom';
 import TextAreaCustom from '../TextAreaCustom';
 
 import {
-  fetchCreateElectroDevicePost,
-  fetchElectronicDeviceCapacitiesList,
-  fetchElectronicDeviceColorList,
-  fetchElectronicDeviceCompaniesList,
-  fetchElectronicDeviceGuaranteeList,
-  fetchElectronicDeviceHardDriveList,
-  fetchElectronicDeviceMicroprocessorList,
-  fetchElectronicDeviceMonitorCardList,
-  fetchElectronicDeviceRamList,
-  fetchElectronicDeviceScreenSizeList,
-  fetchElectronicDeviceSellerInformationList,
-  fetchElectronicDeviceUsageStatusList,
-} from '@/api/electroDeviceRequest';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
-import getBase64, { FileType } from '@/services/getBase64';
-import { IJob } from '@/types/Job';
-import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import Dragger from 'antd/es/upload/Dragger';
-import Link from 'next/link';
-import HorizontalSelect from '../HorizontalSelect';
-import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
-import PreviewProduct from '../PreviewProduct';
-import {
   fetchCreateFridgePost,
   fetchRefrigeratorGuaranteeList,
   fetchRefrigeratorSellerInformationList,
@@ -45,14 +22,34 @@ import {
   fetchRefrigeratorVolumeList,
   fetchRefrigeratorWashingVolumeList,
   fetchRefrigeratorWattageList,
+  fetchUpdatePost,
 } from '@/api/fridgeRequest';
+import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import getBase64, { FileType } from '@/services/getBase64';
+import { IJob, IRefrigeratorPost } from '@/types/Job';
+import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import Dragger from 'antd/es/upload/Dragger';
+import Link from 'next/link';
+import HorizontalSelect from '../HorizontalSelect';
+import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
+import PreviewProduct from '../PreviewProduct';
+import getParentUrl from '@/services/getUrl';
 
-export default function CreatePostAirConditionForm() {
+interface Props {
+  edit?: boolean;
+  data?: IRefrigeratorPost;
+}
+
+export default function CreatePostAirConditionForm(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address.id || ''
+  );
   const [categoryId, setCategoryId] = useState<number | string>(
     currentForm.currentCategoryId || ''
   );
@@ -72,29 +69,63 @@ export default function CreatePostAirConditionForm() {
   const [sellerInformation, setSellerInformation] = useState<number | string>(
     ''
   );
-  const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [usageStatus, setUsageStatus] = useState<number | string>('');
-  const [guarantee, setGuarantee] = useState<number | string>('');
-  const [map, setMap] = useState<number | string>('');
-  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
-  const [price, setPrice] = useState<number | string>('');
-  const [volume, setVolume] = useState<number | string>('');
-  const [wattage, setWattage] = useState<number | string>('');
-  const [washingVolume, setWashingVolume] = useState<number | string>('');
+  const [detailedDescription, setDetailedDescription] = useState<string>(
+    props.data?.Detailed_description || ''
+  );
+  const [usageStatus, setUsageStatus] = useState<number | string>(
+    props.data?.Usage_status.id || ''
+  );
+  const [guarantee, setGuarantee] = useState<number | string>(
+    props.data?.Guarantee.id || ''
+  );
+  const [map, setMap] = useState<number | string>(props.data?.Map || '');
+  const [freeGiveAway, setFreeGiveAway] = useState<number | string>(
+    props.data?.Free_giveaway || ''
+  );
+  const [price, setPrice] = useState<number | string>(props.data?.Price || '');
+  const [volume, setVolume] = useState<number | string>(
+    props.data?.Volume.id || ''
+  );
+  const [wattage, setWattage] = useState<number | string>(
+    props.data?.Wattage.id || ''
+  );
+  const [washingVolume, setWashingVolume] = useState<number | string>(
+    props.data?.Washing_volume.id || ''
+  );
 
   const [checked, setChecked] = useState<boolean>();
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
-    ''
+    props.data?.Contact_phone_number || ''
   );
+  const [url, setUrl] = useState(props.data?.Url);
 
-  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
-  const [url, setUrl] = useState('');
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabel || ''
+  );
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A3.map((item) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchRefrigeratorGuaranteeList().then((res) =>
@@ -156,14 +187,11 @@ export default function CreatePostAirConditionForm() {
     usageStatus && formData.append('Usage_status', usageStatus as string);
     sellerInformation &&
       formData.append('Seller_information', sellerInformation as string);
-
     guarantee && formData.append('Guarantee', guarantee as string);
     volume && formData.append('Volume', volume as string);
     wattage && formData.append('Wattage', wattage as string);
     washingVolume && formData.append('Washing_volume', washingVolume as string);
-
     freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
-
     map && formData.append('Map', map as string);
     price && !checked && formData.append('Price', price as string);
     title && formData.append('Title', title as string);
@@ -171,25 +199,40 @@ export default function CreatePostAirConditionForm() {
       formData.append('Detailed_description', detailedDescription as string);
     contactPhoneNumber &&
       formData.append('Contact_phone_number', contactPhoneNumber as string);
-    url && formData.append('Url', url as string);
+    formData.append('Url', getParentUrl.Fridge);
     for (let index = 0; index < fileList.length; index++) {
       formData.append('images_A3_data', fileList[index]?.originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
-
-    await fetchCreateFridgePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (props.edit) {
+      await fetchUpdatePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    } else {
+      await fetchCreateFridgePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    }
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

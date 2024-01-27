@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function UsageStatusMachineryPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`machinery-equipment/usage-status/${currentID}/`, e)
+      .patch(`/machinery-equipment/usage-status/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function UsageStatusMachineryPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`machinery-equipment/usage-status/${id}/`)
+      .delete(`/machinery-equipment/usage-status/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchUsageStatusMachineryList');
@@ -59,7 +60,7 @@ export default function UsageStatusMachineryPage() {
 
   const fetchUsageStatusMachineryList = useCallback(async () => {
     await instanceAxios
-      .get(`machinery-equipment/usage-status/`, {
+      .get(`/machinery-equipment/usage-status/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function UsageStatusMachineryPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'machinery-equipment/usage-status/',
+          url: '/machinery-equipment/usage-status/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

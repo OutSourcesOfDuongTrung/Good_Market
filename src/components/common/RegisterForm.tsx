@@ -2,7 +2,7 @@ import instanceAxios from '@/api/instanceAxios';
 import { Button, Form, Input } from 'antd';
 import React from 'react';
 
-export default function RegisterForm() {
+export default function RegisterForm(props: Props) {
   const onFinish = async (e: IUserRegister) => {
     delete instanceAxios.defaults.headers.common.Authorization;
     await instanceAxios

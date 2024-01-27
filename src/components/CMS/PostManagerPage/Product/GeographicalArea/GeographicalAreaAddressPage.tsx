@@ -43,7 +43,7 @@ export default function GeographicalAreaAddressPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`location/address/${currentID}/`, e)
+      .patch(`/location/address/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -64,7 +64,7 @@ export default function GeographicalAreaAddressPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`location/address/${id}/`)
+      .delete(`/location/address/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchGeographicalAreaAddressList');
@@ -76,7 +76,7 @@ export default function GeographicalAreaAddressPage() {
 
   const fetchGeographicalAreaAddressList = useCallback(async () => {
     await instanceAxios
-      .get(`location/address/`, {
+      .get(`/location/address/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -154,12 +154,12 @@ export default function GeographicalAreaAddressPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'location/address/',
+          url: '/location/address/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onOKModal() {
             instanceAxios
-              .post('location/address/', {
+              .post('/location/address/', {
                 Location: areaID,
                 Name: addresValue,
                 Name_en: addresENValue,

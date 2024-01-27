@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IServices } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PostProductServicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`service/items/${currentID}/`, e)
+      .patch(`/service/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PostProductServicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`service/items/${id}/`)
+      .delete(`/service/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostProductServiceList');
@@ -59,7 +60,7 @@ export default function PostProductServicePage() {
 
   const fetchPostProductServiceList = useCallback(async () => {
     await instanceAxios
-      .get(`service/items/`, {
+      .get(`/service/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -147,7 +148,7 @@ export default function PostProductServicePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'service/items/',
+          url: '/service/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -28,7 +28,7 @@ export default function CategoryVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/category/${currentID}/`, e)
+      .patch(`/vehicle/category/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -49,7 +49,7 @@ export default function CategoryVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/category/${id}/`)
+      .delete(`/vehicle/category/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCategoryVehicleList');
@@ -61,7 +61,7 @@ export default function CategoryVehiclePage() {
 
   const fetchCategoryVehicleList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/category/`, {
+      .get(`/vehicle/category/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -138,7 +138,7 @@ export default function CategoryVehiclePage() {
             } as unknown as IJob)
         )}
         create={{
-          url: 'vehicle/category/',
+          url: '/vehicle/category/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

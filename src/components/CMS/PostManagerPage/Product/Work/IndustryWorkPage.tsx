@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function IndustryWorkPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/career/${currentID}/`, e)
+      .patch(`/job/career/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function IndustryWorkPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/career/${id}/`)
+      .delete(`/job/career/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchWorkList');
@@ -59,7 +60,7 @@ export default function IndustryWorkPage() {
 
   const fetchWorkList = useCallback(async () => {
     await instanceAxios
-      .get(`job/career/`, {
+      .get(`/job/career/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function IndustryWorkPage() {
         data={workList}
         createAble={true}
         create={{
-          url: 'job/career/',
+          url: '/job/career/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -28,7 +28,7 @@ export default function CategoryBonsaiFurniturePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`home-appliance/category/${currentID}/`, e)
+      .patch(`/home-appliance/category/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -49,7 +49,7 @@ export default function CategoryBonsaiFurniturePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`home-appliance/category/${id}/`)
+      .delete(`/home-appliance/category/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCategoryBonsaiFurnitureList');
@@ -61,7 +61,7 @@ export default function CategoryBonsaiFurniturePage() {
 
   const fetchCategoryBonsaiFurnitureList = useCallback(async () => {
     await instanceAxios
-      .get(`home-appliance/category/`, {
+      .get(`/home-appliance/category/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -27,7 +28,7 @@ export default function UsageStatusRefrigeratorPage() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/usage-status/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/usage-status/${currentID}/`,
         e
       )
       .then((res) => {
@@ -50,7 +51,7 @@ export default function UsageStatusRefrigeratorPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`refrigerator-airconditioner-washingmachine/usage-status/${id}/`)
+      .delete(`/refrigerator-airconditioner-washingmachine/usage-status/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchUsageStatusRefrigeratorList');
@@ -62,7 +63,7 @@ export default function UsageStatusRefrigeratorPage() {
 
   const fetchUsageStatusRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/usage-status/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/usage-status/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function UsageStatusRefrigeratorPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/usage-status/',
+          url: '/refrigerator-airconditioner-washingmachine/usage-status/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

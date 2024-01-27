@@ -28,7 +28,7 @@ export default function UserPage() {
   const fetchUserList = useCallback(
     async (searchData?: string) => {
       await instanceAxios
-        .get(`users/`, {
+        .get(`/users/`, {
           params: {
             ...(valueFilter && { search: valueFilter }),
             page_size: currentPage,

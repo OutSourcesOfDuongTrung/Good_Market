@@ -17,7 +17,7 @@ export default function AuthPage() {
   const onFinish = async (e: IUserLogin) => {
     delete instanceAxios.defaults.headers.common.Authorization;
     await instanceAxios
-      .post('api/token/', e)
+      .post('/api/token/', e)
       .then((res) => {
         dispatch(login(res.data.data.user));
         setCookie('access', res.data.data.access);

@@ -1,5 +1,3 @@
-import React, { useContext, useEffect, useState } from 'react';
-import SelectCustom from '../SelectCustom';
 import {
   Flex,
   Image,
@@ -9,24 +7,11 @@ import {
   UploadProps,
   notification,
 } from 'antd';
+import { useContext, useEffect, useState } from 'react';
 import InputCustom from '../InputCustom';
-import TextAreaCustom from '../TextAreaCustom';
 import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
+import TextAreaCustom from '../TextAreaCustom';
 
-import HorizontalSelect from '../HorizontalSelect';
-import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
-import Dragger from 'antd/es/upload/Dragger';
-import { IJob, IJobPostCreate } from '@/types/Job';
-import getBase64, { FileType } from '@/services/getBase64';
-import { fetchCreateWorkPost } from '@/api/jobRequest';
-import Link from 'next/link';
-import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import {
-  fetchCreateGoodHousePost,
-  fetchInteriorConditionList,
-  fetchSellerInformationList,
-} from '@/api/goodHouseRequest';
-import PreviewProduct from '../PreviewProduct';
 import {
   fetchCreateVehiclePost,
   fetchVehicleCapacitiesList,
@@ -40,13 +25,30 @@ import {
   fetchVehicleYearsOfManufactureList,
 } from '@/api/vehicleRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import getBase64, { FileType } from '@/services/getBase64';
+import { IJob, IVehicle } from '@/types/Job';
+import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import Dragger from 'antd/es/upload/Dragger';
+import Link from 'next/link';
+import HorizontalSelect from '../HorizontalSelect';
+import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
+import PreviewProduct from '../PreviewProduct';
+import getParentUrl from '@/services/getUrl';
 
-export default function CreatePostCommonVehicleForm() {
+interface Props {
+  edit?: boolean;
+  data?: IVehicle;
+}
+export default function CreatePostCommonVehicleForm(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Location.id || ''
+  );
   const [categoryId, setCategoryId] = useState<number | string>(
     currentForm.currentCategoryId || ''
   );
@@ -62,36 +64,70 @@ export default function CreatePostCommonVehicleForm() {
   const [gearBoxList, setGearBoxList] = useState<IJob[]>([]);
   const [seatNumberList, setSeatNumberList] = useState<IJob[]>([]);
 
-  const [title, setTitle] = useState<number | string>('');
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
-    ''
+    props.data?.Seller_information.id || ''
   );
-  const [detailedDescription, setDetailedDescription] = useState<string>('');
+  const [detailedDescription, setDetailedDescription] = useState<string>(
+    props.data?.Detailed_description || ''
+  );
   const [usageStatus, setUsageStatus] = useState<number | string>('');
-  const [guarantee, setGuarantee] = useState<number | string>('');
-  const [company, setCompany] = useState<number | string>('');
-  const [yearManufacture, setYearManufacture] = useState<number | string>('');
-  const [gearBox, setGearBox] = useState<number | string>('');
-  const [fuel, setFuel] = useState<number | string>('');
-  const [seatNumber, setSeatNumber] = useState<number | string>('');
-  const [capacity, setCapacity] = useState<number | string>('');
+  const [guarantee, setGuarantee] = useState<number | string>(
+    props.data?.Guarantee.id || ''
+  );
+  const [company, setCompany] = useState<number | string>(
+    props.data?.Company.id || ''
+  );
+  const [yearManufacture, setYearManufacture] = useState<number | string>(
+    props.data?.Year_of_manufacture.id || ''
+  );
+  const [gearBox, setGearBox] = useState<number | string>(
+    props.data?.Gearbox.id || ''
+  );
+  const [fuel, setFuel] = useState<number | string>(props.data?.Fuel.id || '');
+  const [seatNumber, setSeatNumber] = useState<number | string>(
+    props.data?.Seat_number.id || ''
+  );
+  const [capacity, setCapacity] = useState<number | string>(
+    props.data?.Capacity.id || ''
+  );
   const [map, setMap] = useState<number | string>('');
   const [walked, setWalked] = useState<number | string>('');
-  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
-  const [price, setPrice] = useState<number | string>('');
+  const [freeGiveAway, setFreeGiveAway] = useState<number | string>(
+    props.data?.Free_giveaway || ''
+  );
+  const [price, setPrice] = useState<number | string>(props.data?.Price || '');
   const [checked, setChecked] = useState<boolean>();
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
-    ''
+    props.data?.Contact_phone_number || ''
   );
   const [defaultLabel, setDefaultLabel] = useState<number | string>('');
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(getParentUrl.Vehicle);
 
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A3.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchVehicleSellerInformationList().then((res) =>

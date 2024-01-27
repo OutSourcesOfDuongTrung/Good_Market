@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function MicroprocessorElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/microprocessor/${currentID}/`, e)
+      .patch(`/ElectronicDevice/microprocessor/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function MicroprocessorElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/microprocessor/${id}/`)
+      .delete(`/ElectronicDevice/microprocessor/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchMicroprocessorElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function MicroprocessorElectronicDevicePage() {
 
   const fetchMicroprocessorElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/microprocessor/`, {
+      .get(`/ElectronicDevice/microprocessor/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function MicroprocessorElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/microprocessor/',
+          url: '/ElectronicDevice/microprocessor/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

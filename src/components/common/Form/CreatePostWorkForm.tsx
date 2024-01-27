@@ -7,7 +7,7 @@ import {
   fetchWorkTypeList,
 } from '@/api/jobRequest';
 import getBase64, { FileType } from '@/services/getBase64';
-import { IJob } from '@/types/Job';
+import { IJob, IJobPost } from '@/types/Job';
 import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import {
   Flex,
@@ -28,7 +28,12 @@ import ModalLocationSelectCustom from '../ModalLocationSelectCustom';
 import PreviewProduct from '../PreviewProduct';
 import SelectCustom from '../SelectCustom';
 import TextAreaCustom from '../TextAreaCustom';
+import getParentUrl from '@/services/getUrl';
 
+interface Props {
+  edit?: boolean;
+  data?: IJobPost;
+}
 interface Props {
   onPreview?: () => void;
 }
@@ -39,24 +44,58 @@ export default function CreatePostWorkForm(props: Props) {
   const [experienceList, setExperienceList] = useState<IJob[]>([]);
   const [payFormsList, setPayFormsList] = useState<IJob[]>([]);
   const [workTypeList, setWorkTypeList] = useState<IJob[]>([]);
-  const [experienceId, setExperienceId] = useState<number | string>('');
-  const [workTypeId, setWorkTypeId] = useState<number | string>('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
-  const [careerId, setCareerId] = useState<number | string>('');
-  const [title, setTitle] = useState<number | string>('');
-  const [wage, setWage] = useState<number | string>('');
-  const [recruitment, setRecruitment] = useState<number | string>('');
-  const [payForm, setPayForm] = useState<number | string>('');
-  const [minAge, setMinAge] = useState(0);
-  const [maxAge, setMaxAge] = useState(0);
-  const [genderId, setGenderId] = useState(0);
+  const [experienceId, setExperienceId] = useState<number | string>(
+    props.data?.Experience?.id || ''
+  );
+  const [workTypeId, setWorkTypeId] = useState<number | string>(
+    props.data?.Type_of_work?.id || ''
+  );
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location?.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address?.id || ''
+  );
+  const [careerId, setCareerId] = useState<number | string>(
+    props.data?.Career?.id || ''
+  );
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
+  const [wage, setWage] = useState<number | string>(props.data?.Wage || '');
+  const [recruitment, setRecruitment] = useState<number | string>(
+    props.data?.Number_of_recruitment || ''
+  );
+  const [payForm, setPayForm] = useState<number | string>(
+    props.data?.Pay_forms?.id || ''
+  );
+  const [minAge, setMinAge] = useState(props.data?.Minimum_age || 0);
+  const [maxAge, setMaxAge] = useState(props.data?.Maximum_age || 0);
+  const [genderId, setGenderId] = useState(props.data?.Sex?.id || '');
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [description, setDescription] = useState(
+    props.data?.Detailed_description || ''
+  );
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A1.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchCareerList().then((res) => setCareerList(res.data.data || []));
@@ -112,7 +151,7 @@ export default function CreatePostWorkForm(props: Props) {
     formData.append('Sex', genderId as unknown as string);
     formData.append('Experience', experienceId as string);
     // formData.append('Contact_phone_number', locationId as string);
-    formData.append('Url', locationId as string);
+    formData.append('Url', getParentUrl.Work);
     for (let index = 0; index < fileList.length; index++) {
       formData.append('images_A1_data', fileList[index]?.originFileObj as Blob);
     }

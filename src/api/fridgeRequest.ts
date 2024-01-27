@@ -1,7 +1,16 @@
 import instanceAxios from './instanceAxios';
 
 export const fetchCreateFridgePost = async (data?: FormData) => {
-  return await instanceAxios.post(`ElectronicDevice/items/`, data);
+  return await instanceAxios.post(
+    `/refrigerator-airconditioner-washingmachine/items/`,
+    data
+  );
+};
+export const fetchUpdatePost = async (data: FormData, id: string | number) => {
+  return await instanceAxios.patch(
+    `/refrigerator-airconditioner-washingmachine/items//${id}`,
+    data
+  );
 };
 
 export const fetchRefrigeratorGuaranteeList = async (
@@ -9,7 +18,7 @@ export const fetchRefrigeratorGuaranteeList = async (
   currentPage?: number
 ) => {
   return await instanceAxios.get(
-    `refrigerator-airconditioner-washingmachine/guarantee/`,
+    `/refrigerator-airconditioner-washingmachine/guarantee/`,
     {
       params: {
         ...(searchData && { search: searchData }),
@@ -24,7 +33,7 @@ export const fetchRefrigeratorSellerInformationList = async (
   currentPage?: number
 ) => {
   return await instanceAxios.get(
-    `refrigerator-airconditioner-washingmachine/seller-information/`,
+    `/refrigerator-airconditioner-washingmachine/seller-information/`,
     {
       params: {
         ...(searchData && { search: searchData }),
@@ -38,7 +47,7 @@ export const fetchRefrigeratorUsageStatusList = async (
   currentPage?: number
 ) => {
   return await instanceAxios.get(
-    `refrigerator-airconditioner-washingmachine/usage-status/`,
+    `/refrigerator-airconditioner-washingmachine/usage-status/`,
     {
       params: {
         ...(searchData && { search: searchData }),
@@ -52,7 +61,7 @@ export const fetchRefrigeratorVolumeList = async (
   currentPage?: number
 ) => {
   return await instanceAxios.get(
-    `refrigerator-airconditioner-washingmachine/volume/`,
+    `/refrigerator-airconditioner-washingmachine/volume/`,
     {
       params: {
         ...(searchData && { search: searchData }),
@@ -66,7 +75,7 @@ export const fetchRefrigeratorWashingVolumeList = async (
   currentPage?: number
 ) => {
   return await instanceAxios.get(
-    `refrigerator-airconditioner-washingmachine/washing-volume/`,
+    `/refrigerator-airconditioner-washingmachine/washing-volume/`,
     {
       params: {
         ...(searchData && { search: searchData }),
@@ -81,7 +90,7 @@ export const fetchRefrigeratorWattageList = async (
   currentPage?: number
 ) => {
   return await instanceAxios.get(
-    `refrigerator-airconditioner-washingmachine/wattage/`,
+    `/refrigerator-airconditioner-washingmachine/wattage/`,
     {
       params: {
         ...(searchData && { search: searchData }),

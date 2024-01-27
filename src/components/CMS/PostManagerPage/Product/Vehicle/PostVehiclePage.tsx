@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IVehicle } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PostVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/items/${currentID}/`, e)
+      .patch(`/vehicle/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PostVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/items/${id}/`)
+      .delete(`/vehicle/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostVehicleList');
@@ -59,7 +60,7 @@ export default function PostVehiclePage() {
 
   const fetchPostVehicleList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/items/`, {
+      .get(`/vehicle/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -147,7 +148,7 @@ export default function PostVehiclePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'vehicle/items/',
+          url: '/vehicle/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

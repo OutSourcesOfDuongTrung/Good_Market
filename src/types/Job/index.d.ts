@@ -134,13 +134,15 @@ interface IGoodHousePost {
   Category: IJob;
   Interior_condition: IJob;
   Seller_information: IJob;
+  Usage_status: IJob;
+  Guarantee: IJob;
   Map: string;
   Acreage: string;
   Price: number | null;
   Deposit_amount: string;
   Title: string;
-  Number_of_bedrooms: string;
-  Number_of_bathrooms: string;
+  Number_of_bedrooms: number;
+  Number_of_bathrooms: number;
   Detailed_description: string;
   Video: string;
   Contact_phone_number: string;
@@ -232,6 +234,14 @@ interface IVehicle {
   Location: ILocation;
   Address: IAddress;
   Category: IJob;
+  Guarantee: IJob;
+  Company: IJob;
+  Year_of_manufacture: IJob;
+  Gearbox: IJob;
+  Seat_number: IJob;
+  Capacity: IJob;
+  Map: IJob;
+  Fuel: IJob;
   Map: string;
   Free_giveaway: string;
   Price: string;
@@ -239,6 +249,8 @@ interface IVehicle {
   Detailed_description: string;
   Video: string;
   Contact_phone_number: string;
+  Seller_information: IJob;
+  Usage_status: IJob;
   Url: string;
   Creation_time: string;
   Update_time: string;
@@ -249,6 +261,8 @@ interface IElectroDevice extends IVehicle {
   Hard_drive: HardDrive;
   Monitor_card: MonitorCard;
   Screen_size: ScreenSize;
+  Microprocessor: IJob;
+  Ram: IJob;
 }
 
 interface IServices {
@@ -328,24 +342,60 @@ interface IShopViet {
 }
 
 interface IProduct {
-  id: number;
-  User: IUser;
-  Location: ILocationResponse;
-  Address: IAddress;
-  Category: IJob;
-  Usage_status: IJob;
-  Seller_information: IJob;
-  Guarantee: IJob;
-  Company: IJob;
-  Capacity: IJob;
-  Map: IJob;
-  Free_giveaway: IJob;
-  Price: number;
-  Title: number;
-  Detailed_description: string;
-  Video: string;
-  Contact_phone_number: string;
-  Url: string;
-  Creation_time: string;
-  Update_time: string;
+  id?: number;
+  User?: IUser;
+  Location?: ILocationResponse;
+  Address?: IAddress;
+  Category?: IJob;
+  images_A1?: IImage[];
+  images_A2?: IImage[];
+  images_A2_data?: IImage[];
+  images_A3?: IImage[];
+  images_A3_data?: IImage[];
+  images_A4?: IImage[];
+  images_A5?: IImage[];
+  images_B1?: IImage[];
+  images_B2?: IImage[];
+  images_B3?: IImage[];
+  images_B4?: IImage[];
+  images_B5?: IImage[];
+  Usage_status?: IJob;
+  Seller_information?: IJob;
+  Guarantee?: IJob;
+  Company?: IJob;
+  Capacity?: IJob;
+  Map?: IJob;
+  Volume?: IJob;
+  Wattage?: IJob;
+  Washing_volume?: IJob;
+  Free_giveaway?: IJob;
+  Price?: number;
+  Title?: number;
+  Detailed_description?: string;
+  Video?: string;
+  Contact_phone_number?: string;
+  Url?: string;
+  Creation_time?: string;
+  Update_time?: string;
 }
+
+// interface IPost {
+//   id?: string | number;
+//   images_A3_data?: any[];
+//   Location?: number;
+//   Address?: number;
+//   Category?: number;
+//   Usage_status?: number;
+//   Seller_information?: number;
+//   Guarantee?: number;
+//   Volume?: number;
+//   Wattage?: number;
+//   Washing_volume?: number;
+//   Map?: string;
+//   Free_giveaway?: string | number;
+//   Price?: number;
+//   Title?: string;
+//   Detailed_description?: string;
+//   Contact_phone_number?: string;
+//   Url?: string;
+// }

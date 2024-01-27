@@ -27,7 +27,7 @@ export default function InteriorConditionGoodHousePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`good-house/interior-condition/${currentID}/`, e)
+      .patch(`/good-house/interior-condition/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -48,7 +48,7 @@ export default function InteriorConditionGoodHousePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`good-house/interior-condition/${id}/`)
+      .delete(`/good-house/interior-condition/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchInteriorConditionGoodHouseList');
@@ -60,7 +60,7 @@ export default function InteriorConditionGoodHousePage() {
 
   const fetchInteriorConditionGoodHouseList = useCallback(async () => {
     await instanceAxios
-      .get(`good-house/interior-condition/`, {
+      .get(`/good-house/interior-condition/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -133,7 +133,7 @@ export default function InteriorConditionGoodHousePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'good-house/interior-condition/',
+          url: '/good-house/interior-condition/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

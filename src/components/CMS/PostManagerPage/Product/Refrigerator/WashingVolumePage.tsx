@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -27,7 +28,7 @@ export default function WashingVolumePage() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/washing-volume/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/washing-volume/${currentID}/`,
         e
       )
       .then((res) => {
@@ -51,7 +52,7 @@ export default function WashingVolumePage() {
   const fetchDelete = async (id: number) => {
     await instanceAxios
       .delete(
-        `refrigerator-airconditioner-washingmachine/washing-volume/${id}/`
+        `/refrigerator-airconditioner-washingmachine/washing-volume/${id}/`
       )
       .then((res) => {
         message.success('Xóa thành công');
@@ -64,7 +65,7 @@ export default function WashingVolumePage() {
 
   const fetchWashingVolumeList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/washing-volume/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/washing-volume/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -134,7 +135,7 @@ export default function WashingVolumePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/washing-volume/',
+          url: '/refrigerator-airconditioner-washingmachine/washing-volume/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -1,6 +1,7 @@
 import { IProduct } from '@/types/Job';
 import { Avatar, Badge, Image, Space } from 'antd';
 import Ribbon from 'antd/es/badge/Ribbon';
+import moment from 'moment';
 import Link from 'next/link';
 import React from 'react';
 
@@ -8,7 +9,7 @@ interface Props {
   ribbon?: string;
   imageHeight?: number;
   imageWidth?: number;
-  data: IProduct;
+  data?: IProduct;
 }
 
 export default function CardItem(props: Props) {
@@ -28,10 +29,10 @@ export default function CardItem(props: Props) {
         }`}
       >
         <p className="line-clamp-2 h-[50px] font-medium text-[15px]">
-          {props.data.Title}
+          {props.data?.Title || ''}
         </p>
         <p className="truncate text-[#808080] h-[30px] py-[5px] text-[14px]">
-          Ngày làm: 10/10/23
+          Ngày làm: {moment(props.data?.Creation_time).format('DD/MM/YYYY')}
         </p>
         <p className="text-[#d0021b] h-[30px] my-[5px] !text[15px] !font-sans font-bold">
           $300/ngày
@@ -39,7 +40,7 @@ export default function CardItem(props: Props) {
         <Space className="w-full h-[40px]">
           <Avatar src="" />
           <p className="w-[150px] block text-[12px] text-[#c7c7c7] truncate">
-            2 giờ trước • Cao hùng
+            {moment(props.data?.Creation_time).fromNow()} • Cao hùng
           </p>
         </Space>
       </div>

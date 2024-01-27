@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IMachinePost } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PostMachineryPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`machinery-equipment/items/${currentID}/`, e)
+      .patch(`/machinery-equipment/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PostMachineryPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`machinery-equipment/items/${id}/`)
+      .delete(`/machinery-equipment/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostMachineryList');
@@ -59,7 +60,7 @@ export default function PostMachineryPage() {
 
   const fetchPostMachineryList = useCallback(async () => {
     await instanceAxios
-      .get(`machinery-equipment/items/`, {
+      .get(`/machinery-equipment/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -146,7 +147,7 @@ export default function PostMachineryPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'machinery-equipment/items/',
+          url: '/machinery-equipment/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function ExperienceWorkPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/experience/${currentID}/`, e)
+      .patch(`/job/experience/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function ExperienceWorkPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/experience/${id}/`)
+      .delete(`/job/experience/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchExperienceList');
@@ -59,7 +60,7 @@ export default function ExperienceWorkPage() {
 
   const fetchExperienceList = useCallback(async () => {
     await instanceAxios
-      .get(`job/experience/`, {
+      .get(`/job/experience/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function ExperienceWorkPage() {
         data={experienceList}
         createAble={true}
         create={{
-          url: 'job/experience/',
+          url: '/job/experience/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -28,7 +28,7 @@ export default function GuaranteeRefrigeratorPage() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/guarantee/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/guarantee/${currentID}/`,
         e
       )
       .then((res) => {
@@ -51,7 +51,7 @@ export default function GuaranteeRefrigeratorPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`refrigerator-airconditioner-washingmachine/guarantee/${id}/`)
+      .delete(`/refrigerator-airconditioner-washingmachine/guarantee/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchGuaranteeRefrigeratorList');
@@ -63,7 +63,7 @@ export default function GuaranteeRefrigeratorPage() {
 
   const fetchGuaranteeRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/guarantee/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/guarantee/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -133,7 +133,7 @@ export default function GuaranteeRefrigeratorPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/guarantee/',
+          url: '/refrigerator-airconditioner-washingmachine/guarantee/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

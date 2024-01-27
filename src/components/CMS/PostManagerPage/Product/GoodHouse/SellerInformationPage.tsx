@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function SellerInformationPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`good-house/seller-information/${currentID}/`, e)
+      .patch(`/good-house/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function SellerInformationPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`good-house/seller-information/${id}/`)
+      .delete(`/good-house/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchSellerInformationList');
@@ -59,7 +60,7 @@ export default function SellerInformationPage() {
 
   const fetchSellerInformationList = useCallback(async () => {
     await instanceAxios
-      .get(`good-house/seller-information/`, {
+      .get(`/good-house/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function SellerInformationPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'good-house/seller-information/',
+          url: '/good-house/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

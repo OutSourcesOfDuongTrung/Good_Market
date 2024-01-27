@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IElectroDevice, IHomeAppliance } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PostBonsaiFurniturePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`home-appliance/items/${currentID}/`, e)
+      .patch(`/home-appliance/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PostBonsaiFurniturePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`home-appliance/items/${id}/`)
+      .delete(`/home-appliance/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function PostBonsaiFurniturePage() {
 
   const fetchPostElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`home-appliance/items/`, {
+      .get(`/home-appliance/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -147,7 +148,7 @@ export default function PostBonsaiFurniturePage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'home-appliance/items/',
+          url: '/home-appliance/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

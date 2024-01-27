@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function SellerInformationMachineryMachineryPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`machinery-equipment/seller-information/${currentID}/`, e)
+      .patch(`/machinery-equipment/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function SellerInformationMachineryMachineryPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`machinery-equipment/seller-information/${id}/`)
+      .delete(`/machinery-equipment/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchSellerInformationMachineryList');
@@ -59,7 +60,7 @@ export default function SellerInformationMachineryMachineryPage() {
 
   const fetchSellerInformationMachineryList = useCallback(async () => {
     await instanceAxios
-      .get(`machinery-equipment/seller-information/`, {
+      .get(`/machinery-equipment/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function SellerInformationMachineryMachineryPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'machinery-equipment/seller-information/',
+          url: '/machinery-equipment/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

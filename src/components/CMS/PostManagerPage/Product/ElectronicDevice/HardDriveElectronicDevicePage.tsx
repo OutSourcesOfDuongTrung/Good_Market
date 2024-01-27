@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function HardDriveElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/hard_drive/${currentID}/`, e)
+      .patch(`/ElectronicDevice/hard_drive/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function HardDriveElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/hard_drive/${id}/`)
+      .delete(`/ElectronicDevice/hard_drive/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchHardDriveElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function HardDriveElectronicDevicePage() {
 
   const fetchHardDriveElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/hard_drive/`, {
+      .get(`/ElectronicDevice/hard_drive/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function HardDriveElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/hard_drive/',
+          url: '/ElectronicDevice/hard_drive/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -27,7 +28,7 @@ export default function WattageRefrigeratorPage() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/wattage/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/wattage/${currentID}/`,
         e
       )
       .then((res) => {
@@ -50,7 +51,7 @@ export default function WattageRefrigeratorPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`refrigerator-airconditioner-washingmachine/wattage/${id}/`)
+      .delete(`/refrigerator-airconditioner-washingmachine/wattage/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchWattageRefrigeratorList');
@@ -62,7 +63,7 @@ export default function WattageRefrigeratorPage() {
 
   const fetchWattageRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/wattage/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/wattage/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function WattageRefrigeratorPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/wattage/',
+          url: '/refrigerator-airconditioner-washingmachine/wattage/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

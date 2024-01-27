@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PayFormsPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`job/pay-forms/${currentID}/`, e)
+      .patch(`/job/pay-forms/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PayFormsPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`job/pay-forms/${id}/`)
+      .delete(`/job/pay-forms/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPayFormList');
@@ -59,7 +60,7 @@ export default function PayFormsPage() {
 
   const fetchPayFormList = useCallback(async () => {
     await instanceAxios
-      .get(`job/pay-forms/`, {
+      .get(`/job/pay-forms/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function PayFormsPage() {
         data={PayFormList}
         createAble={true}
         create={{
-          url: 'job/pay-forms/',
+          url: '/job/pay-forms/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

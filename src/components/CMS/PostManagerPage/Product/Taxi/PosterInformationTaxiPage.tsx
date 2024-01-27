@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PosterInformationTaxiPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`taxi/poster-information/${currentID}/`, e)
+      .patch(`/taxi/poster-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PosterInformationTaxiPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`taxi/poster-information/${id}/`)
+      .delete(`/taxi/poster-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPosterInformationTaxiList');
@@ -59,7 +60,7 @@ export default function PosterInformationTaxiPage() {
 
   const fetchPosterInformationTaxiList = useCallback(async () => {
     await instanceAxios
-      .get(`taxi/poster-information/`, {
+      .get(`/taxi/poster-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function PosterInformationTaxiPage() {
         data={dataList.map((item, index) => ({ key: index, ...item }))}
         createAble={true}
         create={{
-          url: 'taxi/poster-information/',
+          url: '/taxi/poster-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

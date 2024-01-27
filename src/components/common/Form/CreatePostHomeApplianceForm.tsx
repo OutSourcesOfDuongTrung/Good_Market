@@ -22,20 +22,29 @@ import {
 } from '@/api/homeApplianceRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
-import { IJob } from '@/types/Job';
+import { IGoodHousePost, IJob } from '@/types/Job';
 import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import Dragger from 'antd/es/upload/Dragger';
 import Link from 'next/link';
 import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import PreviewProduct from '../PreviewProduct';
+import getParentUrl from '@/services/getUrl';
 
-export default function CreatePostHomeApplianceForm() {
+interface Props {
+  edit?: boolean;
+  data?: IGoodHousePost;
+}
+export default function CreatePostHomeApplianceForm(props: Props) {
   const currentForm = useContext(CurrentFormContext);
 
   const [mapValue, setMapValue] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [addressId, setAddressId] = useState<number | string>('');
+  const [locationId, setLocationId] = useState<number | string>(
+    props.data?.Location?.id || ''
+  );
+  const [addressId, setAddressId] = useState<number | string>(
+    props.data?.Address?.id || ''
+  );
   const [categoryId, setCategoryId] = useState<number | string>(
     currentForm.currentCategoryId || ''
   );
@@ -45,30 +54,54 @@ export default function CreatePostHomeApplianceForm() {
   const [guaranteeList, setGuaranteeList] = useState([]);
   const [usageStatusList, setUsageStatusList] = useState([]);
 
-  const [title, setTitle] = useState<number | string>('');
+  const [title, setTitle] = useState<number | string>(props.data?.Title || '');
   const [sellerInformation, setSellerInformation] = useState<number | string>(
-    ''
+    props.data?.Seller_information?.id || ''
   );
-  const [detailedDescription, setDetailedDescription] = useState<string>('');
-  const [usageStatus, setUsageStatus] = useState<number | string>('');
-  const [guarantee, setGuarantee] = useState<number | string>('');
-  const [map, setMap] = useState<number | string>('');
-  const [freeGiveAway, setFreeGiveAway] = useState<number | string>('');
-  const [price, setPrice] = useState<number | string>('');
+  const [detailedDescription, setDetailedDescription] = useState<string>(
+    props.data?.Detailed_description || ''
+  );
+  const [usageStatus, setUsageStatus] = useState<number | string>(
+    props.data?.Usage_status?.id || ''
+  );
+  const [guarantee, setGuarantee] = useState<number | string>(
+    props.data?.Guarantee?.id || ''
+  );
+  const [map, setMap] = useState<number | string>(props.data?.Map || '');
+  // const [freeGiveAway, setFreeGiveAway] = useState<number | string>(props.data?.id||'');
+  const [price, setPrice] = useState<number | string>(props.data?.Price || '');
 
   const [checked, setChecked] = useState<boolean>();
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
-    ''
+    props.data?.Contact_phone_number || ''
   );
 
   const [defaultLabel, setDefaultLabel] = useState<number | string>('');
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(getParentUrl.HomeAppliance);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(
+    props.data?.images_A2.map((item, index) => ({
+      uid: `-${item.id}`,
+      name: 'image.png',
+      status: 'done',
+      url: item.Image,
+    })) || []
+  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
+    props.data?.Video
+      ? [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: props.data?.Video,
+          },
+        ]
+      : []
+  );
 
   useEffect(() => {
     fetchHomeApplianceGuaranteeList().then((res) =>
@@ -123,7 +156,7 @@ export default function CreatePostHomeApplianceForm() {
       formData.append('Seller_information', sellerInformation as string);
 
     guarantee && formData.append('Guarantee', guarantee as string);
-    freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
+    // freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
     map && formData.append('Map', map as string);
     price && !checked && formData.append('Price', price as string);
     title && formData.append('Title', title as string);

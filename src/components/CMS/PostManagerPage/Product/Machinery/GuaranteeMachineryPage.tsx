@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function GuaranteeMachineryPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`machinery-equipment/guarantee/${currentID}/`, e)
+      .patch(`/machinery-equipment/guarantee/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function GuaranteeMachineryPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`machinery-equipment/guarantee/${id}/`)
+      .delete(`/machinery-equipment/guarantee/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchGuaranteeMachineryList');
@@ -59,7 +60,7 @@ export default function GuaranteeMachineryPage() {
 
   const fetchGuaranteeMachineryList = useCallback(async () => {
     await instanceAxios
-      .get(`machinery-equipment/guarantee/`, {
+      .get(`/machinery-equipment/guarantee/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function GuaranteeMachineryPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'machinery-equipment/guarantee/',
+          url: '/machinery-equipment/guarantee/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

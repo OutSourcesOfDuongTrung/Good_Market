@@ -14,7 +14,7 @@ export default function Services({ children }: { children: React.ReactNode }) {
       await instanceAxios
         .get('api/user-information/')
         .then((res) => {
-          dispatch(login(res.data.data.user));
+          dispatch(login(res.data.data));
           // setCookie('access', res.data.data.access);
           // setCookie('refresh', res.data.data.refresh);
         })

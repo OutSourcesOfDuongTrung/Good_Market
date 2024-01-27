@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function RamElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/ram/${currentID}/`, e)
+      .patch(`/ElectronicDevice/ram/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function RamElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/ram/${id}/`)
+      .delete(`/ElectronicDevice/ram/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchRamElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function RamElectronicDevicePage() {
 
   const fetchRamElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/ram/`, {
+      .get(`/ElectronicDevice/ram/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function RamElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/ram/',
+          url: '/ElectronicDevice/ram/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

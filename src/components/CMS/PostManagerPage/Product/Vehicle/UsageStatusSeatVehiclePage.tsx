@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function UsageStatusSeatVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/usage-status/${currentID}/`, e)
+      .patch(`/vehicle/usage-status/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function UsageStatusSeatVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/usage-status/${id}/`)
+      .delete(`/vehicle/usage-status/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchUsageStatusSeatVehicleList');
@@ -59,7 +60,7 @@ export default function UsageStatusSeatVehiclePage() {
 
   const fetchUsageStatusSeatVehicleList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/usage-status/`, {
+      .get(`/vehicle/usage-status/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function UsageStatusSeatVehiclePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'vehicle/usage-status/',
+          url: '/vehicle/usage-status/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function MonitorCardElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/monitor_card/${currentID}/`, e)
+      .patch(`/ElectronicDevice/monitor_card/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function MonitorCardElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/monitor_card/${id}/`)
+      .delete(`/ElectronicDevice/monitor_card/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchMonitorCardElectronicDeviceList');
@@ -59,7 +60,7 @@ export default function MonitorCardElectronicDevicePage() {
 
   const fetchMonitorCardElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/monitor_card/`, {
+      .get(`/ElectronicDevice/monitor_card/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -132,7 +133,7 @@ export default function MonitorCardElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/monitor_card/',
+          url: '/ElectronicDevice/monitor_card/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

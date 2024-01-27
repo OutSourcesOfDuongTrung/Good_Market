@@ -28,7 +28,7 @@ export default function CategoryElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/category/${currentID}/`, e)
+      .patch(`/ElectronicDevice/category/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -49,7 +49,7 @@ export default function CategoryElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/category/${id}/`)
+      .delete(`/ElectronicDevice/category/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCategoryElectronicDeviceList');
@@ -61,7 +61,7 @@ export default function CategoryElectronicDevicePage() {
 
   const fetchCategoryElectronicDeviceList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/category/`, {
+      .get(`/ElectronicDevice/category/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -141,7 +141,7 @@ export default function CategoryElectronicDevicePage() {
         )}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/category/',
+          url: '/ElectronicDevice/category/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

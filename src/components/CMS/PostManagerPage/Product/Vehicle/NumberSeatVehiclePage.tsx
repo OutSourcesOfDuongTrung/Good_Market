@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function NumberSeatVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/seat-numbers/${currentID}/`, e)
+      .patch(`/vehicle/seat-numbers/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function NumberSeatVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/seat-numbers/${id}/`)
+      .delete(`/vehicle/seat-numbers/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchNumberSeatVehicleList');
@@ -59,7 +60,7 @@ export default function NumberSeatVehiclePage() {
 
   const fetchNumberSeatVehicleList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/seat-numbers/`, {
+      .get(`/vehicle/seat-numbers/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function NumberSeatVehiclePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'vehicle/seat-numbers/',
+          url: '/vehicle/seat-numbers/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

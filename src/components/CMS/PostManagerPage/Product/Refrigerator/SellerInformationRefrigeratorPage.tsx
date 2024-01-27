@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -27,7 +28,7 @@ export default function SellerInformationRefrigerator() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/seller-information/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/seller-information/${currentID}/`,
         e
       )
       .then((res) => {
@@ -51,7 +52,7 @@ export default function SellerInformationRefrigerator() {
   const fetchDelete = async (id: number) => {
     await instanceAxios
       .delete(
-        `refrigerator-airconditioner-washingmachine/seller-information/${id}/`
+        `/refrigerator-airconditioner-washingmachine/seller-information/${id}/`
       )
       .then((res) => {
         message.success('Xóa thành công');
@@ -64,7 +65,7 @@ export default function SellerInformationRefrigerator() {
 
   const fetchSellerInformationRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/seller-information/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -137,7 +138,7 @@ export default function SellerInformationRefrigerator() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/seller-information/',
+          url: '/refrigerator-airconditioner-washingmachine/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

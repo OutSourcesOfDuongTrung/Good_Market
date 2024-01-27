@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function SellerInformationBonsaiFurniturePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`home-appliance/seller-information/${currentID}/`, e)
+      .patch(`/home-appliance/seller-information/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function SellerInformationBonsaiFurniturePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`home-appliance/seller-information/${id}/`)
+      .delete(`/home-appliance/seller-information/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchSellerInformationBonsaiFurnitureList');
@@ -59,7 +60,7 @@ export default function SellerInformationBonsaiFurniturePage() {
 
   const fetchSellerInformationBonsaiFurnitureList = useCallback(async () => {
     await instanceAxios
-      .get(`home-appliance/seller-information/`, {
+      .get(`/home-appliance/seller-information/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function SellerInformationBonsaiFurniturePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'home-appliance/seller-information/',
+          url: '/home-appliance/seller-information/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -28,7 +28,7 @@ export default function CategoryProductServicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`service/category/${currentID}/`, e)
+      .patch(`/service/category/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -49,7 +49,7 @@ export default function CategoryProductServicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`service/category/${id}/`)
+      .delete(`/service/category/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCategoryProductServiceList');
@@ -61,7 +61,7 @@ export default function CategoryProductServicePage() {
 
   const fetchCategoryProductServiceList = useCallback(async () => {
     await instanceAxios
-      .get(`service/category/`, {
+      .get(`/service/category/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -135,7 +135,7 @@ export default function CategoryProductServicePage() {
             } as unknown as IJob)
         )}
         create={{
-          url: 'service/category/',
+          url: '/service/category/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

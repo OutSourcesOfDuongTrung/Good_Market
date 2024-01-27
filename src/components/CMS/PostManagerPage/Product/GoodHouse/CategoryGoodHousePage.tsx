@@ -42,7 +42,7 @@ export default function CategoryGoodHousePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`good-house/category/${currentID}/`, e)
+      .patch(`/good-house/category/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -63,7 +63,7 @@ export default function CategoryGoodHousePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`good-house/category/${id}/`)
+      .delete(`/good-house/category/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCategoryGoodHouseList');
@@ -75,7 +75,7 @@ export default function CategoryGoodHousePage() {
 
   const fetchCategoryGoodHouseList = useCallback(async () => {
     await instanceAxios
-      .get(`good-house/category/`, {
+      .get(`/good-house/category/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -152,7 +152,7 @@ export default function CategoryGoodHousePage() {
             } as unknown as IJob)
         )}
         create={{
-          url: 'good-house/category/',
+          url: '/good-house/category/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onOKModal() {

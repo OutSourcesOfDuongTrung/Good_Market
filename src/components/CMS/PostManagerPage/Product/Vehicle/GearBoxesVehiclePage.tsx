@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function GearBoxesVehiclePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`vehicle/gearboxes/${currentID}/`, e)
+      .patch(`/vehicle/gearboxes/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function GearBoxesVehiclePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`vehicle/gearboxes/${id}/`)
+      .delete(`/vehicle/gearboxes/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchGearBoxesVehiclePageList');
@@ -59,7 +60,7 @@ export default function GearBoxesVehiclePage() {
 
   const fetchGearBoxesVehiclePageList = useCallback(async () => {
     await instanceAxios
-      .get(`vehicle/gearboxes/`, {
+      .get(`/vehicle/gearboxes/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function GearBoxesVehiclePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'vehicle/gearboxes/',
+          url: '/vehicle/gearboxes/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

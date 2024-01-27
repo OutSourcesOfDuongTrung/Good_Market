@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function CapacitiesElectronicDevicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`ElectronicDevice/capacities/${currentID}/`, e)
+      .patch(`/ElectronicDevice/capacities/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function CapacitiesElectronicDevicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`ElectronicDevice/capacities/${id}/`)
+      .delete(`/ElectronicDevice/capacities/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchCapacitiesElectronicList');
@@ -59,7 +60,7 @@ export default function CapacitiesElectronicDevicePage() {
 
   const fetchCapacitiesElectronicList = useCallback(async () => {
     await instanceAxios
-      .get(`ElectronicDevice/capacities/`, {
+      .get(`/ElectronicDevice/capacities/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -129,7 +130,7 @@ export default function CapacitiesElectronicDevicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'ElectronicDevice/capacities/',
+          url: '/ElectronicDevice/capacities/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IRefrigeratorPost } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -27,7 +28,7 @@ export default function PostRefrigeratorPage() {
   const onFinish = async (e: any) => {
     await instanceAxios
       .patch(
-        `refrigerator-airconditioner-washingmachine/items/${currentID}/`,
+        `/refrigerator-airconditioner-washingmachine/items/${currentID}/`,
         e
       )
       .then((res) => {
@@ -50,7 +51,7 @@ export default function PostRefrigeratorPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`refrigerator-airconditioner-washingmachine/items/${id}/`)
+      .delete(`/refrigerator-airconditioner-washingmachine/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostRefrigeratorList');
@@ -62,7 +63,7 @@ export default function PostRefrigeratorPage() {
 
   const fetchPostRefrigeratorList = useCallback(async () => {
     await instanceAxios
-      .get(`refrigerator-airconditioner-washingmachine/items/`, {
+      .get(`/refrigerator-airconditioner-washingmachine/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -150,7 +151,7 @@ export default function PostRefrigeratorPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'refrigerator-airconditioner-washingmachine/items/',
+          url: '/refrigerator-airconditioner-washingmachine/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

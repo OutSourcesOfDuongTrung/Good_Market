@@ -35,6 +35,7 @@ import NotificationItem from './common/NotificationItem';
 import categoryList from '@/services/categoryList';
 import instanceAxios from '@/api/instanceAxios';
 import getListCategoryLinkAPI from '@/services/getListCategoryLinkAPI';
+import { IJob } from '@/types/Job';
 
 export default function Header() {
   const [showModalMenu, setShowModalMenu] = useState(false);

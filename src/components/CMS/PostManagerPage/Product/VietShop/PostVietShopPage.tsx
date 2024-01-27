@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob, IShopViet } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function PostVietShopPage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`shop-viet/items/${currentID}/`, e)
+      .patch(`/shop-viet/items/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function PostVietShopPage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`shop-viet/items/${id}/`)
+      .delete(`/shop-viet/items/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchPostVietShopList');
@@ -59,7 +60,7 @@ export default function PostVietShopPage() {
 
   const fetchPostVietShopList = useCallback(async () => {
     await instanceAxios
-      .get(`shop-viet/items/`, {
+      .get(`/shop-viet/items/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -144,7 +145,7 @@ export default function PostVietShopPage() {
         data={dataList}
         createAble={true}
         create={{
-          url: 'shop-viet/items/',
+          url: '/shop-viet/items/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {

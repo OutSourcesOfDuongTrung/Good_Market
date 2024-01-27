@@ -1,6 +1,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '@/app/hooks';
 import CMSCategory from '@/components/common/CMSCategory';
+import { IJob } from '@/types/Job';
 import {
   CloseOutlined,
   ColumnHeightOutlined,
@@ -26,7 +27,7 @@ export default function GuaranteeProductServicePage() {
 
   const onFinish = async (e: any) => {
     await instanceAxios
-      .patch(`service/guarantee/${currentID}/`, e)
+      .patch(`/service/guarantee/${currentID}/`, e)
       .then((res) => {
         form.resetFields();
         setOpenModalCreate(false);
@@ -47,7 +48,7 @@ export default function GuaranteeProductServicePage() {
 
   const fetchDelete = async (id: number) => {
     await instanceAxios
-      .delete(`service/guarantee/${id}/`)
+      .delete(`/service/guarantee/${id}/`)
       .then((res) => {
         message.success('Xóa thành công');
         mutate('fetchGuaranteeProductServiceList');
@@ -59,7 +60,7 @@ export default function GuaranteeProductServicePage() {
 
   const fetchGuaranteeProductServiceList = useCallback(async () => {
     await instanceAxios
-      .get(`service/guarantee/`, {
+      .get(`/service/guarantee/`, {
         params: {
           ...(valueFilter && { search: valueFilter }),
           page_size: currentPage,
@@ -126,7 +127,7 @@ export default function GuaranteeProductServicePage() {
         data={categoryList}
         createAble={true}
         create={{
-          url: 'service/guarantee/',
+          url: '/service/guarantee/',
           inputName: ['Name'],
           // body: { asdas: 'asdd' },
           onSucces(res) {
