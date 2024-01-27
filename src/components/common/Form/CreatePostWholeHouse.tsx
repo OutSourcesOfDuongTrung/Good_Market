@@ -47,7 +47,7 @@ export default function CreatePostWholeHouse(props: Props) {
     props.data?.Address.id || ''
   );
   const [categoryId, setCategoryId] = useState<number | string>(
-    props.data?.Category.id || ''
+    props.data?.Category.id || currentForm.currentCategoryId || ''
   );
   const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
     []
@@ -152,6 +152,7 @@ export default function CreatePostWholeHouse(props: Props) {
 
   const onSubmit = async () => {
     const formData = new FormData();
+    categoryId && formData.append('Category', categoryId as string);
     formData.append('Address', addressId as string);
     formData.append('Location', locationId as string);
     formData.append('Deposit_amount', depositAmount as string);
@@ -259,6 +260,7 @@ export default function CreatePostWholeHouse(props: Props) {
       </div>
       <div className="flex-[2_2_0%]">
         <ModalCategorySelectCustom
+          onChange={(e) => setCategoryId(e || '')}
           onChangeKey={(e) => currentForm.setCurrentForm?.(e)}
           label="Danh mục tin đăng"
         />

@@ -47,6 +47,9 @@ export default function CreatePostWorkForm(props: Props) {
   const [experienceId, setExperienceId] = useState<number | string>(
     props.data?.Experience?.id || ''
   );
+  const [categoryId, setCategoryId] = useState<number | string>(
+    props.data?.Category?.id || ''
+  );
   const [workTypeId, setWorkTypeId] = useState<number | string>(
     props.data?.Type_of_work?.id || ''
   );
@@ -137,6 +140,7 @@ export default function CreatePostWorkForm(props: Props) {
 
   const onSubmit = async () => {
     const formData = new FormData();
+    categoryId && formData.append('Category', categoryId as string);
     formData.append('Address', addressId as string);
     formData.append('Location', locationId as string);
     formData.append('Title', title as string);

@@ -150,9 +150,9 @@ export default function CreatePostBusinessPremisesForm(props: Props) {
   const onSubmit = async () => {
     const formData = new FormData();
     formData.append('Address', addressId as string);
+    categoryId && formData.append('Category', categoryId as string);
     formData.append('Location', locationId as string);
     formData.append('Deposit_amount', depositAmount as string);
-    categoryId && formData.append('Category', categoryId as string);
     formData.append('Acreage', acreage as string);
     formData.append('Price', priceValue as string);
     formData.append('Title', title as string);

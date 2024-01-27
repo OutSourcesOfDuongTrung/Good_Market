@@ -60,6 +60,7 @@ interface IJobPost {
   User: IUser;
   images_A1: IImage[];
   Location: ILocation;
+  Category?: IJob;
   Address: IAddress;
   Career: IJob;
   Type_of_work: IJob;
