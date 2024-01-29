@@ -3,6 +3,12 @@ import instanceAxios from './instanceAxios';
 export const fetchCreateElectroDevicePost = async (data?: FormData) => {
   return await instanceAxios.post(`/ElectronicDevice/items/`, data);
 };
+export const fetchUpdateElectroDevicePost = async (
+  data: FormData,
+  id: string | number
+) => {
+  return await instanceAxios.patch(`/ElectronicDevice/items/${id}`, data);
+};
 export const fetchElectronicDeviceCapacitiesList = async (
   searchData?: string,
   currentPage?: number

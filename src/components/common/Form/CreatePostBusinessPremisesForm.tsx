@@ -16,6 +16,7 @@ import {
   fetchCreateGoodHousePost,
   fetchInteriorConditionList,
   fetchSellerInformationList,
+  fetchUpdateGoodHousePost,
 } from '@/api/goodHouseRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
@@ -167,20 +168,34 @@ export default function CreatePostBusinessPremisesForm(props: Props) {
       formData.append('images_A2_data', fileList[index].originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0].originFileObj as Blob);
-
-    await fetchCreateGoodHousePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (!props.edit)
+      await fetchCreateGoodHousePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    else
+      await fetchUpdateGoodHousePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

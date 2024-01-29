@@ -30,6 +30,7 @@ import {
 import PreviewProduct from '../PreviewProduct';
 import {
   fetchCreateVehiclePost,
+  fetchUpdateVehiclePost,
   fetchVehicleCapacitiesList,
   fetchVehicleCompaniesList,
   fetchVehicleFuelsList,
@@ -230,19 +231,34 @@ export default function CreatePostMotobikeForm(props: Props) {
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateVehiclePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (!props.edit)
+      await fetchCreateVehiclePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    else
+      await fetchUpdateVehiclePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

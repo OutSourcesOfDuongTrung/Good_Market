@@ -3,6 +3,12 @@ import instanceAxios from './instanceAxios';
 export const fetchCreateVehiclePost = async (data?: FormData) => {
   return await instanceAxios.post(`/vehicle/items/`, data);
 };
+export const fetchUpdateVehiclePost = async (
+  data: FormData,
+  id: string | number
+) => {
+  return await instanceAxios.patch(`/vehicle/items/${id}`, data);
+};
 export const fetchVehicleUsageStatusList = async (
   searchData?: string,
   currentPage?: number

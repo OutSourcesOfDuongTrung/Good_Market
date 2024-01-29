@@ -25,10 +25,12 @@ import {
   fetchCreateGoodHousePost,
   fetchInteriorConditionList,
   fetchSellerInformationList,
+  fetchUpdateGoodHousePost,
 } from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
 import getParentUrl from '@/services/getUrl';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import { RcFile } from 'antd/es/upload';
 
 interface Props {
   edit?: boolean;
@@ -91,9 +93,12 @@ export default function CreatePostMotelRoomForm(props: Props) {
   const [fileList, setFileList] = useState<UploadFile[]>(
     props.data?.images_A2.map((item, index) => ({
       uid: `-${item.id}`,
-      name: 'image.png',
+      name: `image${item.id}.png`,
       status: 'done',
       url: item.Image,
+      originFileObj: new File([item.Image], 'image.png', {
+        type: 'image/png',
+      }) as RcFile,
     })) || []
   );
   const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
@@ -104,6 +109,9 @@ export default function CreatePostMotelRoomForm(props: Props) {
             name: 'image.png',
             status: 'done',
             url: props.data?.Video,
+            originFileObj: new File([props.data?.Video], 'video.png', {
+              type: 'image/png',
+            }) as RcFile,
           },
         ]
       : []
@@ -170,19 +178,34 @@ export default function CreatePostMotelRoomForm(props: Props) {
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateGoodHousePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (!props.edit)
+      await fetchCreateGoodHousePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    else
+      await fetchUpdateGoodHousePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

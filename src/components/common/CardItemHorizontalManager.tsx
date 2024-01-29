@@ -61,7 +61,11 @@ export default function CardItemHorizontalManager(props: Props) {
               {
                 key: '3',
                 icon: <EditOutlined />,
-                label: <Link href={'/product/1'}>Sửa tin</Link>,
+                label: (
+                  <Link href={`/product/${props.data?.Url}/${props.data?.id}`}>
+                    Sửa tin
+                  </Link>
+                ),
               },
             ],
           }}

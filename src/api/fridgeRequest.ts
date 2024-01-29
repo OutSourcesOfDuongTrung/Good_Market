@@ -6,9 +6,12 @@ export const fetchCreateFridgePost = async (data?: FormData) => {
     data
   );
 };
-export const fetchUpdatePost = async (data: FormData, id: string | number) => {
+export const fetchUpdateFridgePost = async (
+  data: FormData,
+  id: string | number
+) => {
   return await instanceAxios.patch(
-    `/refrigerator-airconditioner-washingmachine/items//${id}`,
+    `/refrigerator-airconditioner-washingmachine/items/${id}`,
     data
   );
 };

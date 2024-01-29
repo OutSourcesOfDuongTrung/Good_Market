@@ -22,7 +22,7 @@ import {
   fetchRefrigeratorVolumeList,
   fetchRefrigeratorWashingVolumeList,
   fetchRefrigeratorWattageList,
-  fetchUpdatePost,
+  fetchUpdateFridgePost,
 } from '@/api/fridgeRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
@@ -204,8 +204,8 @@ export default function CreatePostAirConditionForm(props: Props) {
       formData.append('images_A3_data', fileList[index]?.originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
-    if (props.edit) {
-      await fetchUpdatePost(formData, props.data?.id || '')
+    if (!props.edit) {
+      await fetchUpdateFridgePost(formData, props.data?.id || '')
         .then((res) =>
           notification.success({
             message: 'Đã tạo',

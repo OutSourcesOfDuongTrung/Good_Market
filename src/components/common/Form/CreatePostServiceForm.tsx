@@ -28,6 +28,7 @@ import {
   fetchServicePost,
   fetchServiceSellerInformationList,
   fetchServiceUsageStatusList,
+  fetchUpdateServicePost,
 } from '@/api/serviceRequest';
 import getParentUrl from '@/services/getUrl';
 
@@ -173,20 +174,34 @@ export default function CreatePostServiceForm(props: Props) {
       formData.append('images_A3_data', fileList[index]?.originFileObj as Blob);
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
-
-    await fetchServicePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (!props.edit)
+      await fetchServicePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    else
+      await fetchUpdateServicePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

@@ -27,6 +27,7 @@ import {
   fetchElectronicDeviceScreenSizeList,
   fetchElectronicDeviceSellerInformationList,
   fetchElectronicDeviceUsageStatusList,
+  fetchUpdateElectroDevicePost,
 } from '@/api/electroDeviceRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
@@ -238,19 +239,34 @@ export default function CreatePostDesktopForm(props: Props) {
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateElectroDevicePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (!props.edit)
+      await fetchCreateElectroDevicePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    else
+      await fetchUpdateElectroDevicePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

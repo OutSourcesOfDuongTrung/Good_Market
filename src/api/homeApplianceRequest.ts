@@ -1,7 +1,14 @@
 import instanceAxios from './instanceAxios';
 
 export const fetchCreateHomeAppliancePost = async (data?: FormData) => {
-  return await instanceAxios.post(`ElectronicDevice/items/`, data);
+  return await instanceAxios.post(`/home-appliance/items/`, data);
+};
+
+export const fetchUpdateHomeAppliancePost = async (
+  data: FormData,
+  id: string | number
+) => {
+  return await instanceAxios.patch(`/home-appliance/items/${id}`, data);
 };
 
 export const fetchHomeApplianceGuaranteeList = async (

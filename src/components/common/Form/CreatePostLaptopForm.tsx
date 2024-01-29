@@ -27,6 +27,7 @@ import {
   fetchElectronicDeviceScreenSizeList,
   fetchElectronicDeviceSellerInformationList,
   fetchElectronicDeviceUsageStatusList,
+  fetchUpdateElectroDevicePost,
 } from '@/api/electroDeviceRequest';
 import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
 import getBase64, { FileType } from '@/services/getBase64';
@@ -38,6 +39,7 @@ import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import PreviewProduct from '../PreviewProduct';
 import getParentUrl from '@/services/getUrl';
+import { RcFile } from 'antd/es/upload';
 
 interface Props {
   edit?: boolean;
@@ -128,9 +130,12 @@ export default function CreatePostLaptopForm(props: Props) {
   const [fileList, setFileList] = useState<UploadFile[]>(
     props.data?.images_A3.map((item, index) => ({
       uid: `-${item.id}`,
-      name: 'image.png',
+      name: `image${item.id}.png`,
       status: 'done',
       url: item.Image,
+      originFileObj: new File([item.Image], 'image.png', {
+        type: 'image/png',
+      }) as RcFile,
     })) || []
   );
   const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
@@ -141,6 +146,9 @@ export default function CreatePostLaptopForm(props: Props) {
             name: 'image.png',
             status: 'done',
             url: props.data?.Video,
+            originFileObj: new File([props.data?.Video], 'video.png', {
+              type: 'image/png',
+            }) as RcFile,
           },
         ]
       : []
@@ -246,19 +254,34 @@ export default function CreatePostLaptopForm(props: Props) {
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateElectroDevicePost(formData)
-      .then((res) =>
-        notification.success({
-          message: 'Đã tạo',
-          description: 'Đã tạo bài đăng',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Lỗi',
-          description: 'Tạo bài đăng thất bại',
-        })
-      );
+    if (!props.edit)
+      await fetchCreateElectroDevicePost(formData)
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
+    else
+      await fetchUpdateElectroDevicePost(formData, props.data?.id || '')
+        .then((res) =>
+          notification.success({
+            message: 'Đã tạo',
+            description: 'Đã tạo bài đăng',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Lỗi',
+            description: 'Tạo bài đăng thất bại',
+          })
+        );
   };
   const titleClassName = 'pt-[20px] text-[20px] font-semibold';
   return preview ? (

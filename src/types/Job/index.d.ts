@@ -231,7 +231,7 @@ interface ITaxiPost {
 interface IVehicle {
   id: number;
   User: User;
-  images_A3: Image[];
+  images_A3: IImage[];
   Location: ILocation;
   Address: IAddress;
   Category: IJob;

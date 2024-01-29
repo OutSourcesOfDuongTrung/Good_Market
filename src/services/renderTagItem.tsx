@@ -1,4 +1,4 @@
-import TagItem from '@/components/common/Form/TagItem';
+import TagItem from '@/components/common/TagItem';
 import { IProduct } from '@/types/Job';
 import { textDefault } from './dataDefault';
 import {

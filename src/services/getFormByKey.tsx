@@ -16,48 +16,48 @@ import CreatePostTaxiForm from '@/components/common/Form/CreatePostTaxiForm';
 import CreatePostWholeHouse from '@/components/common/Form/CreatePostWholeHouse';
 import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 
-const getFormByKey = (key: string, data?: any) => {
+const getFormByKey = (key: string, data?: any, edit?: boolean) => {
   switch (key) {
     case 'CAR':
-      return <CreatePostCarForm data={data} />;
+      return <CreatePostCarForm data={data} edit={edit} />;
     case 'MOTEL-ROOM-DORMITORY':
-      return <CreatePostWholeHouse data={data} />;
+      return <CreatePostWholeHouse data={data} edit={edit} />;
     case 'WHOLE-HOUSE':
-      return <CreatePostWholeHouse data={data} />;
+      return <CreatePostWholeHouse data={data} edit={edit} />;
     case 'BUSINESS-PREMISES':
-      return <CreatePostBusinessPremisesForm data={data} />;
+      return <CreatePostBusinessPremisesForm data={data} edit={edit} />;
     case 'FRIDGE':
-      return <CreatePostFridgeForm data={data} />;
+      return <CreatePostFridgeForm data={data} edit={edit} />;
     case 'AIR-CONDITIONING-AIR-CONDITIONING':
-      return <CreatePostAirConditionForm data={data} />;
+      return <CreatePostAirConditionForm data={data} edit={edit} />;
     case 'WASHING-MACHINE':
-      return <CreatePostFridgeForm data={data} />;
+      return <CreatePostFridgeForm data={data} edit={edit} />;
     case 'MOTORBIKE':
-      return <CreatePostMotobikeForm data={data} />;
+      return <CreatePostMotobikeForm data={data} edit={edit} />;
     case 'COMMON-VEHICLE':
-      return <CreatePostCommonVehicleForm data={data} />;
+      return <CreatePostCommonVehicleForm data={data} edit={edit} />;
     case 'PHONE':
-      return <CreatePostPhoneForm data={data} />;
+      return <CreatePostPhoneForm data={data} edit={edit} />;
     case 'LAPTOP':
-      return <CreatePostLaptopForm data={data} />;
+      return <CreatePostLaptopForm data={data} edit={edit} />;
     case 'TABLET':
-      return <CreatePostTabletForm data={data} />;
+      return <CreatePostTabletForm data={data} edit={edit} />;
     case 'DESKTOP':
-      return <CreatePostDesktopForm data={data} />;
+      return <CreatePostDesktopForm data={data} edit={edit} />;
     case 'COMMON-ELECTRONICE-DEVICE':
-      return <CreatePostElectronicDeviceForm data={data} />;
+      return <CreatePostElectronicDeviceForm data={data} edit={edit} />;
     case 'COMMON-SERVICE':
-      return <CreatePostServiceForm data={data} />;
+      return <CreatePostServiceForm data={data} edit={edit} />;
     case 'COMMON-FURNITURE-APPLIANCES':
-      return <CreatePostHomeApplianceForm data={data} />;
+      return <CreatePostHomeApplianceForm data={data} edit={edit} />;
     case 'COMMON-VIETSHOP':
       return;
     case 'MACHINE':
-      return <CreatePostMachineryEquipmentForm data={data} />;
+      return <CreatePostMachineryEquipmentForm data={data} edit={edit} />;
     case 'WORK':
-      return <CreatePostWorkForm data={data} />;
+      return <CreatePostWorkForm data={data} edit={edit} />;
     case 'TAXI':
-      return <CreatePostTaxiForm data={data} />;
+      return <CreatePostTaxiForm data={data} edit={edit} />;
     // case 'CAR':
     //   return;
     // case 'CAR':

@@ -8,6 +8,7 @@ import getFormByKey from '@/services/getFormByKey';
 import getKeybyUrl from '@/services/getKeybyUrl';
 import getPrefixUrl from '@/services/getPrefixUrl';
 import { IElectroDevice, IProduct, IRefrigeratorPost } from '@/types/Job';
+import { Button, Result } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 
 export default function EditProductPage({
@@ -45,15 +46,26 @@ export default function EditProductPage({
   }, [currentForm, params.category, params.productId]);
   return (
     !loadingPage && (
-      <div className="w-2/3 m-auto my-[20px] p-[20px] rounded-lg bg-white">
-        {getFormByKey(
-          productData?.Category?.keyForm ||
-            getKeybyUrl(productData?.Url || '') ||
-            '',
-          productData
+      <>
+        {currentUser.id === productData?.User?.id ? (
+          <div className="w-2/3 m-auto my-[20px] p-[20px] rounded-lg bg-white">
+            {getFormByKey(
+              productData?.Category?.keyForm ||
+                getKeybyUrl(productData?.Url || '') ||
+                '',
+              productData,
+              true
+            )}
+          </div>
+        ) : (
+          <Result
+            status="403"
+            title="403"
+            subTitle="Sorry, you are not authorized to access this page."
+            extra={<Button type="primary">Back Home</Button>}
+          />
         )}
-        {/* <CreatePostLaptopForm data={productData as unknown as IElectroDevice} /> */}
-      </div>
+      </>
     )
   );
 }

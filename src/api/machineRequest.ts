@@ -3,6 +3,12 @@ import instanceAxios from './instanceAxios';
 export const fetchMachineryEquipmentPost = async (data?: FormData) => {
   return await instanceAxios.post(`/machinery-equipment/items/`, data);
 };
+export const fetchUpdateMachineryEquipmentPost = async (
+  data: FormData,
+  id: string | number
+) => {
+  return await instanceAxios.patch(`/machinery-equipment/items/${id}`, data);
+};
 export const fetchMachineryEquipmentGuaranteeList = async (
   searchData?: string,
   currentPage?: number

@@ -5,6 +5,12 @@ import { IJobPostCreate } from '@/types/Job';
 export const fetchCreateWorkPost = async (data?: IJobPostCreate | FormData) => {
   return await instanceAxios.post(`/job/items/`, data);
 };
+export const fetchUpdateWorkPost = async (
+  data: FormData,
+  id: string | number
+) => {
+  return await instanceAxios.patch(`/job/items/${id}`, data);
+};
 
 export const fetchCareerList = async (
   searchData?: string,
