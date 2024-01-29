@@ -82,6 +82,9 @@ export default function CreatePostWholeHouse(props: Props) {
     props.data?.Contact_phone_number || ''
   );
   const [url, setUrl] = useState(props.data?.Url);
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
 
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);

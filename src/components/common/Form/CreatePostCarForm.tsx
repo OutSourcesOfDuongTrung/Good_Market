@@ -103,7 +103,9 @@ export default function CreatePostCarForm(props: Props) {
   const [contactPhoneNumber, setContactPhoneNumber] = useState<number | string>(
     props.data?.Contact_phone_number || ''
   );
-  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
   const [url, setUrl] = useState(getParentUrl.Vehicle);
 
   const [preview, setPreview] = useState(false);

@@ -44,7 +44,7 @@ export default function CreatePostBusinessPremisesForm(props: Props) {
     props.data?.Address.id || ''
   );
   const [categoryId, setCategoryId] = useState<number | string>(
-    props.data?.Category.id || ''
+    props.data?.Category.id || currentForm.currentCategoryId || ''
   );
   const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
     []
@@ -79,6 +79,9 @@ export default function CreatePostBusinessPremisesForm(props: Props) {
     props.data?.Contact_phone_number || ''
   );
   const [url, setUrl] = useState(props.data?.Url);
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
 
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);

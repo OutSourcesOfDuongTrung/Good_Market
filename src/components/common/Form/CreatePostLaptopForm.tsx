@@ -117,7 +117,9 @@ export default function CreatePostLaptopForm(props: Props) {
     props.data?.Contact_phone_number || ''
   );
 
-  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
   const [url, setUrl] = useState(getParentUrl.ElectroDevice);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -350,6 +352,7 @@ export default function CreatePostLaptopForm(props: Props) {
             />
           </Flex>
           <HorizontalSelect
+            defaultValue={usageStatus}
             onChange={(e) => setUsageStatus(e || '')}
             data={usageStatusList}
             required

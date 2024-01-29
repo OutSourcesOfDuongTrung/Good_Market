@@ -73,10 +73,10 @@ export default function CreatePostAirConditionForm(props: Props) {
     props.data?.Detailed_description || ''
   );
   const [usageStatus, setUsageStatus] = useState<number | string>(
-    props.data?.Usage_status.id || ''
+    props.data?.Usage_status?.id || ''
   );
   const [guarantee, setGuarantee] = useState<number | string>(
-    props.data?.Guarantee.id || ''
+    props.data?.Guarantee?.id || ''
   );
   const [map, setMap] = useState<number | string>(props.data?.Map || '');
   const [freeGiveAway, setFreeGiveAway] = useState<number | string>(
@@ -84,13 +84,13 @@ export default function CreatePostAirConditionForm(props: Props) {
   );
   const [price, setPrice] = useState<number | string>(props.data?.Price || '');
   const [volume, setVolume] = useState<number | string>(
-    props.data?.Volume.id || ''
+    props.data?.Volume?.id || ''
   );
   const [wattage, setWattage] = useState<number | string>(
-    props.data?.Wattage.id || ''
+    props.data?.Wattage?.id || ''
   );
   const [washingVolume, setWashingVolume] = useState<number | string>(
-    props.data?.Washing_volume.id || ''
+    props.data?.Washing_volume?.id || ''
   );
 
   const [checked, setChecked] = useState<boolean>();
@@ -100,7 +100,7 @@ export default function CreatePostAirConditionForm(props: Props) {
   const [url, setUrl] = useState(props.data?.Url);
 
   const [defaultLabel, setDefaultLabel] = useState<number | string>(
-    currentForm.currentLabel || ''
+    currentForm.currentLabelAdress || ''
   );
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -312,6 +312,7 @@ export default function CreatePostAirConditionForm(props: Props) {
         <Flex vertical gap={20}>
           <p className={titleClassName}>Thông tin chi tiết</p>
           <HorizontalSelect
+            defaultValue={usageStatus}
             onChange={(e) => setUsageStatus(e || '')}
             data={usageStatusList}
             required

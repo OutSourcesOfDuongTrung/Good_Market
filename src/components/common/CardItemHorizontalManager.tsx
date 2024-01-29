@@ -8,6 +8,7 @@ import {
   ShareAltOutlined,
 } from '@ant-design/icons';
 import { Dropdown, Flex, Image } from 'antd';
+import Link from 'next/link';
 import React from 'react';
 interface Props {
   data?: IProduct;
@@ -60,7 +61,7 @@ export default function CardItemHorizontalManager(props: Props) {
               {
                 key: '3',
                 icon: <EditOutlined />,
-                label: 'Sửa tin',
+                label: <Link href={'/product/1'}>Sửa tin</Link>,
               },
             ],
           }}

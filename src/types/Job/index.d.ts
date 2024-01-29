@@ -365,10 +365,16 @@ interface IProduct {
   Guarantee?: IJob;
   Company?: IJob;
   Capacity?: IJob;
-  Map?: IJob;
+  Map?: string | number;
   Volume?: IJob;
   Wattage?: IJob;
   Washing_volume?: IJob;
+  Color?: IJob;
+  Microprocessor?: IJob;
+  Ram?: IJob;
+  HardDrive?: IJob;
+  MonitorCard?: IJob;
+  ScreenSize?: IJob;
   Free_giveaway?: IJob;
   Price?: number;
   Title?: number;

@@ -79,7 +79,9 @@ export default function CreatePostMachineryEquipmentForm(props: Props) {
     props.data?.Contact_phone_number || ''
   );
 
-  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
   const [url, setUrl] = useState(getParentUrl.Machine);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -265,6 +267,7 @@ export default function CreatePostMachineryEquipmentForm(props: Props) {
         <Flex vertical gap={20}>
           <p className={titleClassName}>Thông tin chi tiết</p>
           <HorizontalSelect
+            defaultValue={usageStatus}
             onChange={(e) => setUsageStatus(e || '')}
             data={usageStatusList}
             required

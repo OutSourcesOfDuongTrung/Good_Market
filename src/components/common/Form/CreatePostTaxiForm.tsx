@@ -75,7 +75,9 @@ export default function CreatePostTaxiForm(props: Props) {
     props.data?.Contact_phone_number || ''
   );
 
-  const [defaultLabel, setDefaultLabel] = useState<number | string>('');
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
   const [url, setUrl] = useState(getParentUrl.Taxi);
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);

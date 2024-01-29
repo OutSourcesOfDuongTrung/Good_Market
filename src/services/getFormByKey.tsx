@@ -16,48 +16,48 @@ import CreatePostTaxiForm from '@/components/common/Form/CreatePostTaxiForm';
 import CreatePostWholeHouse from '@/components/common/Form/CreatePostWholeHouse';
 import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 
-const getFormByKey = (key: string) => {
+const getFormByKey = (key: string, data?: any) => {
   switch (key) {
     case 'CAR':
-      return <CreatePostCarForm />;
+      return <CreatePostCarForm data={data} />;
     case 'MOTEL-ROOM-DORMITORY':
-      return <CreatePostWholeHouse />;
+      return <CreatePostWholeHouse data={data} />;
     case 'WHOLE-HOUSE':
-      return <CreatePostWholeHouse />;
+      return <CreatePostWholeHouse data={data} />;
     case 'BUSINESS-PREMISES':
-      return <CreatePostBusinessPremisesForm />;
+      return <CreatePostBusinessPremisesForm data={data} />;
     case 'FRIDGE':
-      return <CreatePostFridgeForm />;
+      return <CreatePostFridgeForm data={data} />;
     case 'AIR-CONDITIONING-AIR-CONDITIONING':
-      return <CreatePostAirConditionForm />;
+      return <CreatePostAirConditionForm data={data} />;
     case 'WASHING-MACHINE':
-      return <CreatePostFridgeForm />;
+      return <CreatePostFridgeForm data={data} />;
     case 'MOTORBIKE':
-      return <CreatePostMotobikeForm />;
+      return <CreatePostMotobikeForm data={data} />;
     case 'COMMON-VEHICLE':
-      return <CreatePostCommonVehicleForm />;
+      return <CreatePostCommonVehicleForm data={data} />;
     case 'PHONE':
-      return <CreatePostPhoneForm />;
+      return <CreatePostPhoneForm data={data} />;
     case 'LAPTOP':
-      return <CreatePostLaptopForm />;
+      return <CreatePostLaptopForm data={data} />;
     case 'TABLET':
-      return <CreatePostTabletForm />;
+      return <CreatePostTabletForm data={data} />;
     case 'DESKTOP':
-      return <CreatePostDesktopForm />;
+      return <CreatePostDesktopForm data={data} />;
     case 'COMMON-ELECTRONICE-DEVICE':
-      return <CreatePostElectronicDeviceForm />;
+      return <CreatePostElectronicDeviceForm data={data} />;
     case 'COMMON-SERVICE':
-      return <CreatePostServiceForm />;
+      return <CreatePostServiceForm data={data} />;
     case 'COMMON-FURNITURE-APPLIANCES':
-      return <CreatePostHomeApplianceForm />;
+      return <CreatePostHomeApplianceForm data={data} />;
     case 'COMMON-VIETSHOP':
       return;
     case 'MACHINE':
-      return <CreatePostMachineryEquipmentForm />;
+      return <CreatePostMachineryEquipmentForm data={data} />;
     case 'WORK':
-      return <CreatePostWorkForm />;
+      return <CreatePostWorkForm data={data} />;
     case 'TAXI':
-      return <CreatePostTaxiForm />;
+      return <CreatePostTaxiForm data={data} />;
     // case 'CAR':
     //   return;
     // case 'CAR':

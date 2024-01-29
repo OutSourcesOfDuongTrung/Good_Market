@@ -1,24 +1,55 @@
 'use client';
+import instanceAxios from '@/api/instanceAxios';
+import { useAppSelector } from '@/app/hooks';
 import CardItem from '@/components/common/CardItem';
+import { textCensorship, textDefault } from '@/services/dataDefault';
+import getPrefixUrl from '@/services/getPrefixUrl';
+import renderTagItem from '@/services/renderTagItem';
+import { IProduct } from '@/types/Job';
 import {
   CaretLeftOutlined,
   CaretRightOutlined,
+  EditOutlined,
+  EyeOutlined,
   HeartFilled,
   MessageFilled,
   ShareAltOutlined,
   WarningOutlined,
 } from '@ant-design/icons';
 import { Avatar, Image, Rate, Space } from 'antd';
-import React, { useRef } from 'react';
+import moment from 'moment';
+import Link from 'next/link';
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function ProductIdPage() {
+export default function ProductInfoPage({
+  params,
+}: {
+  params: { category: string | number; productId: string | number };
+}) {
   const ref = useRef<HTMLDivElement>(null);
-
+  const currentUser = useAppSelector((state) => state.user.data);
+  const [productData, setProductData] = useState<IProduct>();
   const scroll = (scrollOffset: number) => {
     if (ref.current) {
       ref.current.scrollLeft += scrollOffset;
     }
   };
+  useEffect(() => {
+    const fetchProductData = async () => {
+      await instanceAxios
+        .get(
+          `/${getPrefixUrl(params.category as string)}/items/${
+            params.productId
+          }/`
+        )
+        .then((res) => {
+          setProductData(res.data.data);
+        })
+        .catch((err) => {});
+    };
+    fetchProductData();
+  }, [params.category, params.productId]);
+
   return (
     <div className="w-3/4 m-auto">
       <div className="flex gap-x-5">
@@ -49,11 +80,11 @@ export default function ProductIdPage() {
             </div>
           </div>
           <div className="p-[10px] rounded-lg bg-white">
-            <p className="font-semibold">
-              Tuyển NV Nam, Nữ PV Nhà hàng tại quận 5
-            </p>
+            <p className="font-semibold">{productData?.Title}</p>
             <div className="flex justify-between">
-              <b className="text-[#d0021b]">$26.000</b>
+              <b className="text-[#d0021b]">
+                ${productData?.Price?.toLocaleString() || 0}
+              </b>
               <div className="flex gap-x-5">
                 <Space>
                   <ShareAltOutlined />
@@ -69,43 +100,32 @@ export default function ProductIdPage() {
               <Space className="text-[#777777] ">
                 <ShareAltOutlined />
                 <p className="truncate w-[500px]">
-                  23 duröng Sö 14, Phuong 5, Quén Gö Väp, Tp Hö Chi Mi
+                  {productData?.Map || textDefault}
                 </p>
               </Space>
               <Space className="text-[#777777] ">
                 <ShareAltOutlined />
                 <p className="truncate w-[500px]">
-                  23 duröng Sö 14, Phuong 5, Quén Gö Väp, Tp Hö Chi Mi
+                  {moment(productData?.Creation_time).format('DD/MM/YYYY') ||
+                    textDefault}
                 </p>
               </Space>
               <Space className="text-[#777777] ">
                 <ShareAltOutlined />
-                <p className="truncate w-[500px]">
-                  23 duröng Sö 14, Phuong 5, Quén Gö Väp, Tp Hö Chi Mi
-                </p>
+                <p className="truncate w-[500px]">{textCensorship}</p>
               </Space>
             </div>
           </div>
           <div className="p-[10px] rounded-lg bg-white">
             <p className="font-semibold">Mô tả chi tiết</p>
             <div className="py-[10px]">
-              {`-Thvc hién cong viéc lau chüi, don dep, ve vinh theo phån cöng cüa
-              Quån II' Hånh chinh Thöi gian låm viéc: 6h30-4h45
-              - Khu vvc låm
-              vi$c: 23 dubng 14 phurdng 5 Quan Gö Väp`}
+              {productData?.Detailed_description || textDefault}
             </div>
           </div>
           <div className="p-[10px] rounded-lg bg-white">
             <p className="font-semibold">Đặc điểm công việc</p>
             <div className="grid grid-cols-2 gap-y-2 py-[10px]">
-              {[...Array(7)].map((_, index) => (
-                <Space className="w-1/2" key={index}>
-                  <ShareAltOutlined />
-                  <p className="truncate w-[300px]">
-                    23 duröng Sö 14, Phuong 5, Quén Gö Väp, Tp Hö Chi Mi
-                  </p>
-                </Space>
-              ))}
+              {renderTagItem(productData || {}).map((item, index) => item)}
             </div>
           </div>
         </div>
@@ -152,10 +172,27 @@ export default function ProductIdPage() {
                 ))}
               </div>
             </div>
-            <div className="flex items-center mt-[20px] rounded-lg px-[10px] py-[5px] text-white justify-between bg-[#48862d]">
-              <MessageFilled />
-              <b className="uppercase">Chat với người bán</b>
-            </div>
+            {currentUser.id === productData?.User?.id ? (
+              <>
+                <div className="flex items-center mt-[20px] gap-3 rounded-lg px-[10px] py-[5px] text-white justify-center bg-[#48862d]">
+                  <EyeOutlined />
+                  <b className="uppercase">Đã bán/ẩn tin</b>
+                </div>
+                <Link
+                  href={`/edit-post/${params.category}/${params.productId}`}
+                >
+                  <div className="flex items-center mt-[20px] gap-3 rounded-lg px-[10px] py-[5px] text-white justify-center bg-[#48862d]">
+                    <EditOutlined />
+                    <b className="uppercase">Sửa tin</b>
+                  </div>
+                </Link>
+              </>
+            ) : (
+              <div className="flex items-center mt-[20px] rounded-lg px-[10px] py-[5px] text-white justify-between bg-[#48862d]">
+                <MessageFilled />
+                <b className="uppercase">Chat với người bán</b>
+              </div>
+            )}
           </div>
           <Space className="text-[#b5b5b5]">
             <WarningOutlined />

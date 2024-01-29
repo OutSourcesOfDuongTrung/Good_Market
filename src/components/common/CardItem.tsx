@@ -48,7 +48,7 @@ export default function CardItem(props: Props) {
   );
 
   return (
-    <Link href={'/product/1'}>
+    <Link href={`/product/${props.data?.Url}/${props.data?.id}`}>
       <Ribbon
         className="invisible"
         color="red"

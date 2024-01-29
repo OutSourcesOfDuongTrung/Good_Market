@@ -45,7 +45,7 @@ export default function CreatePostMotelRoomForm(props: Props) {
     props.data?.Address.id || ''
   );
   const [categoryId, setCategoryId] = useState<number | string>(
-    props.data?.Category.id || ''
+    props.data?.Category.id || currentForm.currentCategoryId || ''
   );
   const [interiorConditionList, setInteriorConditionList] = useState<IJob[]>(
     []
@@ -80,6 +80,9 @@ export default function CreatePostMotelRoomForm(props: Props) {
     props.data?.Contact_phone_number || ''
   );
   const [url, setUrl] = useState(props.data?.Url);
+  const [defaultLabel, setDefaultLabel] = useState<number | string>(
+    currentForm.currentLabelAdress || ''
+  );
 
   const [preview, setPreview] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -167,27 +170,7 @@ export default function CreatePostMotelRoomForm(props: Props) {
     }
     formData.append('Video', videoFileList[0]?.originFileObj as Blob);
 
-    await fetchCreateGoodHousePost(
-      formData
-      //   {
-      //   Address: addressId,
-      //   // Contact_phone_number: '',
-      //   // Detailed_description: '',
-      //   Location: locationId,
-      //   Acreage: acreage,
-      //   Category: 1,
-      //   Deposit_amount: depositAmount,
-      //   images_A2_data: fileList,
-      //   Interior_condition: interiorCondition,
-      //   // Number_of_bathrooms: '',
-      //   // Number_of_bedrooms: 0,
-      //   Price: priceValue,
-      //   Seller_information: sellerInformation,
-      //   Title: title as string,
-      //   // Url: '',
-      //   ...(videoFileList && { Video: videoFileList[0] }),
-      // }
-    )
+    await fetchCreateGoodHousePost(formData)
       .then((res) =>
         notification.success({
           message: 'Đã tạo',
