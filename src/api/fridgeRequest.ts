@@ -11,7 +11,7 @@ export const fetchUpdateFridgePost = async (
   id: string | number
 ) => {
   return await instanceAxios.patch(
-    `/refrigerator-airconditioner-washingmachine/items/${id}`,
+    `/refrigerator-airconditioner-washingmachine/items/${id}/`,
     data
   );
 };

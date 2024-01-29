@@ -7,7 +7,7 @@ export const fetchUpdateTaxiPost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/taxi/items/${id}`, data);
+  return await instanceAxios.patch(`/taxi/items/${id}/`, data);
 };
 export const fetchTaxiPostedNewsList = async (
   searchData?: string,

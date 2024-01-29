@@ -1,3 +1,4 @@
+import getImageLink from '@/services/getImageLink';
 import { IProduct } from '@/types/Job';
 import { Avatar, Badge, Image, Space } from 'antd';
 import Ribbon from 'antd/es/badge/Ribbon';
@@ -21,7 +22,7 @@ export default function CardItem(props: Props) {
         preview={false}
         className="object-cover rounded-lg overflow-hidden"
         alt={''}
-        src="https://cdn.chotot.com/bk7hjvTBw-LnlG4DfqV80eh-L45j2lXCkGjWinYGU3g/preset:listing/plain/63d6a881d9ca9d45a1442de9dab3c64d-2860416483063833569.jpg"
+        src={getImageLink(props.data || {})}
       />
       <div
         className={`w-[200px] ${

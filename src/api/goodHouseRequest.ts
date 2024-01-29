@@ -34,7 +34,7 @@ export const fetchUpdateGoodHousePost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/good-house/items/${id}`, data);
+  return await instanceAxios.patch(`/good-house/items/${id}/`, data);
 };
 
 export const fetchCreateGoodHouseCategory = async (data?: IJob) => {

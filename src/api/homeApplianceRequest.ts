@@ -8,7 +8,7 @@ export const fetchUpdateHomeAppliancePost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/home-appliance/items/${id}`, data);
+  return await instanceAxios.patch(`/home-appliance/items/${id}/`, data);
 };
 
 export const fetchHomeApplianceGuaranteeList = async (

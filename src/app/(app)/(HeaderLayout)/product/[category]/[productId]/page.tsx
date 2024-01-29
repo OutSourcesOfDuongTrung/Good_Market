@@ -16,7 +16,7 @@ import {
   ShareAltOutlined,
   WarningOutlined,
 } from '@ant-design/icons';
-import { Avatar, Image, Rate, Space } from 'antd';
+import { Avatar, Image, Rate, Space, message } from 'antd';
 import moment from 'moment';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
@@ -49,7 +49,16 @@ export default function ProductInfoPage({
     };
     fetchProductData();
   }, [params.category, params.productId]);
-
+  const fetchFolow = async () => {
+    await instanceAxios
+      .post(`follow/followers/`, { watching: productData?.User?.id })
+      .then((res) => {
+        message.success('Đã theo dõi');
+      })
+      .catch((err) => {
+        message.info('Đã theo dõi rồi');
+      });
+  };
   return (
     <div className="w-3/4 m-auto">
       <div className="flex gap-x-5">
@@ -150,11 +159,16 @@ export default function ProductInfoPage({
               </div>
             </div>
             <div className="flex gap-x-3 text-[14px] mt-[20px]">
-              <button className="flex flex-1 items-center justify-center rounded-md hover:bg-[#fe9900] hover:text-white border-2 border-[#fe9900] text-[#fe9900]">
+              <button
+                onClick={fetchFolow}
+                className="flex flex-1 items-center justify-center rounded-md hover:bg-[#fe9900] hover:text-white border-2 border-[#fe9900] text-[#fe9900]"
+              >
                 Đang theo dõi
               </button>
               <button className="flex flex-1 items-center justify-center rounded-md hover:bg-[#fe9900] hover:text-white border-2 border-[#fe9900] text-[#fe9900]">
-                {`Trang cá nhân >`}
+                <Link href={`/user/${productData?.User?.id}`}>
+                  {`Trang cá nhân >`}
+                </Link>
               </button>
             </div>
           </div>

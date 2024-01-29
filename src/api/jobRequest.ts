@@ -9,7 +9,7 @@ export const fetchUpdateWorkPost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/job/items/${id}`, data);
+  return await instanceAxios.patch(`/job/items/${id}/`, data);
 };
 
 export const fetchCareerList = async (

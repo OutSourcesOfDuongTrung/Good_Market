@@ -32,6 +32,7 @@ import {
   fetchUpdateMachineryEquipmentPost,
 } from '@/api/machineRequest';
 import getParentUrl from '@/services/getUrl';
+import { RcFile } from 'antd/es/upload';
 
 interface Props {
   edit?: boolean;
@@ -91,23 +92,15 @@ export default function CreatePostMachineryEquipmentForm(props: Props) {
   const [fileList, setFileList] = useState<UploadFile[]>(
     props.data?.images_A4.map((item, index) => ({
       uid: `-${item.id}`,
-      name: 'image.png',
+      name: `image${item.id}.jpg`,
       status: 'done',
       url: item.Image,
+      originFileObj: new File([item.Image], `image${item.id}.jpg`, {
+        type: 'image/jpg',
+      }) as RcFile,
     })) || []
   );
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
-    props.data?.Video
-      ? [
-          {
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: props.data?.Video,
-          },
-        ]
-      : []
-  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     fetchMachineryEquipmentGuaranteeList().then((res) =>

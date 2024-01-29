@@ -7,7 +7,7 @@ export const fetchUpdateVehiclePost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/vehicle/items/${id}`, data);
+  return await instanceAxios.patch(`/vehicle/items/${id}/`, data);
 };
 export const fetchVehicleUsageStatusList = async (
   searchData?: string,

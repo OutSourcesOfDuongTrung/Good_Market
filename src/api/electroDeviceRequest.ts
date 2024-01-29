@@ -7,7 +7,7 @@ export const fetchUpdateElectroDevicePost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/ElectronicDevice/items/${id}`, data);
+  return await instanceAxios.patch(`/ElectronicDevice/items/${id}/`, data);
 };
 export const fetchElectronicDeviceCapacitiesList = async (
   searchData?: string,

@@ -93,29 +93,15 @@ export default function CreatePostMotelRoomForm(props: Props) {
   const [fileList, setFileList] = useState<UploadFile[]>(
     props.data?.images_A2.map((item, index) => ({
       uid: `-${item.id}`,
-      name: `image${item.id}.png`,
+      name: `image${item.id}.jpg`,
       status: 'done',
       url: item.Image,
-      originFileObj: new File([item.Image], 'image.png', {
-        type: 'image/png',
+      originFileObj: new File([item.Image], 'image.jpg', {
+        type: 'image/jpg',
       }) as RcFile,
     })) || []
   );
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
-    props.data?.Video
-      ? [
-          {
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: props.data?.Video,
-            originFileObj: new File([props.data?.Video], 'video.png', {
-              type: 'image/png',
-            }) as RcFile,
-          },
-        ]
-      : []
-  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     fetchInteriorConditionList().then((res) =>

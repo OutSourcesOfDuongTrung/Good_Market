@@ -7,7 +7,7 @@ export const fetchUpdateServicePost = async (
   data: FormData,
   id: string | number
 ) => {
-  return await instanceAxios.patch(`/service/items/${id}`, data);
+  return await instanceAxios.patch(`/service/items/${id}/`, data);
 };
 export const fetchServiceGuaranteeList = async (
   searchData?: string,

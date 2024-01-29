@@ -34,6 +34,7 @@ import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import PreviewProduct from '../PreviewProduct';
 import getParentUrl from '@/services/getUrl';
+import { RcFile } from 'antd/es/upload';
 
 interface Props {
   edit?: boolean;
@@ -109,23 +110,12 @@ export default function CreatePostAirConditionForm(props: Props) {
   const [fileList, setFileList] = useState<UploadFile[]>(
     props.data?.images_A3.map((item) => ({
       uid: `-${item.id}`,
-      name: 'image.png',
+      name: `image${item.id}.jpg`,
       status: 'done',
       url: item.Image,
     })) || []
   );
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
-    props.data?.Video
-      ? [
-          {
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: props.data?.Video,
-          },
-        ]
-      : []
-  );
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     fetchRefrigeratorGuaranteeList().then((res) =>

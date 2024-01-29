@@ -35,6 +35,11 @@ import HorizontalSelect from '../HorizontalSelect';
 import ModalCategorySelectCustom from '../ModalCategorySelectCustom';
 import PreviewProduct from '../PreviewProduct';
 import getParentUrl from '@/services/getUrl';
+import { RcFile } from 'antd/es/upload';
+import {
+  convertImageToUploadFile,
+  convertVideoToUploadFile,
+} from '@/services/fetchImage';
 
 interface Props {
   edit?: boolean;
@@ -111,26 +116,28 @@ export default function CreatePostCommonVehicleForm(props: Props) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>(
-    props.data?.images_A3.map((item, index) => ({
-      uid: `-${item.id}`,
-      name: 'image.png',
-      status: 'done',
-      url: item.Image,
-    })) || []
-  );
-  const [videoFileList, setVideoFileList] = useState<UploadFile[]>(
-    props.data?.Video
-      ? [
-          {
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: props.data?.Video,
-          },
-        ]
-      : []
-  );
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [videoFileList, setVideoFileList] = useState<UploadFile[]>([]);
+  useEffect(() => {
+    const fetchImageFiles = async () => {
+      const imageFiles = await Promise.all(
+        (props.data?.images_A3 || []).map(
+          async (item) => await convertImageToUploadFile(item)
+        )
+      );
+      setFileList(imageFiles || []);
+    };
+    const fetchVideoFiles = async () => {
+      if (props.data?.Video) {
+        const VideoFiles = await convertVideoToUploadFile(
+          props.data?.Video || ''
+        );
+        setVideoFileList([VideoFiles]);
+      }
+    };
+    fetchVideoFiles();
+    fetchImageFiles();
+  }, [props.data?.Video, props.data?.images_A3]);
 
   useEffect(() => {
     fetchVehicleSellerInformationList().then((res) =>
