@@ -1,6 +1,9 @@
 'use client';
+import instanceAxios from '@/api/instanceAxios';
 import MessageTabItem from '@/components/common/MessageTabItem';
 import NotificationItem from '@/components/common/NotificationItem';
+import getPrefixUrl from '@/services/getPrefixUrl';
+import { IProduct } from '@/types/Job';
 import {
   DeploymentUnitOutlined,
   FileImageOutlined,
@@ -8,9 +11,24 @@ import {
   SendOutlined,
 } from '@ant-design/icons';
 import { Avatar, Flex, Input, Space } from 'antd';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 export default function ChatPage() {
+  const [productData, setProductData] = useState<IProduct>();
+
+  useEffect(() => {
+    const fethCurrentChat = async () => {
+      const productChatId = localStorage.getItem('productChatId');
+      const productChatKey = localStorage.getItem('productChatKey');
+      await instanceAxios
+        .get(`/${getPrefixUrl(productChatKey || '')}/items/${productChatId}/`)
+        .then((res) => {
+          setProductData(res.data.data);
+        })
+        .catch((err) => {});
+    };
+    fethCurrentChat();
+  }, []);
   return (
     <div className="w-5/6 h-[630px] m-auto bg-white">
       <Flex className="h-full">
@@ -48,9 +66,9 @@ export default function ChatPage() {
         <Flex vertical className="w-3/5 h-full text-[14px]">
           <Flex justify="space-between" className="p-[10px] border-b">
             <Flex justify="center" align="center" gap={10}>
-              <Avatar src="" size={50} />
+              <Avatar src={productData?.User?.avatar || ''} size={50} />
               <Flex vertical>
-                <p>BlueCar Auto</p>
+                <p>{productData?.User?.first_name}</p>
                 <Space> • Đang hoạt động</Space>
               </Flex>
             </Flex>
@@ -59,8 +77,10 @@ export default function ChatPage() {
           <Flex className="p-[10px]  border-b" align="center" gap={10}>
             <Avatar shape="square" src="" size={50} />
             <Flex vertical>
-              <p>BlueCar Auto</p>
-              <p className="text-red-500 font-semibold">$200.000</p>
+              <p>{productData?.Title || ''}</p>
+              <p className="text-red-500 font-semibold">
+                ${productData?.Price?.toLocaleString()}
+              </p>
             </Flex>
           </Flex>
           <div className="h-full flex flex-col-reverse overflow-y-auto">

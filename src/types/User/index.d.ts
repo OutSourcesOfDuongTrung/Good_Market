@@ -5,6 +5,11 @@ interface IChartCart {
   color: string;
   datasets: object;
 }
+interface INotification {
+  user: IUser;
+  user_send: IUser;
+  content: string;
+}
 interface ITableDataType {
   key: React.Key;
   name?: string;

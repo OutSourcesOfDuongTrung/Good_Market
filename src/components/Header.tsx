@@ -42,6 +42,7 @@ export default function Header() {
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
+  const [notificationList, setNotificationList] = useState<INotification[]>([]);
   const [currentCategoryList, setCurrentCategoryList] = useState<IJob[]>([]);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
@@ -55,10 +56,17 @@ export default function Header() {
       .then((res) => setCurrentCategoryList(res.data.data || []))
       .catch((err) => console.log(err));
   };
-  // useEffect(() => {
-  //   if (isSubMenu) {
-  //   }
-  // }, [isSubMenu]);
+  useEffect(() => {
+    const fetchNotification = async () => {
+      await instanceAxios
+        .get(`/notification/notification/`)
+        .then((res) => {
+          setNotificationList(res.data.messages);
+        })
+        .catch((err) => {});
+    };
+    fetchNotification();
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());

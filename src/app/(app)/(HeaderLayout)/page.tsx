@@ -1,6 +1,7 @@
 'use client';
 import instanceAxios from '@/api/instanceAxios';
 import CardItem from '@/components/common/CardItem';
+import categoryList from '@/services/categoryList';
 import { IProduct } from '@/types/Job';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Badge, Carousel, Image } from 'antd';
@@ -73,22 +74,22 @@ export default function HomePage() {
         <div
           // style={{ scrollBehavior: 'smooth' }}
           ref={ref}
-          className="w-full scroll-smooth transition relative overflow-x-auto no-scrollbar"
+          className="w-full scroll-smooth transition relative overflow-x-auto no-scrollbar px-[24px]"
         >
-          <div className="w-[130%] flex flex-col h-[300px] flex-wrap gap-x-2 justify-between">
-            {[...Array(15)].map((item, index) => (
-              <Link key={index} href={'/work'}>
+          <div className="grid h-[300px] grid-flow-col-dense grid-rows-2 flex-wrap gap-x-24 justify-start">
+            {categoryList.map((item, index) => (
+              <Link key={index} href="/work">
                 <div className="flex w-[100px] flex-col items-start">
                   <Image
                     preview={false}
                     width={100}
                     height={100}
                     className="rounded-xl object-cover"
-                    src=""
+                    src={item.img}
                     alt=""
                   />
-                  <p className="text-wrap text-center text-[12px] font-medium">
-                    Nội thất cây cảnh
+                  <p className="text-wrap w-full text-center text-[12px] font-medium">
+                    {item.label}
                   </p>
                 </div>
               </Link>

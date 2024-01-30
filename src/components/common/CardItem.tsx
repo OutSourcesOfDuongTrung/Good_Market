@@ -36,12 +36,13 @@ export default function CardItem(props: Props) {
           Ngày làm: {moment(props.data?.Creation_time).format('DD/MM/YYYY')}
         </p>
         <p className="text-[#d0021b] h-[30px] my-[5px] !text[15px] !font-sans font-bold">
-          $300/ngày
+          ${props.data?.Price || 0}/ngày
         </p>
         <Space className="w-full h-[40px]">
           <Avatar src="" />
           <p className="w-[150px] block text-[12px] text-[#c7c7c7] truncate">
-            {moment(props.data?.Creation_time).fromNow()} • Cao hùng
+            {moment(props.data?.Creation_time).fromNow()} •{' '}
+            {props.data?.User?.last_name}
           </p>
         </Space>
       </div>

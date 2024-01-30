@@ -425,9 +425,9 @@ export default function CreatePostLaptopForm(props: Props) {
               label={'Ổ cứng'}
             />
             <SelectCustom
-              data={hardDriveList}
-              defaultValue={hardDrive}
-              onChange={(e) => setHardDrive(e || '')}
+              data={deviceMonitorCardList}
+              defaultValue={monitorCard}
+              onChange={(e) => setMonitorCard(e || '')}
               label={'Card màn hình'}
             />
           </Flex>
@@ -440,7 +440,7 @@ export default function CreatePostLaptopForm(props: Props) {
             />
             <SelectCustom
               data={colorList}
-              defaultValue={capacity}
+              defaultValue={color}
               onChange={(e) => setColor(e || '')}
               label={'Màu sắc'}
             />

@@ -13,6 +13,7 @@ interface ICategory {
   key: string;
   label: string;
   children?: boolean;
+  img?: string;
   url?: string;
   urlSub?: string;
   icon: ReactNode;

@@ -21,7 +21,7 @@ export default function PostManagePage() {
   useEffect(() => {
     const fethUserPost = async () => {
       await instanceAxios
-        .get(`list_home/user/${currentUser?.id}/`)
+        .get(`list_home/user/`)
         .then((res) => setProductList(res.data.data || []))
         .catch((err) => console.log(err));
     };
