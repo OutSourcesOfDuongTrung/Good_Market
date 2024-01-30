@@ -1,5 +1,7 @@
 'use client';
+import instanceAxios from '@/api/instanceAxios';
 import CardItem from '@/components/common/CardItem';
+import { textDefault } from '@/services/dataDefault';
 import {
   ContactsOutlined,
   EllipsisOutlined,
@@ -17,10 +19,23 @@ import {
   Result,
   Space,
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function UserIdPage() {
   const [currentTab, setCurrentTab] = useState<'POST' | 'RATE'>('POST');
+  const [userData, setUserData] = useState<IUser>();
+
+  useEffect(() => {
+    const fechUserInfo = async () => {
+      await instanceAxios
+        .get(`/users/2/`)
+        .then((res) => {
+          setUserData(res.data.data);
+        })
+        .catch((err) => {});
+    };
+    fechUserInfo();
+  }, []);
   return (
     <div className="w-4/5 m-auto mt-[10px] ">
       <div className="flex gap-x-5">
@@ -58,7 +73,9 @@ export default function UserIdPage() {
               <EllipsisOutlined className="p-[5px] text-[#757575] rounded-full border text-[20px]" />
             </Flex>
             <Space direction="vertical" className="mt-[20px]">
-              <p className="font-semibold text-[20px]">Dương Lê Anh Vân</p>
+              <p className="font-semibold text-[20px]">
+                {userData?.first_name || textDefault}
+              </p>
               <Space className="text-[14px]">
                 <Rate className={'!text-[20px]'} allowHalf defaultValue={2.5} />
                 <p>2.5</p>
@@ -88,33 +105,32 @@ export default function UserIdPage() {
                 <b>5</b>
               </Space>
             </Flex>
-            <Space direction="vertical">
+            <Space className="w-full" direction="vertical">
               <Flex align="baseline" gap={10}>
                 <HomeOutlined />
                 <p className="text-[13px] text-blue-500 text-wrap">
                   <b className="text-[#666666] font-normal text-[13px]">
                     Số điện thoại:{' '}
                   </b>
-                  0123123 12313
+                  {userData?.last_name || textDefault}
                 </p>
               </Flex>
-              <Flex align="baseline" gap={10}>
+              <Flex className="w-full" align="baseline" gap={10}>
                 <HomeOutlined />
                 <p className="text-[13px] text-blue-500 text-wrap">
                   <b className="text-[#666666] font-normal text-[13px]">
                     Địa chỉ:{' '}
                   </b>
-                  0123123 12313qwe eeeeeeee eeee eeee eee eeeeeeee eeeeeeeeee
-                  eeeeeeee eeeeeeee
+                  {userData?.email || textDefault}
                 </p>
               </Flex>
-              <div className="flex items-center mt-[10px] rounded-lg px-[10px] py-[5px] text-white justify-between bg-[#48862d]">
-                <MessageFilled />
-                <b className="uppercase text-[14px] font-semibold">
-                  Chat với người bán
-                </b>
-              </div>
             </Space>
+            <div className="flex w-full items-center mt-[10px] rounded-lg px-[10px] py-[5px] text-white justify-between bg-[#48862d]">
+              <MessageFilled />
+              <b className="uppercase text-[14px] font-semibold">
+                Chat với người bán
+              </b>
+            </div>
           </div>
         </div>
         <div className="w-2/3">

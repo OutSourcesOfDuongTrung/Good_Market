@@ -24,11 +24,12 @@ interface Props {
   onChangeLabel?: (e: string | number | undefined) => void;
 }
 
-export default function ModalLocationSelectCustom(props: Props) {
+export default function ModalLocationSelectFilterCustom(props: Props) {
   const [showModal, setShowModal] = useState(false);
   const [areaList, setAreaList] = useState<ILocationResponse[]>([]);
   const [isSubMenu, setIsSubMenu] = useState(false);
   const [value, setValue] = useState<string | number>(props.defaultValue || '');
+  const [label, setLabel] = useState<string | number>(props.defaultValue || '');
 
   const handleChange = (e: string | number, address: string | number) => {
     setValue(e);
@@ -46,26 +47,16 @@ export default function ModalLocationSelectCustom(props: Props) {
   }, []);
 
   return (
-    <div className="w-full ">
-      <div
+    <div className="cursor-pointer">
+      <Flex
         onClick={() => setShowModal(true)}
-        className={`w-full relative flex justify-between  px-[10px] rounded-lg border ${
-          value ? 'py-[5px]' : 'py-[15px] '
-        }`}
+        align="center"
+        className="border rounded-lg p-[10px]"
+        gap={5}
       >
-        <div className="flex flex-col gap-y-0">
-          <Space
-            className={`w-full text-[#9b9b9b] transition-all text-[14px] ${
-              value && '!text-[12px] font-medium'
-            }`}
-          >
-            {props.label} <span className="text-red-500">*</span>
-          </Space>
-          <p className="text-[12px]">{value}</p>
-        </div>
-
+        <p className="text-[14px]">{label ? label : `Toàn quốc`}</p>
         <CaretDownOutlined />
-      </div>
+      </Flex>
       <Modal
         width={700}
         title={
@@ -73,14 +64,6 @@ export default function ModalLocationSelectCustom(props: Props) {
             <p className=" text-[20px] font-bold py-[10px] text-center">
               Chọn khu vực
             </p>
-            {isSubMenu && (
-              <button
-                className="absolute left-[10px] top-1/2 -translate-y-1/2"
-                onClick={() => setIsSubMenu(false)}
-              >
-                <CaretLeftOutlined />
-              </button>
-            )}
           </div>
         }
         // className="!absolute !top-[50px] !left-[370px]"
@@ -95,7 +78,7 @@ export default function ModalLocationSelectCustom(props: Props) {
         open={showModal}
         footer={[]}
       >
-        <div className="px-[30px]">
+        <div className="px-[30px] ">
           <Space className="font-semibold text-[16px]">
             <GlobalOutlined />
             Lọc khu vực
@@ -134,7 +117,8 @@ export default function ModalLocationSelectCustom(props: Props) {
                           onClick={() => {
                             setShowModal(false);
                             handleChange(item.id, addressItem.id);
-                            setValue(addressItem.Name);
+                            setValue(addressItem.id);
+                            setLabel(addressItem.Name);
                             props.onChangeLabel?.(addressItem.Name || '');
                           }}
                           justify="space-between"
