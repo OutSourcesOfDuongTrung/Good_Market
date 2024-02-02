@@ -10,9 +10,35 @@ import { useEffect } from 'react';
 import instanceAxios from '@/api/instanceAxios';
 import { useAppDispatch } from '../hooks';
 import { login } from '../reducers/userReducer';
+import { SessionProvider, useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   moment.locale('vi');
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    const fechAuthSocial = async () => {
+      if (status === 'authenticated') {
+        await instanceAxios
+          .post(`/api/token/facebook-oauth/`, {
+            access_token: session.user.accessToken,
+          })
+          .then((res) => console.log(res))
+          .catch((err) => {});
+        console.log(session);
+      }
+      if (status === 'loading') {
+        console.log('loaddddddddddddddddd');
+      }
+      if (status === 'unauthenticated') {
+        console.log('That baiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+      }
+    };
+
+    fechAuthSocial();
+  }, [session, status]);
+
   return (
     <ConfigProvider
       theme={{
@@ -35,6 +61,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         },
       }}
     >
+      {/* <SessionProvider session={session || un}> */}
       <Provider store={store}>
         <SWRConfig
           value={{
@@ -50,6 +77,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Services>{children}</Services>
         </SWRConfig>
       </Provider>
+      {/* </SessionProvider> */}
     </ConfigProvider>
   );
 }

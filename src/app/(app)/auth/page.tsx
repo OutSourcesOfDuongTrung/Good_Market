@@ -4,9 +4,10 @@ import { useAppDispatch } from '@/app/hooks';
 import { login } from '@/app/reducers/userReducer';
 import LoginForm from '@/components/common/LoginForm';
 import RegisterForm from '@/components/common/RegisterForm';
-import { FacebookFilled } from '@ant-design/icons';
+import { FacebookFilled, GoogleSquareFilled } from '@ant-design/icons';
 import { Button, Form, Image, Input, message, notification } from 'antd';
 import { setCookie } from 'cookies-next';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -14,6 +15,17 @@ export default function AuthPage() {
   const [currentForm, setCurrentForm] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
   const route = useRouter();
   const dispatch = useAppDispatch();
+  const { data: session, status } = useSession();
+  const socialNetWorkLis = [
+    {
+      label: 'Facebook',
+      icon: <FacebookFilled className="text-[20px]" />,
+    },
+    {
+      label: 'Google',
+      icon: <GoogleSquareFilled className="text-[20px]" />,
+    },
+  ];
   const onFinish = async (e: IUserLogin) => {
     delete instanceAxios.defaults.headers.common.Authorization;
     await instanceAxios
@@ -83,15 +95,17 @@ export default function AuthPage() {
           Hoặc đăng nhập bằng
         </p>
         <div className="flex gap-x-3 py-[20px]">
-          {[...Array(3)].map((_, index) => (
+          {socialNetWorkLis.map((item, index) => (
             <div
+              onClick={() => signIn('google')}
               key={index}
               className="flex px-[15px] py-[10px] items-center gap-x-3 border rounded"
             >
-              <FacebookFilled className="text-[20px]" />
-              <p className="text-[14px] font-semibold">Facebook</p>
+              {item.icon}
+              <p className="text-[14px] font-semibold">{item.label}</p>
             </div>
           ))}
+          <p onClick={() => signOut()}>Out</p>
         </div>
         <p className="text-[14px] text-center cursor-pointer">
           {`${
