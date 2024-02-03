@@ -3,10 +3,10 @@ import CardItem from '@/components/common/CardItem';
 import TitleBar from '@/components/common/TitleBar';
 import TopWork from '@/components/common/TopWork';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
-import { Avatar, Carousel, Image, Space } from 'antd';
+import { Avatar, Carousel, Flex, Image, Space } from 'antd';
 import React, { useRef } from 'react';
 
-export default function WorkPage() {
+export default function ElectroDevicePage() {
   const ref = useRef<HTMLDivElement>(null);
 
   const scroll = (scrollOffset: number) => {
@@ -42,7 +42,7 @@ export default function WorkPage() {
       <div className="p-[10px] relative rounded-lg bg-white">
         <TitleBar
           shadow={false}
-          title={'Việc làm theo ngành nghề'}
+          title={'Khám phá tất cả danh mục'}
           subTitle={'Xem tất cả tin đăng'}
           onClick={() => alert('OK')}
         />
@@ -86,22 +86,6 @@ export default function WorkPage() {
           </div>
         </div>
       </div>
-      <div className="p-[10px] relative rounded-lg bg-white">
-        <TitleBar
-          title={'Chuyên trang việc làm'}
-          subTitle={'Xem tất cả'}
-          shadow={false}
-          onClick={() => alert('OK')}
-        />
-        <div className="flex gap-x-3">
-          <div className="flex-1">
-            <TopWork />
-          </div>
-          <div className="flex-1">
-            <TopWork />
-          </div>
-        </div>
-      </div>
       <div className="relative">
         <TitleBar
           title={'VIỆC LÀM 24H'}
@@ -118,19 +102,55 @@ export default function WorkPage() {
           </div>
         </div>
       </div>
-      <div className="relative">
+      <div className="p-[10px] relative rounded-lg bg-white">
         <TitleBar
-          title={'VIỆC LÀM MỚI'}
+          title={'Cửa hàng nổi bật'}
           subTitle={'Xem tất cả'}
-          onClick={() => {}}
-          shadow={true}
+          shadow={false}
+          onClick={() => alert('OK')}
         />
-
-        <div className="w-full scroll-smooth overflow-x-auto no-scrollbar ">
-          <div className="flex gap-x-2 py-[20px] px-[10px]">
-            {[...Array(4)].map((_, index) => (
-              <CardItem key={index} />
-            ))}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="col-span-1 ">
+            <TopWork />
+            <div className="grid grid-cols-3 gap-5  px-[20px]">
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="w-full">
+                  <Image
+                    width={'100%'}
+                    className="rounded-lg"
+                    preview={false}
+                    height={150}
+                    alt=""
+                    src="https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1660311364/user/tcy2f7x3msweyrddcnjf"
+                  />
+                  <p className="h-[40px] my-[10px] text-[14px] line-clamp-2">
+                    Thanh lin ags das asd asdga sdada sasasda sdd
+                  </p>
+                  <p className="font-bold">$2000</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="col-span-1">
+            <TopWork />
+            <div className="grid grid-cols-3 gap-5 px-[20px]">
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="w-full">
+                  <Image
+                    width={'100%'}
+                    className="rounded-lg"
+                    preview={false}
+                    height={150}
+                    alt=""
+                    src="https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1660311364/user/tcy2f7x3msweyrddcnjf"
+                  />
+                  <p className="h-[40px] my-[10px] text-[14px] line-clamp-2">
+                    Thanh lin asda sas dasd asda dasa sa sd a sdd
+                  </p>
+                  <p className="font-bold">$2000</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -78,7 +78,7 @@ export default function HomePage() {
         >
           <div className="grid h-[300px] grid-flow-col-dense grid-rows-2 flex-wrap gap-x-24 justify-start">
             {categoryList.map((item, index) => (
-              <Link key={index} href="/work">
+              <Link key={index} href={item.url || ''}>
                 <div className="flex w-[100px] flex-col items-start">
                   <Image
                     preview={false}
