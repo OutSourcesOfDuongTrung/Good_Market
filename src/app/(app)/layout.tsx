@@ -21,7 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     const fechAuthSocial = async () => {
       if (status === 'authenticated') {
         await instanceAxios
-          .post(`/api/token/facebook-oauth/`, {
+          .post(`/api/token/google-oauth/`, {
             access_token: session.user.accessToken,
           })
           .then((res) => console.log(res))

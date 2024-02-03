@@ -63,6 +63,7 @@ export default function ModalCategorySelectFilterCustom(props: Props) {
               onClick={() => {
                 setLabel(item.Name || '');
                 props.onChange?.(item.id || '');
+                setShowModal(false);
               }}
               className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
             >

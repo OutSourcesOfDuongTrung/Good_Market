@@ -13,12 +13,35 @@ export const fetchInteriorConditionList = async (
   });
 };
 export const fetchSellerInformationList = async (
-  searchData?: string,
+  searchData?: object,
   currentPage?: number
 ) => {
   return await instanceAxios.get(`/good-house/seller-information/`, {
     params: {
-      ...(searchData && { search: searchData }),
+      ...(searchData && searchData),
+      page_size: currentPage,
+    },
+  });
+};
+
+export const fetchGoodHouseCategory = async (
+  searchData?: object,
+  currentPage?: number
+) => {
+  return await instanceAxios.get(`/good-house/category/`, {
+    params: {
+      ...(searchData && searchData),
+      page_size: currentPage,
+    },
+  });
+};
+export const fetchGoodHousePostList = async (
+  searchData?: object,
+  currentPage?: number
+) => {
+  return await instanceAxios.get(`/good-house/items/`, {
+    params: {
+      ...(searchData && searchData),
       page_size: currentPage,
     },
   });
