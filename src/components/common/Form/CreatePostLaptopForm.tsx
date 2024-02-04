@@ -257,7 +257,7 @@ export default function CreatePostLaptopForm(props: Props) {
     microprocessor &&
       formData.append('Microprocessor', microprocessor as string);
     ram && formData.append('Ram', ram as string);
-    hardDrive && formData.append('HardDrive', hardDrive as string);
+    hardDrive && formData.append('Hard_drive', hardDrive as string);
     monitorCard && formData.append('MonitorCard', monitorCard as string);
     screenSize && formData.append('ScreenSize', screenSize as string);
     freeGiveAway && formData.append('Free_giveaway', freeGiveAway as string);
@@ -294,7 +294,7 @@ export default function CreatePostLaptopForm(props: Props) {
         .then((res) =>
           notification.success({
             message: 'Đã tạo',
-            description: 'Đã tạo bài đăng',
+            description: 'Đã cập nhật bài đăng',
           })
         )
         .catch((err) =>

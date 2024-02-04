@@ -2,6 +2,7 @@
 import instanceAxios from '@/api/instanceAxios';
 import CardItem from '@/components/common/CardItem';
 import { textDefault } from '@/services/dataDefault';
+import { IProduct } from '@/types/Job';
 import {
   ContactsOutlined,
   EllipsisOutlined,
@@ -14,6 +15,7 @@ import {
   Empty,
   Flex,
   Image,
+  List,
   Pagination,
   Rate,
   Result,
@@ -21,21 +23,37 @@ import {
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-export default function UserIdPage() {
+export default function UserIdPage({
+  params,
+}: {
+  params: {
+    userId: string;
+  };
+}) {
   const [currentTab, setCurrentTab] = useState<'POST' | 'RATE'>('POST');
   const [userData, setUserData] = useState<IUser>();
+  const [productList, setProductList] = useState<IProduct[]>([]);
 
   useEffect(() => {
     const fechUserInfo = async () => {
       await instanceAxios
-        .get(`/users/2/`)
+        .get(`/users/${params.userId}/`)
         .then((res) => {
           setUserData(res.data.data);
         })
         .catch((err) => {});
     };
+    const fechProductUserList = async () => {
+      await instanceAxios
+        .get(`/list_home/user/${params.userId}/`)
+        .then((res) => {
+          setProductList(res.data.data);
+        })
+        .catch((err) => {});
+    };
+    fechProductUserList();
     fechUserInfo();
-  }, []);
+  }, [params.userId]);
   return (
     <div className="w-4/5 m-auto mt-[10px] ">
       <div className="flex gap-x-5">
@@ -155,12 +173,33 @@ export default function UserIdPage() {
           {currentTab === 'POST' && (
             <div className="py-[10px]">
               <div className="flex justify-between">
-                {[...Array(3)].map((_, index) => (
-                  <CardItem imageWidth={240} imageHeight={250} key={index} />
-                ))}
-              </div>
-              <div className="flex justify-center mt-[20px]">
-                <Pagination defaultCurrent={1} total={50} />
+                <List
+                  className="w-full"
+                  pagination={{
+                    onChange: (page) => {
+                      console.log(page);
+                    },
+                    pageSize: 3,
+                    align: 'center',
+                  }}
+                  grid={{
+                    column: 3,
+                  }}
+                  itemLayout="horizontal"
+                  dataSource={productList}
+                  renderItem={(item) => (
+                    <List.Item>
+                      {/* <Card title={item.title}>Card content</Card> */}
+                      <CardItem
+                        imageWidth={240}
+                        data={item}
+                        imageHeight={250}
+                      />
+                    </List.Item>
+                  )}
+                />
+                {/* {[...Array(3)].map((_, index) => (
+                ))} */}
               </div>
             </div>
           )}

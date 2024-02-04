@@ -50,7 +50,10 @@ export default function CardItem(props: Props) {
   );
 
   return (
-    <Link href={`/product/${props.data?.Url}/${props.data?.id}`}>
+    <Link
+      className="text-black hover:text-black"
+      href={`/product/${props.data?.Url}/${props.data?.id}`}
+    >
       <Ribbon
         className="invisible"
         color="red"
