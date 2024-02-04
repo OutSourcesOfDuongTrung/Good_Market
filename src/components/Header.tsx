@@ -150,11 +150,12 @@ export default function Header() {
                     <div
                       key={index}
                       onClick={() => {
-                        if (item.children) {
-                          router.push(`/${item.url}` || '/');
-                        } else {
+                        if (item.urlSub) {
                           fethCategoryList(getListCategoryLinkAPI(item.key));
                           setIsSubMenu(true);
+                        } else {
+                          router.push(`${item.url}` || '/');
+                          setShowModalMenu(false);
                         }
                       }}
                       className="flex justify-between p-[10px] border-b hover:bg-[#f5f5f5]"
