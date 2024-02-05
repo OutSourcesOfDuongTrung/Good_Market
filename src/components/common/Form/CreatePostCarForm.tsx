@@ -40,6 +40,7 @@ import {
   convertImageToUploadFile,
   convertVideoToUploadFile,
 } from '@/services/fetchImage';
+import SelectCustom from '../SelectCustom';
 
 interface Props {
   edit?: boolean;
@@ -336,14 +337,15 @@ export default function CreatePostCarForm(props: Props) {
         <Flex vertical gap={20}>
           <p className={titleClassName}>Thông tin chi tiết</p>
           <Flex gap={10}>
-            <InputCustom
+            <SelectCustom
               defaultValue={company}
+              data={companyList}
               onChange={(e) => setCompany(e || '')}
               label={'Hãng'}
             />
-            <InputCustom
+            <SelectCustom
               defaultValue={yearManufacture}
-              type="number"
+              data={yearManufactureList}
               onChange={(e) => setYearManufacture(e || '')}
               label={'Năm sản xuất'}
             />
@@ -359,8 +361,9 @@ export default function CreatePostCarForm(props: Props) {
             label={'Nhiên liệu'}
           />
           <Flex gap={10}>
-            <InputCustom
+            <SelectCustom
               defaultValue={guarantee}
+              data={guaranteeList}
               onChange={(e) => setGuarantee(e || '')}
               label={'Bảo hành'}
             />

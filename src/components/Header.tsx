@@ -2,17 +2,23 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { logout } from '@/app/reducers/userReducer';
 import {
   AimOutlined,
+  BellFilled,
   BellOutlined,
   CaretLeftOutlined,
   CaretRightOutlined,
   CloseCircleFilled,
+  HeartFilled,
   HeartOutlined,
   ImportOutlined,
   LogoutOutlined,
   MenuOutlined,
   MessageOutlined,
+  PlusOutlined,
   ProfileOutlined,
+  QuestionCircleOutlined,
+  ReconciliationOutlined,
   SearchOutlined,
+  SettingOutlined,
   UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -240,10 +246,17 @@ export default function Header() {
                   </p>
                   <Space
                     onClick={() => redirectURL('/save-post')}
-                    className="font-medium p-[10px] hover:bg-[#e1e1e1]"
+                    className="font-medium p-[10px] hover:bg-[#e1e1e1] "
                   >
-                    <HeartOutlined />
+                    <HeartFilled className="!text-white p-[5px] bg-red-500 rounded-full" />
                     Tin đã lưu
+                  </Space>
+                  <Space
+                    onClick={() => redirectURL('/save-post')}
+                    className="font-medium p-[10px] hover:bg-[#e1e1e1] "
+                  >
+                    <BellFilled className="!text-white p-[5px] bg-red-500 rounded-full" />
+                    Danh mục theo dõi
                   </Space>
                 </Flex>
                 <Flex vertical>
@@ -251,11 +264,11 @@ export default function Header() {
                     Tiện ích
                   </p>
                   <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
-                    <HeartOutlined />
+                    <PlusOutlined className="!text-white p-[5px] bg-[#ce9f3c] rounded-full" />
                     Tạo cửa hàng/Chuyên trang
                   </Space>
                   <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
-                    <HeartOutlined />
+                    <ReconciliationOutlined className="!text-white p-[5px] bg-[#ce9f3c] rounded-full" />
                     Lịch sử giao dịch
                   </Space>
                 </Flex>
@@ -264,24 +277,28 @@ export default function Header() {
                     Khác
                   </p>
                   <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
-                    <HeartOutlined />
+                    <SettingOutlined className="!text-white p-[5px] bg-[#9b9b9b] rounded-full" />
                     Cài đặt tài khoản
                   </Space>
                   <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
-                    <HeartOutlined />
+                    <QuestionCircleOutlined className="!text-white p-[5px] bg-[#9b9b9b] rounded-full" />
                     Trợ giúp
                   </Space>
-                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                  {/* <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
                     <HeartOutlined />
                     Đóng góp ý kiến
-                  </Space>
+                  </Space> */}
                   <Space
                     className="font-medium p-[10px] hover:bg-[#e1e1e1]"
                     onClick={
                       user.logged ? handleLogout : () => router.push('/auth')
                     }
                   >
-                    {user.logged ? <LogoutOutlined /> : <UserAddOutlined />}
+                    {user.logged ? (
+                      <LogoutOutlined className="!text-white p-[5px] bg-[#9b9b9b] rounded-full" />
+                    ) : (
+                      <UserAddOutlined className="!text-white p-[5px] bg-[#9b9b9b] rounded-full" />
+                    )}
                     {user.logged ? 'Đăng xuất' : 'Đăng nhập'}
                   </Space>
                 </Flex>
