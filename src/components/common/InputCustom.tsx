@@ -30,8 +30,8 @@ export default function InputCustom(props: Props) {
   const handleClickOutside = () => {
     setFocus(false);
   };
-  const handleChange = (e: string | number) => {
-    setValue(e);
+  const handleChange = (e: string | number | undefined) => {
+    setValue(e || undefined);
     props.onChange?.(e || undefined);
   };
   useOnClickOutside(divRef, handleClickOutside);
@@ -46,7 +46,7 @@ export default function InputCustom(props: Props) {
           focus || value === 0 || value ? 'py-[5px]' : 'py-[15px] '
         } ${props.required ? !valid && 'border-red-500' : ''}`}
       >
-        <Flex vertical gap={1}>
+        <Flex className="w-full" vertical gap={1}>
           <Space
             className={`w-full text-[#9b9b9b] transition-all text-[14px] ${
               (focus || value === 0 || value) && '!text-[12px] font-medium'
@@ -59,12 +59,22 @@ export default function InputCustom(props: Props) {
             <Input
               onChange={(e) => {
                 if (props.type === 'number') {
-                  Number(e.target.value || 0)
-                    ? handleChange(e.target.value)
-                    : handleChange('');
-                  Number(e.target.value || 0)
-                    ? setValid(true)
-                    : setValid(false);
+                  if (Number(e.target.value)) {
+                    handleChange(e.target.value || undefined);
+                  } else {
+                    if (e.target.value.length <= 1) {
+                      handleChange(undefined);
+                    }
+                    // else {
+                    //   handleChange(value || undefined);
+                    // }
+                  }
+                  // Number(e.target.value)
+                  //   ? handleChange(e.target.value || undefined)
+                  //   : handleChange(undefined);
+                  Number(e.target.value === '' || 0)
+                    ? setValid(false)
+                    : setValid(true);
                 } else {
                   e.target.value ? setValid(true) : setValid(false);
                   props.maxLength
@@ -74,7 +84,7 @@ export default function InputCustom(props: Props) {
                 }
               }}
               value={value || ''}
-              className="!p-0"
+              className="!p-0 !w-full"
               ref={inputRef}
               placeholder="Borderless"
               variant="borderless"

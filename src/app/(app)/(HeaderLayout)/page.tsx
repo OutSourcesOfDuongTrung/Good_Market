@@ -1,10 +1,12 @@
 'use client';
 import instanceAxios from '@/api/instanceAxios';
 import CardItem from '@/components/common/CardItem';
+import InputCustom from '@/components/common/InputCustom';
+import InputTest from '@/components/common/InputTest';
 import categoryList from '@/services/categoryList';
 import { IProduct } from '@/types/Job';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
-import { Badge, Carousel, Image } from 'antd';
+import { Badge, Button, Carousel, Form, Image, Input } from 'antd';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -55,6 +57,7 @@ export default function HomePage() {
           </div>
         </Carousel>
       </div>
+
       <div className="p-[10px] relative rounded-lg bg-white">
         <p className="uppercase font-semibold py-[20px] p-[10px] text-[20px]">
           Khám phá danh mục
