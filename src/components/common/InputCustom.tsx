@@ -59,7 +59,7 @@ export default function InputCustom(props: Props) {
             <Input
               onChange={(e) => {
                 if (props.type === 'number') {
-                  if (Number(e.target.value)) {
+                  if (!isNaN(Number(e.target.value))) {
                     handleChange(e.target.value || undefined);
                   } else {
                     if (e.target.value.length <= 1) {
@@ -72,7 +72,7 @@ export default function InputCustom(props: Props) {
                   // Number(e.target.value)
                   //   ? handleChange(e.target.value || undefined)
                   //   : handleChange(undefined);
-                  Number(e.target.value === '' || 0)
+                  Number(e.target.value === '')
                     ? setValid(false)
                     : setValid(true);
                 } else {
