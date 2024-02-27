@@ -6,18 +6,11 @@ import SetCreateMarketPage from '@/components/create-market/SetCreateMarketPage'
 import { Flex, Space } from 'antd';
 import React, { useState } from 'react';
 
-export default function CreateMarketPage() {
+export default function CreateMapPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const lableStepList = [
     {
       step: 1,
-      lablel: 'Chọn chuyên mục',
-      children: (
-        <ChooseCategoryPage onFinish={(e) => setCurrentStep(currentStep + 1)} />
-      ),
-    },
-    {
-      step: 2,
       lablel: 'Thiết lập trang',
       children: (
         <SetCreateMarketPage
@@ -26,7 +19,7 @@ export default function CreateMarketPage() {
       ),
     },
     {
-      step: 3,
+      step: 2,
       lablel: 'Thanh toán',
       children: (
         <PaidCreateMarketPage
@@ -35,7 +28,7 @@ export default function CreateMarketPage() {
       ),
     },
     {
-      step: 4,
+      step: 3,
       lablel: 'Kích hoạt',
       children: <ActiveCreateMarketPage />,
     },

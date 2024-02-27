@@ -1,7 +1,11 @@
 import { Col, Image, Row } from 'antd';
 import React from 'react';
 
-export default function ChooseCategoryPage() {
+interface Props {
+  onFinish?: (e?: any) => void;
+}
+
+export default function ChooseCategoryPage(props: Props) {
   return (
     <div className="w-full p-[20px] bg-white rounded-xl cursor-pointer">
       <p className="pb-[20px] font-bold text-[20px]">
@@ -10,7 +14,10 @@ export default function ChooseCategoryPage() {
       <Row gutter={[16, 16]} className="w-full">
         {[...Array(5)].map((_, index) => (
           <Col key={index} span={12}>
-            <div className="w-full h-[150px] relative rounded-lg overflow-hidden">
+            <div
+              onClick={() => props.onFinish?.(index)}
+              className="w-full h-[150px] relative rounded-lg overflow-hidden"
+            >
               <Image
                 alt=""
                 width={`100%`}

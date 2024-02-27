@@ -17,6 +17,7 @@ interface Props {
   type?: 'text' | 'number';
   defaultValue?: string | number | undefined;
   onChange?: (e: string | number | undefined) => void;
+  textAreaClassName?: string;
 }
 export default function TextAreaCustom(props: Props) {
   const [focus, setFocus] = useState(false);
@@ -76,7 +77,9 @@ export default function TextAreaCustom(props: Props) {
                 }
               }}
               value={value || ''}
-              className={`!p-0 ${focus && '!min-h-[100px]'}`}
+              // ${focus && '!min-h-[100px]'}
+              // ${props.textAreaClassName}
+              className={`!p-0 !min-h-[100px]`}
               ref={inputRef}
               placeholder="Borderless"
               variant="borderless"

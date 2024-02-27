@@ -263,7 +263,10 @@ export default function Header() {
                   <p className="bg-[#f4f4f4] px-[10px] py-[5px] text-[#9b9b9b] font-semibold">
                     Tiện ích
                   </p>
-                  <Space className="font-medium p-[10px] hover:bg-[#e1e1e1]">
+                  <Space
+                    onClick={() => redirectURL('/create-market')}
+                    className="font-medium p-[10px] hover:bg-[#e1e1e1]"
+                  >
                     <PlusOutlined className="!text-white p-[5px] bg-[#ce9f3c] rounded-full" />
                     Tạo cửa hàng/Chuyên trang
                   </Space>
