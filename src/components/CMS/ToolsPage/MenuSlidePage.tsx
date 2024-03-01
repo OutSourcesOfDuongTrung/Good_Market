@@ -1,4 +1,4 @@
-import AddButtonManager from '@/components/AddButtonManager';
+import AddButtonManager from '@/components/common/AddButtonManager';
 import labelManager from '@/services/labelManager';
 import {
   CloseOutlined,
