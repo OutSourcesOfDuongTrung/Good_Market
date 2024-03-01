@@ -5,15 +5,21 @@ import InputCustom from '@/components/common/InputCustom';
 import InputTest from '@/components/common/InputTest';
 import categoryList from '@/services/categoryList';
 import { IProduct } from '@/types/Job';
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
-import { Badge, Button, Carousel, Form, Image, Input } from 'antd';
+import {
+  BellFilled,
+  CaretLeftOutlined,
+  CaretRightOutlined,
+  HeartFilled,
+} from '@ant-design/icons';
+import { Badge, Button, Carousel, Flex, Form, Image, Input } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 
 export default function HomePage() {
   const ref = useRef<HTMLDivElement>(null);
   const [productList, setProducList] = useState<IProduct[]>([]);
-
+  const router = useRouter();
   const scroll = (scrollOffset: number) => {
     if (ref.current) {
       ref.current.scrollLeft += scrollOffset;
@@ -56,6 +62,70 @@ export default function HomePage() {
             <h3 style={contentStyle}>4</h3>
           </div>
         </Carousel>
+        <Flex justify="space-between" className="mt-[10px]">
+          <Flex
+            vertical
+            align="center"
+            gap={10}
+            onClick={() => router.push('/save-post')}
+            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+          >
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
+            <p className="text-center text-[14px]">Liên hệ quảng cáo</p>
+          </Flex>
+          <Flex
+            vertical
+            align="center"
+            gap={10}
+            onClick={() => router.push('/save-post')}
+            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+          >
+            <HeartFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
+            <p className="text-center text-[14px]">Tin đã lưu</p>
+          </Flex>
+          <Flex
+            vertical
+            align="center"
+            gap={10}
+            onClick={() => router.push('/save-post')}
+            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+          >
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
+            <p className="text-center text-[14px]">Danh mục theo dõi</p>
+          </Flex>
+          <Flex
+            vertical
+            align="center"
+            gap={10}
+            onClick={() => router.push('/save-post')}
+            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+          >
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
+            <p className="text-center text-[14px]">
+              Tạo cửa hàng / Chuyên trang
+            </p>
+          </Flex>
+          <Flex
+            vertical
+            align="center"
+            gap={10}
+            onClick={() => router.push('/save-post')}
+            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+          >
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
+            <p className="text-center text-[14px]">Thêm vào chợ tốt Map</p>
+          </Flex>
+          <Flex
+            vertical
+            align="center"
+            gap={10}
+            onClick={() => router.push('/save-post')}
+            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+          >
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
+            <p className="text-center text-[14px]">Đăng tin cho tặng</p>
+          </Flex>
+        </Flex>
       </div>
 
       <div className="p-[10px] relative rounded-lg bg-white">
@@ -91,7 +161,7 @@ export default function HomePage() {
                     src={item.img}
                     alt=""
                   />
-                  <p className="text-wrap w-full text-center text-[12px] font-medium">
+                  <p className="text-wrap w-full text-center text-[14px] font-medium">
                     {item.label}
                   </p>
                 </div>
