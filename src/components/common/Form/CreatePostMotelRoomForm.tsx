@@ -29,7 +29,7 @@ import {
 } from '@/api/goodHouseRequest';
 import PreviewProduct from '../PreviewProduct';
 import getParentUrl from '@/services/getUrl';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import { CurrentFormContext } from '@/app/(app)/CurentFormContext';
 import { RcFile } from 'antd/es/upload';
 
 interface Props {

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM node:16.17.0-alpine3.15
+FROM node:20.11.1-alpine3.19
 
 RUN apk add --no-cache libc6-compat
 
@@ -34,7 +34,7 @@ RUN mkdir -p .next/cache/images
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install --frozen-lockfile --non-interactive
+RUN yarn install
 RUN npx browserslist@latest --update-db
 RUN npx next telemetry disable
 

@@ -25,9 +25,9 @@ import CreatePostMotelRoomForm from '@/components/common/Form/CreatePostMotelRoo
 import getBase64, { FileType } from '@/services/getBase64';
 import CreatePostWorkForm from '@/components/common/Form/CreatePostWorkForm';
 import CreatePostWholeHouse from '@/components/common/Form/CreatePostWholeHouse';
-import { CurrentFormContext } from '../layout';
 import getFormByKey from '@/services/getFormByKey';
 import ModalLocationSelectCustom from '@/components/common/ModalLocationSelectCustom';
+import { CurrentFormContext } from '@/app/(app)/CurentFormContext';
 
 export default function CreatePostPage() {
   const currentForm = useContext(CurrentFormContext);

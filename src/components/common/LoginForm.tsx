@@ -1,6 +1,6 @@
 import { Form, Input } from 'antd';
 import React from 'react';
 
-export default function LoginForm(props: Props) {
+export default function LoginForm() {
   return <p>á</p>;
 }

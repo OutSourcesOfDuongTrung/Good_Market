@@ -22,7 +22,7 @@ import {
   fetchHomeApplianceUsageStatusList,
   fetchUpdateHomeAppliancePost,
 } from '@/api/homeApplianceRequest';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import { CurrentFormContext } from '@/app/(app)/CurentFormContext';
 import getBase64, { FileType } from '@/services/getBase64';
 import { IGoodHousePost, IJob } from '@/types/Job';
 import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';

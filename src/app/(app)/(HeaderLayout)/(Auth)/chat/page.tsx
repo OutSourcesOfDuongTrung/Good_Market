@@ -1,7 +1,6 @@
 'use client';
 import instanceAxios from '@/api/instanceAxios';
 import MessageTabItem from '@/components/common/MessageTabItem';
-import NotificationItem from '@/components/common/NotificationItem';
 import getPrefixUrl from '@/services/getPrefixUrl';
 import { IProduct } from '@/types/Job';
 import {
@@ -11,7 +10,7 @@ import {
   SendOutlined,
 } from '@ant-design/icons';
 import { Avatar, Flex, Input, Space } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ChatPage() {
   const [productData, setProductData] = useState<IProduct>();

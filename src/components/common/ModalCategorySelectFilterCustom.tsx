@@ -10,8 +10,7 @@ import {
 import categoryList from '@/services/categoryList';
 import { IJob } from '@/types/Job';
 import instanceAxios from '@/api/instanceAxios';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
-
+import { CurrentFormContext } from '@/app/(app)/CurentFormContext';
 interface Props {
   maxLength?: number;
   required?: boolean;
