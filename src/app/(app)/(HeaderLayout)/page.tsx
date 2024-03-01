@@ -171,7 +171,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="rounded-lg bg-white font-semibold uppercase text-[20px] px-[10px] py-[5px] shadow-[0_2px_8px_rgba(0,0,0,.15)]">
-        Tin đăng mớiasdadasdds
+        Tin đăng mới
       </div>
       <div className="flex flex-wrap justify-start gap-[9.5px]">
         {productList.map((item, index) => (
