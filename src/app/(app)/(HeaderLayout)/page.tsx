@@ -46,7 +46,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="w-3/4 flex flex-col gap-y-5 m-auto">
+    <div className="w-3/4 flex max-lg:w-full max-lg:p-[10px] flex-col gap-y-5 m-auto">
       <div className="p-[10px] bg-white shadow-xl rounded-lg">
         <Carousel className="rounded-lg overflow-hidden" autoplay>
           <div>
@@ -62,46 +62,52 @@ export default function HomePage() {
             <h3 style={contentStyle}>4</h3>
           </div>
         </Carousel>
-        <Flex justify="space-between" className="mt-[10px]">
+        <Flex justify="space-between" wrap="wrap" className="mt-[10px]">
           <Flex
             vertical
             align="center"
             gap={10}
             onClick={() => router.push('/save-post')}
-            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+            className="w-[140px] max-lg:w-[90px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1]"
           >
-            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
-            <p className="text-center text-[14px]">Liên hệ quảng cáo</p>
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full max-lg:text-[16px]" />
+            <p className="text-center text-[14px] max-lg:text-[8px]">
+              Liên hệ quảng cáo
+            </p>
           </Flex>
           <Flex
             vertical
             align="center"
             gap={10}
             onClick={() => router.push('/save-post')}
-            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+            className="w-[140px] max-lg:w-[90px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
           >
-            <HeartFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
-            <p className="text-center text-[14px]">Tin đã lưu</p>
+            <HeartFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full max-lg:text-[16px]" />
+            <p className="text-center text-[14px] max-lg:text-[8px]">
+              Tin đã lưu
+            </p>
           </Flex>
           <Flex
             vertical
             align="center"
             gap={10}
             onClick={() => router.push('/save-post')}
-            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+            className="w-[140px] max-lg:w-[90px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
           >
-            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
-            <p className="text-center text-[14px]">Danh mục theo dõi</p>
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full max-lg:text-[16px]" />
+            <p className="text-center text-[14px] max-lg:text-[8px]">
+              Danh mục theo dõi
+            </p>
           </Flex>
           <Flex
             vertical
             align="center"
             gap={10}
             onClick={() => router.push('/save-post')}
-            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+            className="w-[140px] max-lg:w-[90px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
           >
-            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
-            <p className="text-center text-[14px]">
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full max-lg:text-[16px]" />
+            <p className="text-center text-[14px] max-lg:text-[8px]">
               Tạo cửa hàng / Chuyên trang
             </p>
           </Flex>
@@ -110,26 +116,30 @@ export default function HomePage() {
             align="center"
             gap={10}
             onClick={() => router.push('/save-post')}
-            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+            className="w-[140px] max-lg:w-[90px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
           >
-            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
-            <p className="text-center text-[14px]">Thêm vào chợ tốt Map</p>
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full max-lg:text-[16px]" />
+            <p className="text-center text-[14px] max-lg:text-[8px]">
+              Thêm vào chợ tốt Map
+            </p>
           </Flex>
           <Flex
             vertical
             align="center"
             gap={10}
             onClick={() => router.push('/save-post')}
-            className="w-[140px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
+            className="w-[140px] max-lg:w-[90px] rounded-md font-medium p-[10px] hover:bg-[#e1e1e1] "
           >
-            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full" />
-            <p className="text-center text-[14px]">Đăng tin cho tặng</p>
+            <BellFilled className="!text-white text-[20px] p-[15px] bg-red-500 rounded-full max-lg:text-[16px]" />
+            <p className="text-center text-[14px] max-lg:text-[8px]">
+              Đăng tin cho tặng
+            </p>
           </Flex>
         </Flex>
       </div>
 
       <div className="p-[10px] relative rounded-lg bg-white">
-        <p className="uppercase font-semibold py-[20px] p-[10px] text-[20px]">
+        <p className="uppercase font-semibold py-[20px] p-[10px] text-[20px] max-lg:text-[14px]">
           Khám phá danh mục
         </p>
         <button
@@ -149,19 +159,21 @@ export default function HomePage() {
           ref={ref}
           className="w-full scroll-smooth transition relative overflow-x-auto no-scrollbar px-[24px]"
         >
-          <div className="grid h-[300px] grid-flow-col-dense grid-rows-2 flex-wrap gap-x-24 justify-start">
+          <div className="grid h-[300px] max-md:h-[200px] grid-flow-col-dense grid-rows-2 flex-wrap gap-x-24 max-md:gap-x-5 justify-start">
             {categoryList.map((item, index) => (
               <Link key={index} href={item.url || ''}>
-                <div className="flex w-[100px] flex-col items-start">
-                  <Image
-                    preview={false}
-                    width={100}
-                    height={100}
-                    className="rounded-xl object-cover"
-                    src={item.img}
-                    alt=""
-                  />
-                  <p className="text-wrap w-full text-center text-[14px] font-medium">
+                <div className="flex w-[100px] flex-col max-md:w-[50px] items-start">
+                  <div className="w-full h-[100px] max-md:w-[50px] max-md:h-[50px]">
+                    <Image
+                      preview={false}
+                      width={`100%`}
+                      height={`100%`}
+                      className="rounded-xl object-cover"
+                      src={item.img}
+                      alt=""
+                    />
+                  </div>
+                  <p className="text-wrap  w-full text-center text-[14px] max-md:text-[8px] font-medium">
                     {item.label}
                   </p>
                 </div>
@@ -170,10 +182,10 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div className="rounded-lg bg-white font-semibold uppercase text-[20px] px-[10px] py-[5px] shadow-[0_2px_8px_rgba(0,0,0,.15)]">
+      <div className="rounded-lg bg-white max-lg:text-[14px] font-semibold uppercase text-[20px] px-[10px] py-[5px] shadow-[0_2px_8px_rgba(0,0,0,.15)]">
         Tin đăng mới
       </div>
-      <div className="flex flex-wrap justify-start gap-[9.5px]">
+      <div className="flex flex-wrap justify-start gap-[9.5px] max-lg:gap-1">
         {productList.map((item, index) => (
           <CardItem
             data={item}

@@ -20,6 +20,7 @@ export default function CardItem(props: Props) {
         width={props.imageWidth ? props.imageWidth : 200}
         height={props.imageHeight ? props.imageHeight : 230}
         preview={false}
+        loading="lazy"
         className="object-cover rounded-lg overflow-hidden"
         alt={''}
         src={getImageLink(props.data || {})}

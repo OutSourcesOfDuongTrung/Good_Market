@@ -93,8 +93,8 @@ export default function Header() {
     setOpenNotification(false);
   });
   return (
-    <div className="w-full flex-col items-center justify-between gap-x-5 max-sm:px-[10px] py-[10px] bg-[#ffba00]">
-      <div className="w-[75%] max-sm:w-full m-auto">
+    <div className="w-full flex-col items-center justify-between gap-x-5 max-lg:px-[10px] py-[10px] bg-[#ffba00]">
+      <div className="w-[75%] max-lg:w-full m-auto">
         <Flex className="w-full" align="center" justify="space-between">
           <Link href={'/'}>
             <Image
@@ -113,7 +113,7 @@ export default function Header() {
               {openNotification && (
                 <div
                   ref={notificationRef}
-                  className="w-[400px] max-sm:w-[250px] max-sm:-translate-x-7 absolute top-[120%] -translate-x-1/2  z-[9999] bg-white rounded-lg  shadow-xl"
+                  className="w-[400px] max-lg:w-[250px] max-lg:-translate-x-7 absolute top-[120%] -translate-x-1/2 z-[9999] bg-white rounded-lg  shadow-xl"
                 >
                   <Flex className="px-[10px] pt-[10px] justify-between">
                     <b>Thông báo</b>
@@ -141,13 +141,13 @@ export default function Header() {
               <MessageOutlined className="text-[20px]" />
             </Link>
             <Link
-              className="text-black hover:text-black max-sm:text-[12px] text-nowrap"
+              className="text-black hover:text-black max-lg:text-[12px] text-nowrap"
               href={''}
             >
               <p>Đóng góp ý kiến</p>
             </Link>
             <Link
-              className="text-black hover:text-black max-sm:text-[12px] text-nowrap"
+              className="text-black hover:text-black max-lg:text-[12px] text-nowrap"
               href={''}
             >
               Trợ giúp
@@ -156,39 +156,39 @@ export default function Header() {
         </Flex>
         <Flex
           gap={50}
-          className="w-full max-sm:text-[12px]"
+          className="w-full max-lg:text-[12px] max-lg:!gap-1"
           justify="space-between"
           align="center"
         >
           <div className="w-2/5 flex items-center gap-x-3">
             <div className="relative w-full z-30">
               <Input
-                className="max-sm:!py-[5px] !pr-[100px] max-sm:!pr-[45px] max-sm:!text-[10px]"
+                className="!w-full max-lg:!py-[5px] !pr-[100px] max-lg:!pr-[45px] max-lg:!text-[10px]"
                 placeholder="Tìm kiếm"
               />
-              <div className="absolute right-[5px] top-1/2 rounded-md -translate-y-1/2 bg-[#ffba00] px-[20px] py-[5px] max-sm:px-[10px] max-sm:py-[1px]">
+              <div className="absolute right-[5px] top-1/2 rounded-md -translate-y-1/2 bg-[#ffba00] px-[20px] py-[5px] max-lg:px-[10px] max-lg:py-[1px]">
                 <SearchOutlined />
               </div>
             </div>
           </div>
-          <div className="w-3/5 flex gap-12 items-center justify-end  max-sm:w-[150px] max-sm:gap-x-2">
+          <div className="w-3/5 flex gap-3 items-center justify-between max-lg:w-[200px] max-lg:gap-x-2">
             <Link
               className="text-black hover:text-black"
               href={'/post-manager'}
             >
-              <Flex gap={10} align="center">
+              <Flex className="text-nowrap" gap={10} align="center">
                 <ProfileOutlined className="text-[20px]" />
-                <p className="max-sm:hidden">Quản lí tin</p>
+                <p className="max-lg:hidden">Quản lí tin</p>
               </Flex>
             </Link>
             <Flex className="text-nowrap" gap={10} align="center">
               <AimOutlined className="text-[20px]" />
-              <p className="max-sm:hidden">Chợ tốt map</p>
+              <p className="max-lg:hidden">Chợ tốt map</p>
             </Flex>
             <div className="relative cursor-pointer text-nowrap">
               <Flex onClick={() => setOpenMenu(true)} gap={10} align="center">
                 <UserOutlined className="text-[20px]" />
-                <p className="max-sm:hidden">Đăng nhập</p>
+                <p className="max-lg:hidden">Đăng nhập</p>
               </Flex>
               {openMenu && (
                 <Flex
