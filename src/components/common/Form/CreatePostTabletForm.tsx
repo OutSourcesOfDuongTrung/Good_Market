@@ -32,7 +32,7 @@ import {
   fetchCreateVehiclePost,
   fetchVehicleSellerInformationList,
 } from '@/api/vehicleRequest';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import { CurrentFormContext } from '@/app/(app)/CurentFormContext';
 import {
   fetchCreateElectroDevicePost,
   fetchElectronicDeviceCapacitiesList,

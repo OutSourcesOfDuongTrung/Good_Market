@@ -28,7 +28,7 @@ import {
   fetchElectronicDeviceSellerInformationList,
   fetchElectronicDeviceUsageStatusList,
 } from '@/api/electroDeviceRequest';
-import { CurrentFormContext } from '@/app/(app)/(HeaderLayout)/(Auth)/layout';
+import { CurrentFormContext } from '@/app/(app)/CurentFormContext';
 import getBase64, { FileType } from '@/services/getBase64';
 import { IJob, IRefrigeratorPost } from '@/types/Job';
 import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';

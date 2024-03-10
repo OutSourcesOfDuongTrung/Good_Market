@@ -22,7 +22,7 @@ export default function WorkPage() {
     background: '#364d79',
   };
   return (
-    <div className="w-3/4 flex flex-col gap-y-5 m-auto">
+    <div className="w-3/4 max-lg:w-full max-lg:p-[10px]  flex flex-col gap-y-5 m-auto">
       <div className="p-[10px] bg-white shadow-xl rounded-lg">
         <Carousel className="rounded-lg overflow-hidden" autoplay>
           <div>
@@ -43,7 +43,7 @@ export default function WorkPage() {
         <TitleBar
           shadow={false}
           title={'Việc làm theo ngành nghề'}
-          subTitle={'Xem tất cả tin đăng'}
+          subTitle={'Xem tất cả'}
           onClick={() => alert('OK')}
         />
 

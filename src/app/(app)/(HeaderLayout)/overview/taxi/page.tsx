@@ -84,7 +84,10 @@ export default function TaxiPage() {
   };
   return (
     <div className="w-full">
-      <Flex className="bg-white py-[10px] pl-[200px]" gap={20}>
+      <Flex
+        className="bg-white py-[10px] pl-[200px] text-nowrap max-lg:pl-[20px] overflow-x-auto"
+        gap={20}
+      >
         <ModalLocationSelectFilterCustom
           onChange={(e) => setAddressFilter(e as string)}
           label={''}
@@ -96,7 +99,7 @@ export default function TaxiPage() {
         />
         <ModalLocationSliderFilterCustom label={'Giá'} />
       </Flex>
-      <Flex className="w-full px-[100px]" vertical>
+      <Flex className="w-full px-[100px] max-lg:p-[10px]" vertical>
         <div className="w-full p-[10px]   bg-white  m-auto shadow-xl rounded-lg">
           <Carousel className="rounded-lg overflow-hidden" autoplay>
             <div>
@@ -114,7 +117,7 @@ export default function TaxiPage() {
           </Carousel>
         </div>
         <Flex className="w-full" gap={50}>
-          <Flex vertical gap={10} className=" w-2/3">
+          <Flex vertical gap={10} className="w-2/3 max-lg:w-full">
             <p className="font-bold py-[20px]">
               Thuê nhà vị trí thuận lợi, giá hợp lý
             </p>
@@ -226,7 +229,7 @@ export default function TaxiPage() {
             </Flex>
             <Pagination className="!m-auto" total={50} />
           </Flex>
-          <Flex className="w-1/3">
+          <Flex className="w-1/3 max-lg:!hidden">
             <div className="w-full h-[50px] bg-slate-600"></div>
           </Flex>
         </Flex>

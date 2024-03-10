@@ -69,14 +69,18 @@ export default function MachinePage() {
 
   return (
     <div className="w-full">
-      <Flex vertical gap={10} className="ml-[200px] w-1/2">
+      <Flex
+        vertical
+        gap={10}
+        className="ml-[200px] max-lg:px-[20px] max-lg:m-0 w-1/2 max-xl:w-3/4 max-md:w-full"
+      >
         <p className="font-bold py-[20px]">Mua bán thiết bị máy móc siêu rẻ</p>
 
         <Flex
           className="w-full bg-white rounded-md pr-[10px] font-medium"
           justify="space-between"
         >
-          <Flex className="w-full text-[14px]">
+          <Flex align="center" className="w-full text-[14px] text-nowrap">
             <p
               onClick={() => setCurrentTab(1)}
               className={`p-[10px] w-1/5 ${
