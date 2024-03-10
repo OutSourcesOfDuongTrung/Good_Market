@@ -210,20 +210,20 @@ export default function Header() {
                     <p className="bg-[#f4f4f4] px-[10px] py-[5px] text-[#9b9b9b] font-semibold">
                       Tiện ích
                     </p>
-                    <Flex
+                    <Space
                       onClick={() => redirectURL('/save-post')}
                       className="font-medium p-[10px] hover:bg-[#e1e1e1] "
                     >
                       <HeartFilled className="!text-white p-[5px] bg-red-500 rounded-full" />
                       Tin đã lưu
-                    </Flex>
-                    <Flex
+                    </Space>
+                    <Space
                       onClick={() => redirectURL('/save-post')}
                       className="font-medium p-[10px] hover:bg-[#e1e1e1] "
                     >
                       <BellFilled className="!text-white p-[5px] bg-red-500 rounded-full" />
                       Danh mục theo dõi
-                    </Flex>
+                    </Space>
                   </Flex>
                   <Flex vertical>
                     <p className="bg-[#f4f4f4] px-[10px] py-[5px] text-[#9b9b9b] font-semibold">

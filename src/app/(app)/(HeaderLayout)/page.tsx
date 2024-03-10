@@ -185,10 +185,19 @@ export default function HomePage() {
       <div className="rounded-lg bg-white max-lg:text-[14px] font-semibold uppercase text-[20px] px-[10px] py-[5px] shadow-[0_2px_8px_rgba(0,0,0,.15)]">
         Tin đăng mới
       </div>
-      <div className="flex flex-wrap justify-start gap-[9.5px] max-lg:gap-1">
+      <div className="flex flex-wrap justify-center gap-[9.5px] max-lg:gap-1">
         {productList.map((item, index) => (
           <CardItem
             data={item}
+            ribbon={index % 2 == 0 ? 'Việc 24h' : ''}
+            key={index}
+          />
+        ))}
+        {[...Array(3)].map((_, index) => (
+          <CardItem
+            data={{
+              id: index,
+            }}
             ribbon={index % 2 == 0 ? 'Việc 24h' : ''}
             key={index}
           />

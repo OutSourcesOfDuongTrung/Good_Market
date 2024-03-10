@@ -84,7 +84,10 @@ export default function WorkListPage() {
   };
   return (
     <div className="w-full">
-      <Flex className="bg-white py-[10px] pl-[200px]" gap={20}>
+      <Flex
+        className="bg-white py-[10px] pl-[200px] text-nowrap max-lg:pl-[20px] overflow-x-auto"
+        gap={20}
+      >
         <ModalLocationSelectFilterCustom
           onChange={(e) => setAddressFilter(e as string)}
           label={''}
@@ -152,7 +155,7 @@ export default function WorkListPage() {
               className="w-full bg-white rounded-md pr-[10px]"
               justify="space-between"
             >
-              <Flex className="w-full text-[14px]">
+              <Flex align="center" className="w-full text-[14px] text-nowrap">
                 <p
                   onClick={() => setCurrentTab(1)}
                   className={`p-[10px] w-1/5 ${

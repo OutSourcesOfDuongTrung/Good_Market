@@ -69,7 +69,10 @@ export default function FrigdePage() {
 
   return (
     <div className="w-full">
-      <Flex className="bg-white py-[10px] pl-[200px]" gap={20}>
+      <Flex
+        className="bg-white py-[10px] pl-[200px] text-nowrap max-lg:pl-[20px] overflow-x-auto"
+        gap={20}
+      >
         <ModalLocationSelectFilterCustom
           onChange={(e) => setAddressFilter(e as string)}
           label={''}
@@ -82,7 +85,11 @@ export default function FrigdePage() {
         <ModalLocationSliderFilterCustom label={'Giá'} />
         <ModalLocationSliderFilterCustom label={'Diện tích'} />
       </Flex>
-      <Flex vertical gap={10} className="ml-[200px] w-1/2">
+      <Flex
+        vertical
+        gap={10}
+        className="ml-[200px] max-lg:px-[20px] max-lg:m-0 w-1/2 max-xl:w-3/4 max-md:w-full"
+      >
         <p className="font-bold py-[20px]">
           Thuê nhà vị trí thuận lợi, giá hợp lý
         </p>
@@ -118,12 +125,13 @@ export default function FrigdePage() {
         </Flex>
         <Flex
           className="w-full bg-white rounded-md pr-[10px]"
+          align="center"
           justify="space-between"
         >
-          <Flex className="w-full text-[14px]">
+          <Flex align="center" className="w-full text-[14px] text-nowrap">
             <p
               onClick={() => setCurrentTab(1)}
-              className={`p-[10px] w-1/5 ${
+              className={`p-[10px] w-fit ${
                 currentTab === 1 && `border-b-2 border-[#ffbd0b]`
               }`}
             >
@@ -131,7 +139,7 @@ export default function FrigdePage() {
             </p>
             <p
               onClick={() => setCurrentTab(2)}
-              className={`p-[10px] w-1/5 ${
+              className={`p-[10px] w-fit ${
                 currentTab === 2 && `border-b-2 border-[#ffbd0b]`
               }`}
             >
@@ -139,7 +147,7 @@ export default function FrigdePage() {
             </p>
             <p
               onClick={() => setCurrentTab(3)}
-              className={`p-[10px] w-1/5 ${
+              className={`p-[10px] w-fit ${
                 currentTab === 3 && `border-b-2 border-[#ffbd0b]`
               }`}
             >
@@ -151,24 +159,14 @@ export default function FrigdePage() {
             placement="bottom"
             arrow
             menu={{
-              items: [
-                {
-                  key: '1',
-                  label: (
-                    <p onClick={() => setCurrentOrder('NEWEST')}>
-                      Tin mới trước
-                    </p>
-                  ),
-                },
-                {
-                  key: '2',
-                  label: (
-                    <p onClick={() => setCurrentOrder('CHEAPEST')}>
-                      Giá thấp trước
-                    </p>
-                  ),
-                },
-              ],
+              items: orderList.map((item, index) => ({
+                key: index,
+                label: (
+                  <p onClick={() => setCurrentOrder(item.value)}>
+                    {item.label}
+                  </p>
+                ),
+              })),
             }}
           >
             <Space className="" wrap={false}>
@@ -183,8 +181,7 @@ export default function FrigdePage() {
           {productList.map((item, index) => (
             <CardItem
               data={item as unknown as IProduct}
-              imageHeight={220}
-              imageWidth={225}
+              className={`w-[220px]`}
               key={index}
             />
           ))}

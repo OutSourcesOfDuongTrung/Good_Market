@@ -22,7 +22,7 @@ export default function ElectroDevicePage() {
     background: '#364d79',
   };
   return (
-    <div className="w-3/4 flex flex-col gap-y-5 m-auto">
+    <div className="w-3/4 max-lg:w-full max-lg:p-[10px]  flex flex-col gap-y-5 m-auto">
       <div className="p-[10px] bg-white shadow-xl rounded-lg">
         <Carousel className="rounded-lg overflow-hidden" autoplay>
           <div>
@@ -43,7 +43,7 @@ export default function ElectroDevicePage() {
         <TitleBar
           shadow={false}
           title={'Khám phá tất cả danh mục'}
-          subTitle={'Xem tất cả tin đăng'}
+          subTitle={'Xem tất cả'}
           onClick={() => alert('OK')}
         />
 
@@ -112,12 +112,12 @@ export default function ElectroDevicePage() {
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-1 ">
             <TopWork />
-            <div className="grid grid-cols-3 gap-5  px-[20px]">
+            <div className="grid grid-cols-3 gap-5 px-[20px] max-md:hidden">
               {[...Array(3)].map((_, index) => (
                 <div key={index} className="w-full">
                   <Image
                     width={'100%'}
-                    className="rounded-lg"
+                    className="rounded-lg object-cover"
                     preview={false}
                     height={150}
                     alt=""
@@ -133,7 +133,7 @@ export default function ElectroDevicePage() {
           </div>
           <div className="col-span-1">
             <TopWork />
-            <div className="grid grid-cols-3 gap-5 px-[20px]">
+            <div className="grid grid-cols-3 gap-5 px-[20px] max-md:hidden">
               {[...Array(3)].map((_, index) => (
                 <div key={index} className="w-full">
                   <Image
